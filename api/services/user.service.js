@@ -14,7 +14,9 @@ const token = require("../utils/token.util");
 
 /* find by email */
 async function findByEmail(email) {
-  return await User.findOne({ email });
+  return await User.findAll({
+    where: { email: email }
+  });
 }
 
 /* sign up an user */

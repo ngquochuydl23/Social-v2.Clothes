@@ -1,14 +1,5 @@
-/**
- * Title: User controller
- * Description: Controlling credentials based on user
- * Author: Hasibul Islam
- * Date: 11/03/2023
- */
-
-/* internal imports */
 const userService = require("../services/user.service");
 
-/* sign up an user */
 exports.signUp = async (req, res, next) => {
   try {
     const result = await userService.signUp(req.body);
