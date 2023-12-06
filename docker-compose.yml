@@ -1,0 +1,61 @@
+version: '3.4'
+services:
+  socialv2upload:
+    image: socialv2upload
+    container_name: socialv2upload
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - 3854:3854
+
+  mongo1:
+    image: mongo:6.0
+    container_name: mongo1
+    restart: always
+    command:
+      [
+        "--replSet",
+        "social-v2-upload-replSet",
+        "--bind_ip_all"
+      ]
+    volumes:
+      - ./mongodb/mongo-1:/data/db
+    expose:
+      - 27017
+    ports:
+      - 27017:27017
+
+  mongo2:
+    image: mongo:6.0
+    container_name: mongo2
+    restart: always
+    command:
+      [
+        "--replSet",
+        "social-v2-upload-replSet",
+        "--bind_ip_all",
+        "--port",
+        "27018"
+      ]
+    volumes:
+      - ./mongodb/mongo-2:/data/db
+    ports:
+      - 27018:27018
+
+  mongo3:
+    image: mongo:6.0
+    container_name: mongo3
+    restart: always
+    command:
+      [
+        "--replSet",
+        "social-v2-upload-replSet",
+        "--bind_ip_all",
+        "--port",
+        "27019"
+      ]
+    volumes:
+      - ./mongodb/mongo-3:/data/db
+    ports:
+      - 27019:27019

@@ -28,13 +28,15 @@ client/yarn-error.log*
 ## For Server directory
 
 # dependencies
-api/node_modules
+services/upload-service/node_modules
+services/ecommerce-service/node_modules
 
 #misc
-api/.env
+services/upload-service/.env
+services/ecommerce-service/.env
 client/src/pages/dashboard/ListProduct.js
-api/.yarn
-api/.yarn
+services/upload-service/.yarn
+services/ecommerce-service/.yarn
 package.json
 .yarnrc.yml
 .yarnrc
