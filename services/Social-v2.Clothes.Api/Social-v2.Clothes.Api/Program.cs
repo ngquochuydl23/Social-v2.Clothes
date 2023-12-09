@@ -1,36 +1,57 @@
 
+using Social_v2.Clothes.Api.Extensions;
+using Social_v2.Clothes.Api.Infrastructure.Repository;
+using Social_v2.Clothes.Api.Middlewares;
+
 namespace Social_v2.Clothes.Api
 {
-  public class Program
-  {
-    public static void Main(string[] args)
+    public class Program
     {
-      var builder = WebApplication.CreateBuilder(args);
+        public static void Main(string[] args)
+        {
+            var builder = WebApplication.CreateBuilder(args);
 
-      // Add services to the container.
+            builder.Services.AddControllers();
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen();
 
-      builder.Services.AddControllers();
-      // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-      builder.Services.AddEndpointsApiExplorer();
-      builder.Services.AddSwaggerGen();
+            builder.Services.AddHttpContextAccessor();
+            builder.Services
+                    .AddForwardHeader()
+                    .AddDefaultOpenApi(builder.Configuration)
+                    .AddDefaultAuthentication(builder.Configuration)
+                    .AddDbContext(builder.Configuration)
+                    .AddLogger(builder.Configuration)
+                    .AddJwtExtension(builder.Configuration)
+                    .AddAutoMapperConfig();
 
-      var app = builder.Build();
+            builder.Services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
+            builder.Services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
 
-      // Configure the HTTP request pipeline.
-      if (app.Environment.IsDevelopment())
-      {
-        app.UseSwagger();
-        app.UseSwaggerUI();
-      }
+            var app = builder.Build();
 
-      app.UseHttpsRedirection();
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI();
+            }
+            app.UseCors(x => x
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .SetIsOriginAllowed(origin => true)
+                .AllowCredentials());
 
-      app.UseAuthorization();
+            app.UseMiddleware<ErrorHandlingMiddleWare>();
+
+            app.UseHttpsRedirection();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
 
-      app.MapControllers();
+            app.MapControllers();
 
-      app.Run();
+            app.Run();
+        }
     }
-  }
 }

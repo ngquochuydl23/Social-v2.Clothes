@@ -1,14 +1,19 @@
 ﻿using AutoMapper;
-using Lms_ID3_BE.Dtos;
-using Lms_ID3_BE.Infrastructure.Entities.Student;
+using Social_v2.Clothes.Api.Dtos;
+using Social_v2.Clothes.Api.Dtos.DeliveryAddress;
+using Social_v2.Clothes.Api.Infrastructure.Entities.DeliveryAddresses;
+using Social_v2.Clothes.Api.Infrastructure.Entities.Users;
 
-namespace Lms_ID3_BE.Extensions
+namespace Social_v2.Clothes.Api.Extensions
 {
-  public class AutoMapperProfile : Profile
-  {
-    public AutoMapperProfile()
+    public class AutoMapperProfile : Profile
     {
-      CreateMap<StudentEntity, StudentDto>();
+        public AutoMapperProfile()
+        {
+            CreateMap<SignUpRequestDto, UserEntity>();
+            CreateMap<UserEntity, UserDto>();
+            CreateMap<CreateUpdateAddressDto, DeliveryAddressEntity>();
+            CreateMap<DeliveryAddressEntity, DeliveryAddressDto>();
+        }
     }
-  }
 }
