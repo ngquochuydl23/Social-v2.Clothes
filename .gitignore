@@ -37,7 +37,6 @@ services/ecommerce-service/.env
 client/src/pages/dashboard/ListProduct.js
 services/upload-service/.yarn
 services/ecommerce-service/.yarn
-package.json
 .yarnrc.yml
 .yarnrc
 .yarn
