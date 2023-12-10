@@ -7,6 +7,6 @@
         public const int UserEmailMaxLength = 50;
         public const int UserHashPassword = 255;
 
-        public const string CustomerRole = "customer";
+        public const string CustomerRole = "Customer";
     }
 }

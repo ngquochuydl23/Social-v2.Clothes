@@ -28,10 +28,10 @@
 
         public string CollectionId { get; set; }
 
-        public List<CreateOptionDto> Options { get; set; } = new List<CreateOptionDto>();
+        public ICollection<CreateOptionDto> Options { get; set; } = new List<CreateOptionDto>();
 
-        public List<CreateVarientDto> Varients { get; set; } = new List<CreateVarientDto>();
+        public ICollection<CreateProductSkuDto> ProductSkus { get; set; } = new List<CreateProductSkuDto>();
 
-        public List<ChooseCategoryDto> Categories { get; set; } = new List<ChooseCategoryDto>();
+        public ICollection<ChooseCategoryDto> Categories { get; set; } = new List<ChooseCategoryDto>();
     }
 }

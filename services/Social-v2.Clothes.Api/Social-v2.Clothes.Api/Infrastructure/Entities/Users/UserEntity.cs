@@ -29,6 +29,6 @@ namespace Social_v2.Clothes.Api.Infrastructure.Entities.Users
 
         public string Role { get; set; } = UserConstants.CustomerRole;
 
-        public virtual IEnumerable<DeliveryAddressEntity> DeliverAddresses { get; set; } = new List<DeliveryAddressEntity>();
+        public virtual IEnumerable<DeliveryAddressEntity> DeliveryAddresses { get; set; } = new List<DeliveryAddressEntity>();
     }
 }

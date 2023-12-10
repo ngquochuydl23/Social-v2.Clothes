@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Social_v2.Clothes.Api.Infrastructure;
@@ -11,9 +12,11 @@ using Social_v2.Clothes.Api.Infrastructure;
 namespace Social_v2.Clothes.Api.Migrations
 {
     [DbContext(typeof(ClothesDbContext))]
-    partial class ClothesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231209143951_OptionValue")]
+    partial class OptionValue
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -229,82 +232,6 @@ namespace Social_v2.Clothes.Api.Migrations
                     b.ToTable("ProductOptionValue", (string)null);
                 });
 
-            modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Products.ProductSkuEntity", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("CreateAt")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<DateTime>("LastUpdate")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<double>("Price")
-                        .HasColumnType("double precision");
-
-                    b.Property<string>("ProductId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("ProductSku", (string)null);
-                });
-
-            modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Products.SkuValueEntity", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
-
-                    b.Property<DateTime>("CreateAt")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<DateTime>("LastUpdate")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("ProductId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<long>("ProductOptionId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("ProductOptionValueId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("ProductSkuId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.HasIndex("ProductOptionId");
-
-                    b.HasIndex("ProductOptionValueId");
-
-                    b.HasIndex("ProductSkuId");
-
-                    b.ToTable("SkuValue", (string)null);
-                });
-
             modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Users.UserEntity", b =>
                 {
                     b.Property<long>("Id")
@@ -401,78 +328,16 @@ namespace Social_v2.Clothes.Api.Migrations
                     b.Navigation("Option");
                 });
 
-            modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Products.ProductSkuEntity", b =>
-                {
-                    b.HasOne("Social_v2.Clothes.Api.Infrastructure.Entities.Products.ProductEntity", "Product")
-                        .WithMany("ProductSkus")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Products.SkuValueEntity", b =>
-                {
-                    b.HasOne("Social_v2.Clothes.Api.Infrastructure.Entities.Products.ProductEntity", "Product")
-                        .WithMany("SkuValues")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Social_v2.Clothes.Api.Infrastructure.Entities.Products.ProductOptionEntity", "ProductOption")
-                        .WithMany("SkuValues")
-                        .HasForeignKey("ProductOptionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Social_v2.Clothes.Api.Infrastructure.Entities.Products.ProductOptionValueEntity", "ProductOptionValue")
-                        .WithMany("SkuValues")
-                        .HasForeignKey("ProductOptionValueId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Social_v2.Clothes.Api.Infrastructure.Entities.Products.ProductSkuEntity", "ProductSku")
-                        .WithMany("SkuValues")
-                        .HasForeignKey("ProductSkuId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-
-                    b.Navigation("ProductOption");
-
-                    b.Navigation("ProductOptionValue");
-
-                    b.Navigation("ProductSku");
-                });
-
             modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Products.ProductEntity", b =>
                 {
                     b.Navigation("Options");
 
                     b.Navigation("ProductMedias");
-
-                    b.Navigation("ProductSkus");
-
-                    b.Navigation("SkuValues");
                 });
 
             modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Products.ProductOptionEntity", b =>
                 {
                     b.Navigation("OptionValues");
-
-                    b.Navigation("SkuValues");
-                });
-
-            modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Products.ProductOptionValueEntity", b =>
-                {
-                    b.Navigation("SkuValues");
-                });
-
-            modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Products.ProductSkuEntity", b =>
-                {
-                    b.Navigation("SkuValues");
                 });
 
             modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Users.UserEntity", b =>

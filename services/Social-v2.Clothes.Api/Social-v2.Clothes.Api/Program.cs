@@ -2,6 +2,7 @@
 using Social_v2.Clothes.Api.Extensions;
 using Social_v2.Clothes.Api.Infrastructure.Repository;
 using Social_v2.Clothes.Api.Middlewares;
+using Newtonsoft.Json;
 
 namespace Social_v2.Clothes.Api
 {
@@ -11,7 +12,9 @@ namespace Social_v2.Clothes.Api
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.Services.AddControllers();
+            builder.Services
+              .AddControllers()
+              .AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 

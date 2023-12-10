@@ -21,5 +21,7 @@
     IQueryable<TEntity> GetQueryable();
 
     ClothesDbContext DbContext();
+
+    void SaveChanges();
   }
 }
