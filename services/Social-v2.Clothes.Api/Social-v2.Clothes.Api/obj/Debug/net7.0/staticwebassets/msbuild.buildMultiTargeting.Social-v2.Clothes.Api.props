@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\Social-v2.Clothes.Api.props" />
+</Project>
