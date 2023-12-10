@@ -2041,23 +2041,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\admin\\.nuget\\packages\\": {},
+    "C:\\Users\\MinhQuan\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "F:\\Social-v2.Clothes\\services\\Social-v2.Clothes.Api\\Social-v2.Clothes.Api\\Social-v2.Clothes.Api.csproj",
+      "projectUniqueName": "C:\\Users\\MinhQuan\\Music\\Social-v2.Clothes\\services\\Social-v2.Clothes.Api\\Social-v2.Clothes.Api\\Social-v2.Clothes.Api.csproj",
       "projectName": "Social-v2.Clothes.Api",
-      "projectPath": "F:\\Social-v2.Clothes\\services\\Social-v2.Clothes.Api\\Social-v2.Clothes.Api\\Social-v2.Clothes.Api.csproj",
-      "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
-      "outputPath": "F:\\Social-v2.Clothes\\services\\Social-v2.Clothes.Api\\Social-v2.Clothes.Api\\obj\\",
+      "projectPath": "C:\\Users\\MinhQuan\\Music\\Social-v2.Clothes\\services\\Social-v2.Clothes.Api\\Social-v2.Clothes.Api\\Social-v2.Clothes.Api.csproj",
+      "packagesPath": "C:\\Users\\MinhQuan\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\MinhQuan\\Music\\Social-v2.Clothes\\services\\Social-v2.Clothes.Api\\Social-v2.Clothes.Api\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\MinhQuan\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -2155,7 +2155,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.404\\RuntimeIdentifierGraph.json"
       }
     }
   }

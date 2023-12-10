@@ -39,6 +39,8 @@ namespace Social_v2.Clothes.Api.Controllers
             _jwtExtension = jwtExtension;
         }
 
+        private long Id => long.Parse(_httpContext.User.FindFirstValue("id"));
+
         [HttpGet("persistLogin")]
         public IActionResult PersistLogin()
         {

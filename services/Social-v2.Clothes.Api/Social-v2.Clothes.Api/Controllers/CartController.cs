@@ -1,4 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Social_v2.Clothes.Api.Dtos.Cart;
+using Social_v2.Clothes.Api.Infrastructure.Entities.Users;
+using Social_v2.Clothes.Api.Infrastructure.Repository;
+using System.Security.Claims;
 
 namespace Social_v2.Clothes.Api.Controllers
 {
@@ -6,21 +12,32 @@ namespace Social_v2.Clothes.Api.Controllers
     [ApiController]
     public class CartController : ControllerBase
     {
-        [HttpGet]
-        public IEnumerable<string> Get()
+        private readonly IHttpContextAccessor _contextAccessor;
+        private readonly HttpContext _httpContext;
+        private readonly IMapper _mapper;
+
+        public CartController(IMapper mapper, IHttpContextAccessor httpContextAccessor)
         {
-            return new string[] { "value1", "value2" };
+            _contextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
+            _httpContext = httpContextAccessor.HttpContext;
+            _mapper = mapper;
         }
 
-        [HttpGet("{id}")]
-        public string Get(int id)
+        private long Id => long.Parse(_httpContext.User.FindFirstValue("id"));
+
+        [HttpGet]
+        public IActionResult GetAllCart()
         {
-            return "value";
+
+            return Ok();
         }
 
         [HttpPost]
-        public void Post([FromBody] string value)
+        public IActionResult CreateNewCart([FromBody] CreateCardDto value)
         {
+
+
+            return Ok(value);
         }
 
         [HttpPut("{id}")]
