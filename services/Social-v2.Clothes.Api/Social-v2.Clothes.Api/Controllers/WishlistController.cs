@@ -16,26 +16,18 @@ namespace Social_v2.Clothes.Api.Controllers
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class WishlistController : ControllerBase
+    public class WishlistController : BaseController
     {
-
-        private readonly IHttpContextAccessor _contextAccessor;
-        private readonly HttpContext _httpContext;
         private readonly IRepository<WishlistEntity> _wishlistRepo;
         private readonly IRepository<ProductSkuEntity> _productSkuRepo;
         private readonly IMapper _mapper;
-
-
-        private long Id => long.Parse(_httpContext.User.FindFirstValue("id"));
 
         public WishlistController(
             IRepository<WishlistEntity> wishlistRepo,
             IRepository<ProductSkuEntity> productSkuRepo,
             IHttpContextAccessor httpContextAccessor,
-            IMapper mapper)
+            IMapper mapper): base(httpContextAccessor)
         {
-            _contextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
-            _httpContext = httpContextAccessor.HttpContext;
             _wishlistRepo = wishlistRepo;
             _productSkuRepo = productSkuRepo;
             _mapper = mapper;

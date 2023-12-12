@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Social_v2.Clothes.Api.Infrastructure;
@@ -11,9 +12,11 @@ using Social_v2.Clothes.Api.Infrastructure;
 namespace Social_v2.Clothes.Api.Migrations
 {
     [DbContext(typeof(ClothesDbContext))]
-    partial class ClothesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231212033355_CategoryEntity")]
+    partial class CategoryEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -54,6 +57,7 @@ namespace Social_v2.Clothes.Api.Migrations
                         .HasColumnType("character varying(50)");
 
                     b.Property<string>("ParentCategoryId")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -61,30 +65,6 @@ namespace Social_v2.Clothes.Api.Migrations
                     b.HasIndex("ParentCategoryId");
 
                     b.ToTable("Category", (string)null);
-                });
-
-            modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Categories.CategoryProductEntity", b =>
-                {
-                    b.Property<string>("ProductId")
-                        .HasColumnType("text");
-
-                    b.Property<string>("CategoryId")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("CreateAt")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<DateTime>("LastUpdate")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.HasKey("ProductId", "CategoryId");
-
-                    b.HasIndex("CategoryId");
-
-                    b.ToTable("CategoryProduct", (string)null);
                 });
 
             modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.DeliveryAddresses.DeliveryAddressEntity", b =>
@@ -460,28 +440,11 @@ namespace Social_v2.Clothes.Api.Migrations
                 {
                     b.HasOne("Social_v2.Clothes.Api.Infrastructure.Entities.Categories.CategoryEntity", "ParentCategory")
                         .WithMany("ChildCategories")
-                        .HasForeignKey("ParentCategoryId");
+                        .HasForeignKey("ParentCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("ParentCategory");
-                });
-
-            modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Categories.CategoryProductEntity", b =>
-                {
-                    b.HasOne("Social_v2.Clothes.Api.Infrastructure.Entities.Categories.CategoryEntity", "Category")
-                        .WithMany("CategoryProducts")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Social_v2.Clothes.Api.Infrastructure.Entities.Products.ProductEntity", "Product")
-                        .WithMany("CategoryProducts")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
-
-                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.DeliveryAddresses.DeliveryAddressEntity", b =>
@@ -595,15 +558,11 @@ namespace Social_v2.Clothes.Api.Migrations
 
             modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Categories.CategoryEntity", b =>
                 {
-                    b.Navigation("CategoryProducts");
-
                     b.Navigation("ChildCategories");
                 });
 
             modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Products.ProductEntity", b =>
                 {
-                    b.Navigation("CategoryProducts");
-
                     b.Navigation("Options");
 
                     b.Navigation("ProductMedias");

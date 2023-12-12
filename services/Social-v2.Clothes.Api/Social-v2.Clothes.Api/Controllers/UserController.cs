@@ -16,24 +16,18 @@ namespace Social_v2.Clothes.Api.Controllers
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class UserController : BaseController
     {
         private readonly IJwtExtension _jwtExtension;
-        private readonly IHttpContextAccessor _contextAccessor;
-        private readonly HttpContext _httpContext;
         private readonly IRepository<UserEntity> _userRepo;
         private readonly IMapper _mapper;
-
-        private long Id => long.Parse(_httpContext.User.FindFirstValue("id"));
 
         public UserController(
             IMapper mapper,
             IRepository<UserEntity> userRepo,
             IHttpContextAccessor httpContextAccessor,
-            IJwtExtension jwtExtension)
+            IJwtExtension jwtExtension) : base(httpContextAccessor)
         {
-            _contextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
-            _httpContext = httpContextAccessor.HttpContext;
             _mapper = mapper;
             _userRepo = userRepo;
             _jwtExtension = jwtExtension;

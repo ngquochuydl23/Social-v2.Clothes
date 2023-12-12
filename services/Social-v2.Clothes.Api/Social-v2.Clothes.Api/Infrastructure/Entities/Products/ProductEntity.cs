@@ -2,6 +2,7 @@
 using System.Text.RegularExpressions;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using Social_v2.Clothes.Api.Infrastructure.Entities.Categories;
 
 namespace Social_v2.Clothes.Api.Infrastructure.Entities.Products
 {
@@ -29,6 +30,7 @@ namespace Social_v2.Clothes.Api.Infrastructure.Entities.Products
 
     public virtual ICollection<ProductSkuEntity> ProductSkus { get; set; } = new List<ProductSkuEntity>();
 
+    public ICollection<CategoryProductEntity> CategoryProducts { get; set; } = new List<CategoryProductEntity>();
 
     public virtual ICollection<SkuValueEntity> SkuValues { get; set; } = new List<SkuValueEntity>();
 

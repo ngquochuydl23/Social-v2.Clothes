@@ -16,22 +16,16 @@ namespace Social_v2.Clothes.Api.Controllers
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class DeliveryAddressController : ControllerBase
+    public class DeliveryAddressController : BaseController
     {
-        private readonly IHttpContextAccessor _contextAccessor;
-        private readonly HttpContext _httpContext;
         private readonly IRepository<DeliveryAddressEntity> _deliverAddressRepo;
         private readonly IMapper _mapper;
-
-        private long Id => long.Parse(_httpContext.User.FindFirstValue("id"));
 
         public DeliveryAddressController(
             IMapper mapper,
             IRepository<DeliveryAddressEntity> deliverAddressRepo,
-            IHttpContextAccessor httpContextAccessor)
+            IHttpContextAccessor httpContextAccessor): base(httpContextAccessor)
         {
-            _contextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
-            _httpContext = httpContextAccessor.HttpContext;
             _mapper = mapper;
             _deliverAddressRepo = deliverAddressRepo;
         }

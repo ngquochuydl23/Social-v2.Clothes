@@ -2,13 +2,14 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Wishlists;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Social_v2.Clothes.Api.Infrastructure.Entities.Products
 {
     public class ProductSkuEntity : Entity
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
-        [Required]
+        [NotNull]
         public string Id { get; set; }
 
         public string Title { get; set; }

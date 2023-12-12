@@ -15,9 +15,9 @@ namespace Social_v2.Clothes.Api
             builder.Services
               .AddControllers()
               .AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
+
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-
             builder.Services.AddHttpContextAccessor();
             builder.Services
                     .AddForwardHeader()
