@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Y7rlSb0kNNwpdMO54sT8hGcUlGoZ7i/5ywgDRaRrFaYPknEVexQ1XisZY3YcOMY+AklvEbFIw79j3ZtdVVD+LQ==",
+  "dgSpecHash": "zedGw7aFdAZjuJFbJtx+pvaNf3GbEfYnFJbWpmDi+j0v+AVzoEa+MI/b1tvEqfYQgmcJbXz9YogJ6xq0e9qTcg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\admin\\Music\\Social-v2.Clothes\\services\\Social-v2.Clothes.Api\\Social-v2.Clothes.Api\\Social-v2.Clothes.Api.csproj",
+  "projectFilePath": "F:\\Social-v2.Clothes\\services\\Social-v2.Clothes.Api\\Social-v2.Clothes.Api\\Social-v2.Clothes.Api.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\admin\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\admin\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",

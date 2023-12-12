@@ -26,7 +26,7 @@ namespace Social_v2.Clothes.Api.Controllers
             IRepository<WishlistEntity> wishlistRepo,
             IRepository<ProductSkuEntity> productSkuRepo,
             IHttpContextAccessor httpContextAccessor,
-            IMapper mapper): base(httpContextAccessor)
+            IMapper mapper) : base(httpContextAccessor)
         {
             _wishlistRepo = wishlistRepo;
             _productSkuRepo = productSkuRepo;
@@ -39,7 +39,7 @@ namespace Social_v2.Clothes.Api.Controllers
             var wishlists = _wishlistRepo
                 .GetQueryableNoTracking()
                 .Include(x => x.ProductSku)
-                .Where(x => x.CustomerId == Id)
+                .Where(x => x.CustomerId == Id && !x.IsDeleted)
                 .ToList();
 
             return Ok(_mapper.Map<ICollection<WishlistDto>>(wishlists));
@@ -50,13 +50,13 @@ namespace Social_v2.Clothes.Api.Controllers
         {
             var productSku = _productSkuRepo
                 .GetQueryableNoTracking()
-                .FirstOrDefault(x => x.Id.Equals(value.ProductSkuId))
+                .FirstOrDefault(x => x.Id.Equals(value.ProductSkuId) && !x.IsDeleted)
                     ?? throw new AppException("Sku is not exist");
 
 
             var wishlist = _wishlistRepo
                 .GetQueryableNoTracking()
-                .FirstOrDefault(x => x.ProductSkuId.Equals(productSku.Id) && x.CustomerId == Id);
+                .FirstOrDefault(x => x.ProductSkuId.Equals(productSku.Id) && x.CustomerId == Id && !x.IsDeleted);
 
             if (wishlist != null)
                 throw new AppException("Wishlist with sku is already exist");
@@ -82,7 +82,7 @@ namespace Social_v2.Clothes.Api.Controllers
                 ?? throw new AppException("Wishlist with sku is not exist");
 
 
-            _wishlistRepo.Delete(wishlist);
+            _wishlistRepo.Delete(wishlist.Id);
 
             return Ok();
         }

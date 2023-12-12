@@ -30,7 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Dtos\Cart\" />
+    <Folder Include="Infrastructure\Entities\Collections\" />
   </ItemGroup>
 
 </Project>

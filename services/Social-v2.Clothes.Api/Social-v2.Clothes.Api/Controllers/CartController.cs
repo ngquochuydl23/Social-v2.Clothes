@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Social_v2.Clothes.Api.Dtos.Cart;
 
 namespace Social_v2.Clothes.Api.Controllers
 {
@@ -7,30 +8,39 @@ namespace Social_v2.Clothes.Api.Controllers
     public class CartController : ControllerBase
     {
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IActionResult GetCart()
         {
-            return new string[] { "value1", "value2" };
-        }
-
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
+            return Ok();
         }
 
         [HttpPost]
-        public void Post([FromBody] string value)
+        public IActionResult CreateCart([FromBody] CreateCartDto value)
         {
+            return Ok();
         }
 
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public IActionResult EditCart(long id, [FromBody] string value)
         {
+            return Ok();
         }
 
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult RemoveCart(long id)
         {
+            return Ok();
+        }
+
+        [HttpPatch("{id}/increaseQuantity")]
+        public IActionResult IncreaseQuantity(long id)
+        {
+            return Ok();
+        }
+
+        [HttpPatch("{id}/decreaseQuantity")]
+        public IActionResult DecreaseQuantity(long id)
+        {
+            return Ok();
         }
     }
 }
