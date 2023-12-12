@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Social_v2.Clothes.Api.Infrastructure.Entities.Inventories;
 using Social_v2.Clothes.Api.Infrastructure.Repository;
 
 
@@ -10,12 +11,14 @@ namespace Social_v2.Clothes.Api.Controllers
   public class InventoryController : BaseController
   {
     private readonly IMapper _mapper;
-
+    private readonly IRepository<InventoryEntity> _inventoryRepo;
     public InventoryController(
         IMapper mapper,
+        IRepository<InventoryEntity> inventoryRepo,
         IHttpContextAccessor httpContextAccessor) : base(httpContextAccessor)
     {
       _mapper = mapper;
+      _inventoryRepo = inventoryRepo;
     }
 
     [HttpGet]
@@ -33,8 +36,9 @@ namespace Social_v2.Clothes.Api.Controllers
 
     // POST api/<InventoryController>
     [HttpPost]
-    public void Post([FromBody] string value)
+    public IActionResult CreateInventory([FromBody] string value)
     {
+      return Ok(value);
     }
 
     // PUT api/<InventoryController>/5

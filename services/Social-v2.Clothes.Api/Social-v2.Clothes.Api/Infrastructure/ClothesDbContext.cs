@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Categories;
 using Social_v2.Clothes.Api.Infrastructure.Entities.DeliveryAddresses;
+using Social_v2.Clothes.Api.Infrastructure.Entities.Inventories;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Products;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Users;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Wishlists;
@@ -161,6 +162,16 @@ namespace Social_v2.Clothes.Api.Infrastructure
                   .HasOne(x => x.Product)
                   .WithMany(pro => pro.CategoryProducts)
                   .HasForeignKey(x => x.ProductId);
+      });
+
+
+      modelBuilder.Entity<InventoryEntity>(entity =>
+      {
+        entity.HasKey(x => x.ProductSkuId);
+        entity
+          .HasOne(x => x.ProductSku)
+          .WithOne(pro => pro.Inventory)
+          .HasForeignKey<InventoryEntity>(x => x.ProductSkuId);
       });
     }
   }

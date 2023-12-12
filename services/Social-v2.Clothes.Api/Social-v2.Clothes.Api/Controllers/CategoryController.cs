@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 using Social_v2.Clothes.Api.Dtos.Category;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Categories;
 using Social_v2.Clothes.Api.Infrastructure.Entities.DeliveryAddresses;
@@ -34,16 +35,13 @@ namespace Social_v2.Clothes.Api.Controllers
     }
 
     [HttpGet]
-    public IEnumerable<string> Get()
+    public IActionResult GetAllCategories([FromQuery] bool? isActive)
     {
-      return new string[] { "value1", "value2" };
-    }
+      var categories = _categoryRepo
+        .GetQueryableNoTracking()
+        .Where(x => !x.IsDeleted);
 
-    [AllowAnonymous]
-    [HttpGet("{id}")]
-    public string Get(int id)
-    {
-      return "value";
+      return Ok(_mapper.Map<CategoryDto>(categories));
     }
 
     [HttpPost]
@@ -61,13 +59,21 @@ namespace Social_v2.Clothes.Api.Controllers
     }
 
     [HttpPut("{id}")]
-    public void Put(int id, [FromBody] string value)
+    public IActionResult EditCategory(int id, [FromBody] string value)
     {
+      return Ok();
     }
 
     [HttpDelete("{id}")]
-    public void Delete(int id)
+    public IActionResult Delete(int id)
     {
+      var category = _categoryRepo
+        .GetQueryableNoTracking()
+        .FirstOrDefault(x => x.Id.Equals(id) && !x.IsDeleted)
+         ?? throw new AppException("Category is not exist");
+
+      _categoryRepo.Delete(category);
+      return Ok();
     }
 
     [HttpGet("{id}/product")]
@@ -91,6 +97,5 @@ namespace Social_v2.Clothes.Api.Controllers
 
       return Ok();
     }
-
   }
 }
