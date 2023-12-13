@@ -7,15 +7,25 @@ const app = express();
 const _ = require('lodash');
 const config = require('./config.json');
 const PORT = config.port;
-const { generateFileName } = require('./utils/fileName');
+const {
+  generateFileName
+} = require('./utils/fileName');
 const sharp = require('sharp');
-const { configureMongoDb } = require('./db')
+const {
+  configureMongoDb
+} = require('./db')
 const MediaSchema = require('./models/media')
-const { prefixMime } = require('./utils/mime')
-const { mediaType } = require('./constant/mediaConstant');
+const {
+  prefixMime
+} = require('./utils/mime')
+const {
+  mediaType
+} = require('./constant/mediaConstant');
 
 var upload = multer({
-  limits: { fileSize: config.limitFileSize }
+  limits: {
+    fileSize: config.limitFileSize
+  }
 })
 
 app.post("/api/upload", upload.any(), async function (req, res) {
@@ -38,7 +48,9 @@ app.post("/api/upload", upload.any(), async function (req, res) {
     if (prefixMime(file.mimetype) === mediaType.IMAGE) {
       buffer = await sharp(file.buffer)
         .resize(undefined, undefined)
-        .jpeg({ quality: 50 })
+        .jpeg({
+          quality: 50
+        })
         .grayscale()
         .toBuffer();
     } else {
@@ -69,8 +81,12 @@ app.post("/api/upload", upload.any(), async function (req, res) {
 app.get("/:fileName", async function (req, res) {
   const mediaDoc = await MediaSchema
     .findOne()
-    .where({ fileName: req.params.fileName })
-    .select({ buffer: 1 })
+    .where({
+      fileName: req.params.fileName
+    })
+    .select({
+      buffer: 1
+    })
     .exec();
 
   if (!mediaDoc) {
@@ -88,7 +104,9 @@ app.get("/:fileName", async function (req, res) {
 
 app.use(cors());
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 app.use(morgan('dev'));
 
 
@@ -96,4 +114,3 @@ app.listen(PORT, () => {
   configureMongoDb();
   console.log(`App is listening on port ${PORT}.`)
 });
-
