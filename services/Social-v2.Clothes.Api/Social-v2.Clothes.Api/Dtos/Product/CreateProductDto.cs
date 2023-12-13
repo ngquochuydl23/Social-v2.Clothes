@@ -26,11 +26,11 @@
 
         public string Material { get; set; }
 
-        public string CollectionId { get; set; }
+        public string? CollectionId { get; set; }
 
         public ICollection<CreateOptionDto> Options { get; set; } = new List<CreateOptionDto>();
 
-        public ICollection<CreateProductSkuDto> ProductSkus { get; set; } = new List<CreateProductSkuDto>();
+        public ICollection<CreateUpdateProductSkuDto> ProductSkus { get; set; } = new List<CreateUpdateProductSkuDto>();
 
         public ICollection<ChooseCategoryDto> Categories { get; set; } = new List<ChooseCategoryDto>();
     }

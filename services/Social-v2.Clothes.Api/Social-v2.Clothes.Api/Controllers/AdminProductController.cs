@@ -12,15 +12,15 @@ using Social_v2.Clothes.Api.Infrastructure.Repository;
 namespace Social_v2.Clothes.Api.Controllers
 {
     [Authorize]
-    [Route("api/[controller]")]
+    [Route("api/admin/[controller]")]
     [ApiController]
-    public class ProductController : BaseController
+    public class AdminProductController : BaseController
     {
         private readonly IRepository<ProductEntity> _productRepo;
         private readonly IRepository<ProductSkuEntity> _productSkuRepo;
         private readonly IMapper _mapper;
 
-        public ProductController(
+        public AdminProductController(
             IRepository<ProductEntity> productRepo,
             IRepository<ProductSkuEntity> productSkuRepo,
             IHttpContextAccessor httpContextAccessor,
@@ -32,11 +32,15 @@ namespace Social_v2.Clothes.Api.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("admin")]
+        [HttpGet]
         public IActionResult GetProducts()
         {
+            var products = _productRepo
+              .GetQueryableNoTracking()
+              .Where(x => !x.IsDeleted)
+              .ToList();
 
-            return Ok();
+            return Ok(_mapper.Map<ICollection<AdminProductDto>>(products));
         }
 
         [HttpGet("{id}")]
@@ -44,14 +48,15 @@ namespace Social_v2.Clothes.Api.Controllers
         {
             var product = _productRepo
                 .GetQueryableNoTracking()
-                .FirstOrDefault(x => x.Id.Equals(id))
+                .FirstOrDefault(x => x.Id.Equals(id) && !x.IsDeleted)
                     ?? throw new AppException("Product is null");
 
             return Ok(_mapper.Map<AdminProductDto>(product));
         }
 
-        [HttpGet("{id}/sku")]
-        public IActionResult GetProductSkuIn(string id, [FromQuery] string productSkuId)
+        [HttpGet("sku/{skuId}")]
+        [AllowAnonymous]
+        public IActionResult GetProductSku(string skuId)
         {
             var product = _productSkuRepo
                 .GetQueryableNoTracking()
@@ -59,14 +64,40 @@ namespace Social_v2.Clothes.Api.Controllers
                 .ThenInclude(skuVal => skuVal.ProductOption)
                 .Include(x => x.SkuValues)
                 .ThenInclude(skuVal => skuVal.ProductOptionValue)
-                .FirstOrDefault(x => x.Id.Equals(productSkuId) && x.ProductId.Equals(id))
+                .FirstOrDefault(x => x.Id.Equals(skuId))
                     ?? throw new AppException("Sku is null");
 
             return Ok(_mapper.Map<ProductSkuDto>(product));
         }
 
+        [HttpPut("{id}/sku/{skuId}")]
+        public IActionResult UpdateProductSku(string id, string skuId, [FromBody] CreateUpdateProductSkuDto value)
+        {
+            return Ok();
+        }
+
+        [HttpDelete("{id}/sku/{skuId}")]
+        public IActionResult DeleteProductSku(string id, string skuId)
+        {
+            return Ok();
+        }
+
+        [HttpGet("{id}/skus")]
+        [AllowAnonymous]
+        public IActionResult GetProductSkus(string id)
+        {
+            var productSkus = _productSkuRepo
+                .GetQueryableNoTracking()
+                .Where(x => x.ProductId.Equals(id))
+                .ToList();
+
+            return Ok(_mapper.Map<ICollection<ProductSkuDto>>(productSkus));
+        }
+
         [HttpPost]
-        [Authorize(Roles = "Customer")]
+        //  [Authorize(Roles = "Customer")]
+        [AllowAnonymous]
+        
         public IActionResult CreateProduct([FromBody] CreateProductDto value)
         {
             var product = new ProductEntity(
@@ -76,6 +107,11 @@ namespace Social_v2.Clothes.Api.Controllers
               value.Description,
               value.Discountable,
               value.Thumbnail);
+
+            if (_productRepo
+                .GetQueryableNoTracking()
+                .FirstOrDefault(x => x.Id.Equals(product.Id)) != null)
+                throw new Exception("Product is already exist.");
 
             // creating options and option values
             foreach (var x in value.Options)
@@ -99,15 +135,17 @@ namespace Social_v2.Clothes.Api.Controllers
             // create skus
             foreach (var inSku in value.ProductSkus)
             {
-
                 var productSku = new ProductSkuEntity(inSku.Title, inSku.Price, product.Id);
 
+                // add inventory in relation to sku
                 productSku.Inventory = new InventoryEntity(productSku.Id);
-                foreach (var media in inSku.ProSkuMedias)
-                {
-                    productSku.ProductMedias.Add(new ProductSkuMediaEntity(media.Url, media.Width, media.Height, media.Mime, productSku.Id));
-                }
 
+                // add medias to each sku
+                foreach (var media in inSku.ProSkuMedias)
+                    productSku.ProductMedias.Add(
+                        new ProductSkuMediaEntity(media.Url, media.Width, media.Height, media.Mime, productSku.Id));
+
+                // add sku value to each sku
                 foreach (var inSkuValue in inSku.SkuValues)
                 {
                     var option = product.Options.FirstOrDefault(x => x.Title.Equals(inSkuValue.Option))

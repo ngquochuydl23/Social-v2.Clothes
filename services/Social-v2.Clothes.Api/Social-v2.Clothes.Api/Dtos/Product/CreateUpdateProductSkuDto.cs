@@ -2,7 +2,7 @@
 
 namespace Social_v2.Clothes.Api.Dtos.Product
 {
-    public class CreateProductSkuDto
+    public class CreateUpdateProductSkuDto
     {
         public string Title { get; set; }
 

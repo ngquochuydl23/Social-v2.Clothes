@@ -11,9 +11,9 @@ using Social_v2.Clothes.Api.Infrastructure.Repository;
 
 namespace Social_v2.Clothes.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/admin/[controller]")]
     [ApiController]
-    public class CategoryController : BaseController
+    public class AdminCategoryController : BaseController
     {
 
         private readonly IRepository<CategoryEntity> _categoryRepo;
@@ -21,7 +21,7 @@ namespace Social_v2.Clothes.Api.Controllers
         private readonly IRepository<CategoryProductEntity> _cateProRepo;
         private readonly IMapper _mapper;
 
-        public CategoryController(
+        public AdminCategoryController(
             IMapper mapper,
             IRepository<CategoryEntity> categoryRepo,
             IRepository<ProductEntity> productRepo,
@@ -41,7 +41,7 @@ namespace Social_v2.Clothes.Api.Controllers
               .GetQueryableNoTracking()
               .Where(x => !x.IsDeleted);
 
-            return Ok(_mapper.Map<CategoryDto>(categories));
+            return Ok(_mapper.Map<ICollection<CategoryDto>>(categories));
         }
 
         [HttpPost]

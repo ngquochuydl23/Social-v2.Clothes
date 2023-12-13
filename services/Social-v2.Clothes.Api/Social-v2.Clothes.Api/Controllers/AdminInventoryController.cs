@@ -7,13 +7,13 @@ using Social_v2.Clothes.Api.Infrastructure.Repository;
 
 namespace Social_v2.Clothes.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/admin/[controller]")]
     [ApiController]
-    public class InventoryController : BaseController
+    public class AdminInventoryController : BaseController
     {
         private readonly IMapper _mapper;
         private readonly IRepository<InventoryEntity> _inventoryRepo;
-        public InventoryController(
+        public AdminInventoryController(
             IMapper mapper,
             IRepository<InventoryEntity> inventoryRepo,
             IHttpContextAccessor httpContextAccessor) : base(httpContextAccessor)
