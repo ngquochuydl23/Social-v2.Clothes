@@ -14,15 +14,15 @@ using System.Security.Claims;
 namespace Social_v2.Clothes.Api.Controllers
 {
     [Authorize]
-    [Route("api/store/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
-    public class StoreWishlistController : BaseController
+    public class WishlistController : BaseController
     {
         private readonly IRepository<WishlistEntity> _wishlistRepo;
         private readonly IRepository<ProductSkuEntity> _productSkuRepo;
         private readonly IMapper _mapper;
 
-        public StoreWishlistController(
+        public WishlistController(
             IRepository<WishlistEntity> wishlistRepo,
             IRepository<ProductSkuEntity> productSkuRepo,
             IHttpContextAccessor httpContextAccessor,

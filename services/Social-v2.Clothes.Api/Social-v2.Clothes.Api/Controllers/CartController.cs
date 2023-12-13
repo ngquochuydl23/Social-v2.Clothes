@@ -3,9 +3,9 @@ using Social_v2.Clothes.Api.Dtos.Cart;
 
 namespace Social_v2.Clothes.Api.Controllers
 {
-    [Route("api/store/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
-    public class StoreCartController : ControllerBase
+    public class CartController : ControllerBase
     {
         [HttpGet]
         public IActionResult GetCart()

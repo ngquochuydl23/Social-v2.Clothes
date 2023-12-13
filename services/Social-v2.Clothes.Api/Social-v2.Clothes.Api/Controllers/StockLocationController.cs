@@ -6,9 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 namespace Social_v2.Clothes.Api.Controllers
 {
     [Authorize]
-    [Route("api/admin/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
-    public class AdminStockLocationController : ControllerBase
+    public class StockLocationController : ControllerBase
     {
        
         [HttpGet]

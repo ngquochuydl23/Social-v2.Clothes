@@ -4,13 +4,12 @@
 
 namespace Social_v2.Clothes.Api.Controllers
 {
-    [Route("api/admin/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
-    public class AdminDiscountController : ControllerBase
+    public class DiscountController : ControllerBase
     {
         // GET: api/<DiscountController>
         [HttpGet]
-        [Route("api/admin/[controller]")]
         public IEnumerable<string> Get()
         {
             return new string[] { "value1", "value2" };

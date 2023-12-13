@@ -11,9 +11,9 @@ using Social_v2.Clothes.Api.Infrastructure.Repository;
 
 namespace Social_v2.Clothes.Api.Controllers
 {
-    [Route("api/admin/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
-    public class AdminCategoryController : BaseController
+    public class CategoryController : BaseController
     {
 
         private readonly IRepository<CategoryEntity> _categoryRepo;
@@ -21,7 +21,7 @@ namespace Social_v2.Clothes.Api.Controllers
         private readonly IRepository<CategoryProductEntity> _cateProRepo;
         private readonly IMapper _mapper;
 
-        public AdminCategoryController(
+        public CategoryController(
             IMapper mapper,
             IRepository<CategoryEntity> categoryRepo,
             IRepository<ProductEntity> productRepo,

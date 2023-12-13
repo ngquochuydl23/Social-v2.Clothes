@@ -16,12 +16,12 @@ namespace Social_v2.Clothes.Api.Controllers
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class StoreDeliveryAddressController : BaseController
+    public class DeliveryAddressController : BaseController
     {
         private readonly IRepository<DeliveryAddressEntity> _deliverAddressRepo;
         private readonly IMapper _mapper;
 
-        public StoreDeliveryAddressController(
+        public DeliveryAddressController(
             IMapper mapper,
             IRepository<DeliveryAddressEntity> deliverAddressRepo,
             IHttpContextAccessor httpContextAccessor): base(httpContextAccessor)

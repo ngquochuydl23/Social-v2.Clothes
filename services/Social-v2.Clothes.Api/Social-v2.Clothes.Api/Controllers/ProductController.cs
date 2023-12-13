@@ -12,15 +12,15 @@ using Social_v2.Clothes.Api.Infrastructure.Repository;
 namespace Social_v2.Clothes.Api.Controllers
 {
     [Authorize]
-    [Route("api/admin/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
-    public class AdminProductController : BaseController
+    public class ProductController : BaseController
     {
         private readonly IRepository<ProductEntity> _productRepo;
         private readonly IRepository<ProductSkuEntity> _productSkuRepo;
         private readonly IMapper _mapper;
 
-        public AdminProductController(
+        public ProductController(
             IRepository<ProductEntity> productRepo,
             IRepository<ProductSkuEntity> productSkuRepo,
             IHttpContextAccessor httpContextAccessor,
