@@ -1,31 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\admin\\Music\\Social-v2.Clothes\\services\\Social-v2.Clothes.Api\\Social-v2.Clothes.Api\\Social-v2.Clothes.Api.csproj": {}
+    "D:\\ClothesWeb\\Social-v2.Clothes\\services\\Social-v2.Clothes.Api\\Social-v2.Clothes.Api\\Social-v2.Clothes.Api.csproj": {}
   },
   "projects": {
-    "C:\\Users\\admin\\Music\\Social-v2.Clothes\\services\\Social-v2.Clothes.Api\\Social-v2.Clothes.Api\\Social-v2.Clothes.Api.csproj": {
+    "D:\\ClothesWeb\\Social-v2.Clothes\\services\\Social-v2.Clothes.Api\\Social-v2.Clothes.Api\\Social-v2.Clothes.Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\admin\\Music\\Social-v2.Clothes\\services\\Social-v2.Clothes.Api\\Social-v2.Clothes.Api\\Social-v2.Clothes.Api.csproj",
+        "projectUniqueName": "D:\\ClothesWeb\\Social-v2.Clothes\\services\\Social-v2.Clothes.Api\\Social-v2.Clothes.Api\\Social-v2.Clothes.Api.csproj",
         "projectName": "Social-v2.Clothes.Api",
-        "projectPath": "C:\\Users\\admin\\Music\\Social-v2.Clothes\\services\\Social-v2.Clothes.Api\\Social-v2.Clothes.Api\\Social-v2.Clothes.Api.csproj",
-        "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\admin\\Music\\Social-v2.Clothes\\services\\Social-v2.Clothes.Api\\Social-v2.Clothes.Api\\obj\\",
+        "projectPath": "D:\\ClothesWeb\\Social-v2.Clothes\\services\\Social-v2.Clothes.Api\\Social-v2.Clothes.Api\\Social-v2.Clothes.Api.csproj",
+        "packagesPath": "C:\\Users\\DFK\\.nuget\\packages\\",
+        "outputPath": "D:\\ClothesWeb\\Social-v2.Clothes\\services\\Social-v2.Clothes.Api\\Social-v2.Clothes.Api\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\DFK\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -122,7 +116,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }
