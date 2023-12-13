@@ -78,7 +78,7 @@ namespace Social_v2.Clothes.Api.Controllers
 
             var wishlist = _wishlistRepo
                 .GetQueryableNoTracking()
-                .FirstOrDefault(x => x.ProductSkuId.Equals(productSku.Id) && x.CustomerId == Id)
+                .FirstOrDefault(x => x.ProductSkuId.Equals(productSku.Id) && x.CustomerId == Id && !x.IsDeleted)
                 ?? throw new AppException("Wishlist with sku is not exist");
 
 

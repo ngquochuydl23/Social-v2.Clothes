@@ -1,4 +1,4 @@
-﻿namespace Social_v2.Clothes.Api.Dtos
+﻿namespace Social_v2.Clothes.Api.Dtos.Users
 {
     public class UserDto
     {

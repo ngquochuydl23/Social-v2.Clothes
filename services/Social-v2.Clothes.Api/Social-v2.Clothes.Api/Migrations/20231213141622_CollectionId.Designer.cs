@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Social_v2.Clothes.Api.Infrastructure;
@@ -11,9 +12,11 @@ using Social_v2.Clothes.Api.Infrastructure;
 namespace Social_v2.Clothes.Api.Migrations
 {
     [DbContext(typeof(ClothesDbContext))]
-    partial class ClothesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231213141622_CollectionId")]
+    partial class CollectionId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -437,80 +440,6 @@ namespace Social_v2.Clothes.Api.Migrations
                     b.ToTable("SkuValue", (string)null);
                 });
 
-            modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.StockLocations.StockLocationInventoryEntity", b =>
-                {
-                    b.Property<string>("ProductSkuId")
-                        .HasColumnType("text");
-
-                    b.Property<string>("StockLocationId")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("CreateAt")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<DateTime>("LastUpdate")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.HasKey("ProductSkuId", "StockLocationId");
-
-                    b.ToTable("StockLocationInventory", (string)null);
-                });
-
-            modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Stores.StockLocationEntity", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("CreateAt")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("DetailAddress")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)");
-
-                    b.Property<string>("District")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<DateTime>("LastUpdate")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasMaxLength(11)
-                        .HasColumnType("character varying(11)");
-
-                    b.Property<string>("ProvinceOrCity")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.Property<string>("WardOrCommune")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("StockLocationEntity");
-                });
-
             modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Users.UserEntity", b =>
                 {
                     b.Property<long>("Id")
@@ -735,25 +664,6 @@ namespace Social_v2.Clothes.Api.Migrations
                     b.Navigation("ProductSku");
                 });
 
-            modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.StockLocations.StockLocationInventoryEntity", b =>
-                {
-                    b.HasOne("Social_v2.Clothes.Api.Infrastructure.Entities.Stores.StockLocationEntity", "StockLocation")
-                        .WithMany("StockLocationInventories")
-                        .HasForeignKey("ProductSkuId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Social_v2.Clothes.Api.Infrastructure.Entities.Inventories.InventoryEntity", "Inventory")
-                        .WithMany("StockLocationInventories")
-                        .HasForeignKey("ProductSkuId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Inventory");
-
-                    b.Navigation("StockLocation");
-                });
-
             modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Wishlists.WishlistEntity", b =>
                 {
                     b.HasOne("Social_v2.Clothes.Api.Infrastructure.Entities.Users.UserEntity", "Customer")
@@ -783,11 +693,6 @@ namespace Social_v2.Clothes.Api.Migrations
             modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Collections.CollectionEntity", b =>
                 {
                     b.Navigation("Products");
-                });
-
-            modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Inventories.InventoryEntity", b =>
-                {
-                    b.Navigation("StockLocationInventories");
                 });
 
             modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Products.ProductEntity", b =>
@@ -824,11 +729,6 @@ namespace Social_v2.Clothes.Api.Migrations
 
                     b.Navigation("Wishlist")
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Stores.StockLocationEntity", b =>
-                {
-                    b.Navigation("StockLocationInventories");
                 });
 
             modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Users.UserEntity", b =>

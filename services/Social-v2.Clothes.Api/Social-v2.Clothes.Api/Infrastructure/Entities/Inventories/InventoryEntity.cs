@@ -1,4 +1,5 @@
 ﻿using Social_v2.Clothes.Api.Infrastructure.Entities.Products;
+using Social_v2.Clothes.Api.Infrastructure.Entities.StockLocations;
 
 namespace Social_v2.Clothes.Api.Infrastructure.Entities.Inventories
 {
@@ -17,6 +18,8 @@ namespace Social_v2.Clothes.Api.Infrastructure.Entities.Inventories
         public bool AllowBackOrder { get; set; } = true;
 
         public string? StockLocationId { get; set; }
+
+        public ICollection<StockLocationInventoryEntity> StockLocationInventories { get; set; } = new List<StockLocationInventoryEntity>();
 
         public InventoryEntity(string productSkuId)
         {

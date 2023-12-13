@@ -36,5 +36,7 @@ namespace Social_v2.Clothes.Api.Infrastructure.Entities.Stores
         [NotNull]
         [MaxLength(StockLocationConstants.WardOrCommuneMaxLength)]
         public string WardOrCommune { get; set; }
+
+        public ICollection<StockLocationInventoryEntity> StockLocationInventories { get; set; } = new List<StockLocationInventoryEntity>();
     }
 }

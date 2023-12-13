@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Social_v2.Clothes.Api.Dtos;
+using Social_v2.Clothes.Api.Dtos.Users;
 using Social_v2.Clothes.Api.Extensions.JwtHelpers;
 using Social_v2.Clothes.Api.Infrastructure;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Users;
