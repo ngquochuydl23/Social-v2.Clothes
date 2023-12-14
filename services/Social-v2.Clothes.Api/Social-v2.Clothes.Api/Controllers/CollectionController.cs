@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Social_v2.Clothes.Api.Dtos.Collection;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Collections;
+using Social_v2.Clothes.Api.Infrastructure.Exceptions;
 using Social_v2.Clothes.Api.Infrastructure.Repository;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -25,15 +27,25 @@ namespace Social_v2.Clothes.Api.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IActionResult GetCollections()
         {
-            return new string[] { "value1", "value2" };
+            var collections = _collectionRepo
+                .GetQueryableNoTracking()
+                .Where(x => !x.IsDeleted)
+                .ToList();
+
+            return Ok(_mapper.Map<ICollection<CollectionDto>>(collections));
         }
 
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult GetCollection(string id)
         {
-            return "value";
+            var collection = _collectionRepo
+                .GetQueryableNoTracking()
+                .FirstOrDefault(x => x.Id.Equals(id) && !x.IsDeleted)
+                    ?? throw new AppException("Collection does not exist");
+
+            return Ok(_mapper.Map<CollectionDto>(collection));
         }
 
         [HttpPost]
@@ -44,14 +56,33 @@ namespace Social_v2.Clothes.Api.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult EditCollection(int id, [FromBody] CreateUpdateCollectionDto value)
+        public IActionResult EditCollection(string id, [FromBody] CreateUpdateCollectionDto value)
         {
-            return Ok();
+
+            var collection = _collectionRepo
+                .GetQueryable()
+                .FirstOrDefault(x => x.Id.Equals(id) && !x.IsDeleted)
+                    ?? throw new AppException("Collection does not exist");
+
+            collection.Title = value.Title;
+            collection.Handle = value.Handle;
+
+            _collectionRepo.SaveChanges();
+            return Ok(_mapper.Map<CollectionDto>(collection));
         }
 
-       [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
         {
+
+            var collection = _collectionRepo
+                .GetQueryableNoTracking()
+                .FirstOrDefault(x => x.Id.Equals(id) && !x.IsDeleted)
+                    ?? throw new AppException("Collection does not exist");
+
+            _collectionRepo.Delete(collection);
+
+            return Ok();
         }
     }
 }

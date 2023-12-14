@@ -58,7 +58,6 @@ namespace Social_v2.Clothes.Api.Controllers
             return Ok(_mapper.Map<AdminProductDto>(product));
         }
 
-
         [HttpPost("{id}/option")]
         [Authorize(Roles = UserConstants.AdministratorRole)]
         public IActionResult AddProductOption(string id, [FromBody] CreateOptionDto value)

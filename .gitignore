@@ -28,19 +28,19 @@ client/yarn-error.log*
 ## For Server directory
 
 # dependencies
-services/upload-service/node_modules
-services/ecommerce-service/node_modules
+services/Social-v2.Clothes.UploadMediaApi/node_modules
 
 #misc
 .vs
 .vscode
 
-services/upload-service/.env
+services/Social-v2.Clothes.UploadMediaApi/.env
 
 client/src/pages/dashboard/ListProduct.js
-services/upload-service/.yarn
+services/Social-v2.Clothes.UploadMediaApi/.yarn
 
-
+clients/Social-v2.Clothes.Admin/node_modules
+clients/Social-v2.Clothes.Store/node_modules
 
 services/ecommerce-service/.env
 services/ecommerce-service/.yarn

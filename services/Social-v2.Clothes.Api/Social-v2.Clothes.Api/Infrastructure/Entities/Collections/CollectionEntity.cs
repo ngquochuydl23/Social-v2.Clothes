@@ -11,11 +11,18 @@ namespace Social_v2.Clothes.Api.Infrastructure.Entities.Collections
 
         [NotNull]
         [MaxLength(CollectionConstants.NameMaxLength)]
-        public string Title { get; set; }
+        public string Title
+        {
+            get { return Title; }
+            set
+            {
+                Id = GenerateStringId(value);
+                Title = value;
+            }
+        }
 
         [NotNull]
         public string Handle { get; set; }
-
 
         public ICollection<ProductEntity> Products { get; set; } = new List<ProductEntity>();
 
@@ -25,5 +32,7 @@ namespace Social_v2.Clothes.Api.Infrastructure.Entities.Collections
             Title = title;
             Handle = handle;
         }
+
+
     }
 }

@@ -1,43 +1,76 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using Social_v2.Clothes.Api.Dtos;
+using Social_v2.Clothes.Api.Infrastructure.Entities.Discounts;
+using Social_v2.Clothes.Api.Infrastructure.Entities.StockLocations;
+using Social_v2.Clothes.Api.Infrastructure.Repository;
 
 namespace Social_v2.Clothes.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class DiscountController : ControllerBase
+    public class DiscountController : BaseController
     {
-        // GET: api/<DiscountController>
+
+        private readonly IMapper _mapper;
+        private readonly IRepository<DiscountEntity> _discountRepo;
+        private readonly IRepository<StockLocationInventoryEntity> _stockLocationInventoryRepo;
+        public DiscountController(
+            IMapper mapper,
+            IRepository<DiscountEntity> discountRepo,
+            IHttpContextAccessor httpContextAccessor) : base(httpContextAccessor)
+        {
+            _mapper = mapper;
+            _discountRepo = discountRepo;
+        }
+
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IActionResult GetDiscounts(
+            [FromQuery] string ruleType,
+            [FromQuery] string ruleAllocation,
+            [FromQuery] bool isDisabled,
+            [FromQuery] bool isDynamic)
         {
-            return new string[] { "value1", "value2" };
+
+
+
+            return Ok();
         }
 
-        // GET api/<DiscountController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("{code}")]
+        public IActionResult GetDiscountByCode(string code)
         {
-            return "value";
+            return Ok();
         }
 
-        // POST api/<DiscountController>
         [HttpPost]
-        public void CreateDiscount([FromBody] string value)
+        public IActionResult CreateDiscount([FromBody] CreateDiscountDto value)
         {
+            var discount = new DiscountEntity(
+                value.Code,
+                value.StartsAt,
+                value.EndsAt,
+                value.IsDisabled,
+                value.UsageLimit,
+                value.RuleType,
+                value.RuleAllocation,
+                value.RuleValue,
+                value.RuleDescription);
+
+            discount = _discountRepo.Insert(discount);
+            return Ok();     
         }
 
-        // PUT api/<DiscountController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut("{code}")]
+        public IActionResult EditCollection(string code, [FromBody] string value)
         {
+            return Ok();
         }
 
-        // DELETE api/<DiscountController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete("{code}")]
+        public IActionResult DeleteCollection(string code)
         {
+            return Ok();
         }
     }
 }
