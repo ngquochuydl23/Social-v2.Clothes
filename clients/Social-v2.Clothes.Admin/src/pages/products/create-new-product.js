@@ -5,9 +5,12 @@ import { SettingsPassword } from 'src/sections/settings/settings-password';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
 import { SettingSectionItem } from 'src/sections/settings/setting-section-item';
 import _ from 'lodash';
-import { Form, Formik } from 'formik';
+import { Form, Formik, useFormik } from 'formik';
 import { Scrollbar } from 'src/components/scrollbar';
 import SelectCategories from 'src/sections/products/create-new-product/select-categories';
+import { useState } from 'react';
+import PickProductThumbnail from 'src/sections/products/create-new-product/pick-product-thumbnail';
+
 const collections = [
   {
     value: 'winter-2023',
@@ -19,45 +22,43 @@ const collections = [
   }
 ];
 
-const CreateNewProduct = () => (
-  <>
-    <Head>
-      <title>
-        New product | Devias Kit
-      </title>
-    </Head>
-    <Scrollbar>
-      <Box
-        component="main"
-        sx={{ flexGrow: 1 }}>
-        <Container maxWidth="lg">
-          <Stack spacing={3}>
-            <Typography variant="h4">
-              Create new product
-            </Typography>
-
-            <Formik
-              initialValues={{
-                title: '',
-                subtitle: '',
-                description: '',
-                handle: ''
-              }}
-              onSubmit={async (values) => {
-                await new Promise((r) => setTimeout(r, 500));
-                alert(JSON.stringify(values, null, 2));
-              }}>
-              <Form>
-                <Stack>
-                  <img
-                    style={{
-                      height: '150px',
-                      width: '150px',
-                      borderRadius: '10px'
-                    }}
-                    src='https://media2.coolmate.me/cdn-cgi/image/quality=80,format=auto/uploads/November2023/23CMCW.JE003.11_52.jpg' />
-                </Stack>
-
+const CreateNewProduct = () => {
+  const [handle, setHandle] = useState('');
+  const formik = useFormik({
+    initialValues: {
+      title: '',
+      subtitle: '',
+      description: '',
+      handle: '',
+      isGiftCard: false,
+      isDiscountable: false,
+      collectionId: null,
+      categories: [],
+      thumbnail: null,
+    },
+    onSubmit: values => {
+      alert(JSON.stringify(values, null, 2));
+    },
+  });
+  return (
+    (<>
+      <Head>
+        <title>
+          New product
+        </title>
+      </Head>
+      <Scrollbar>
+        <Box
+          component="main"
+          sx={{ flexGrow: 1 }}>
+          <Container maxWidth="lg">
+            <Stack spacing={3}>
+              <Typography variant="h4">
+                Create new product
+              </Typography>
+              <form onSubmit={formik.handleSubmit}>
+                <PickProductThumbnail
+                  onReceiveThumbnail={(thumbnail) => formik.setFieldValue('thumbnail', thumbnail)} />
                 <Stack
                   marginTop={"20px"}
                   direction="row"
@@ -65,6 +66,12 @@ const CreateNewProduct = () => (
                   <TextField
                     required
                     fullWidth
+                    onChange={(e) => {
+                      formik.handleChange(e);
+                      formik.setFieldValue('handle', e.target.value);
+                      setHandle(e.target.value);
+                    }}
+                    value={formik.values.title}
                     id="title"
                     label="Title"
                   />
@@ -73,6 +80,8 @@ const CreateNewProduct = () => (
                     fullWidth
                     id="subtitle"
                     label="Subtitle"
+                    onChange={formik.handleChange}
+                    value={formik.values.subtitle}
                   />
                 </Stack>
                 <Typography
@@ -85,7 +94,8 @@ const CreateNewProduct = () => (
                   sx={{ marginTop: "20px" }}
                   required
                   fullWidth
-                  id="handle"
+                  disabled
+                  value={handle}
                   label="Handle"
                 />
                 <TextField
@@ -96,6 +106,8 @@ const CreateNewProduct = () => (
                   rows={4}
                   id="description"
                   label="Description"
+                  onChange={formik.handleChange}
+                  value={formik.values.description}
                 />
                 <Typography
                   sx={{ marginY: '10px', width: '50%' }}
@@ -112,7 +124,11 @@ const CreateNewProduct = () => (
                     marginLeft: 0,
                     marginTop: '20px'
                   }}
-                  control={<Switch color="primary" />}
+                  control={<Switch
+                    id="isDiscountable"
+                    value={formik.values.isDiscountable}
+                    onChange={formik.handleChange}
+                    color="primary" />}
                   label={
                     <Box fullWidth>
                       <Typography variant='subtitle1'>Discountable</Typography>
@@ -123,7 +139,6 @@ const CreateNewProduct = () => (
                 />
                 <Divider sx={{ marginTop: '20px' }} />
                 <FormControlLabel
-                  value="start"
                   fullWidth
                   sx={{
                     width: '100%',
@@ -131,7 +146,11 @@ const CreateNewProduct = () => (
                     marginLeft: 0,
                     marginTop: '20px'
                   }}
-                  control={<Switch color="primary" />}
+                  control={<Switch
+                    onChange={formik.handleChange}
+                    value={formik.values.isGiftCard}
+                    id="isGiftCard"
+                    color="primary" />}
                   label={
                     <Box fullWidth>
                       <Typography variant='subtitle1'>Gift card</Typography>
@@ -142,21 +161,25 @@ const CreateNewProduct = () => (
                 />
                 <Divider sx={{ marginY: '20px' }} />
                 <SelectCategories
-                  onReturnCategories={(categories) => { console.log(categories) }} />
+                  onReturnCategories={(categories) => {
+                    formik.setFieldValue('categories', categories);
+                  }} />
                 <Divider sx={{ marginY: '20px' }} />
                 <Box>
                   <Typography variant='subtitle1'>Select collection (option)</Typography>
                   <Typography variant='caption'>When unchecked discounts will not be applied to this product.</Typography>
                   <TextField
                     sx={{ marginTop: '10px' }}
-                    id="outlined-select-currency"
+                    id="collectionId"
                     select
                     fullWidth
+                    onChange={(e) => formik.setFieldValue('collectionId', e.target.value)}
                     placeholder='Please select collection'
-                    label="Collection"
-                  >
+                    label="Collection">
                     {collections.map((option) => (
-                      <MenuItem key={option.value} value={option.value}>
+                      <MenuItem
+                        key={option.value}
+                        value={option.value}>
                         {option.label}
                       </MenuItem>
                     ))}
@@ -168,14 +191,23 @@ const CreateNewProduct = () => (
                   <Typography variant='caption'>Add skus of this product.
                     Offer your customers different options for price, color, format, size, shape, etc.</Typography>
                 </Box>
-              </Form>
-            </Formik>
-          </Stack>
-        </Container>
-      </Box>
-    </Scrollbar>
-  </>
-);
+                <Button
+                  sx={{
+                    borderRadius: '10px',
+                    height: '50px',
+                    marginY: '20px'
+                  }}
+                  variant='contained'
+                  fullWidth
+                  type='submit'>Create Product</Button>
+              </form>
+            </Stack>
+          </Container>
+        </Box>
+      </Scrollbar>
+    </>)
+  )
+};
 
 CreateNewProduct.getLayout = (page) => (
   <DashboardLayout>
