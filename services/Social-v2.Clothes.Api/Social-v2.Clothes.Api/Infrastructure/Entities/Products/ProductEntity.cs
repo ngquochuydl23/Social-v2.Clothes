@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Categories;
+using Social_v2.Clothes.Api.Infrastructure.Entities.Collections;
 
 namespace Social_v2.Clothes.Api.Infrastructure.Entities.Products
 {
@@ -32,13 +33,18 @@ namespace Social_v2.Clothes.Api.Infrastructure.Entities.Products
 
         public virtual ICollection<SkuValueEntity> SkuValues { get; set; } = new List<SkuValueEntity>();
 
+        public string? CollectionId { get; set; }
+
+        public virtual CollectionEntity? Collection { get; set; }
+
         public ProductEntity(
                 string title,
                 string subtitle,
                 string handle,
                 string description,
                 bool discountable,
-                string thumbnail)
+                string thumbnail,
+                string collectionId)
         {
             Id = GenerateProductIdByTitle(title);
             Title = title;
@@ -47,6 +53,7 @@ namespace Social_v2.Clothes.Api.Infrastructure.Entities.Products
             Description = description;
             Discountable = discountable;
             Thumbnail = thumbnail;
+            CollectionId = collectionId;
         }
 
         private string GenerateProductIdByTitle(string title)

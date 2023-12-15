@@ -1,9 +1,11 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Categories;
+using Social_v2.Clothes.Api.Infrastructure.Entities.Collections;
 using Social_v2.Clothes.Api.Infrastructure.Entities.DeliveryAddresses;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Inventories;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Products;
+using Social_v2.Clothes.Api.Infrastructure.Entities.StockLocations;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Users;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Wishlists;
 using System.Reflection.Emit;
@@ -39,6 +41,11 @@ namespace Social_v2.Clothes.Api.Infrastructure
             {
                 entity.ToTable("Product");
                 entity.HasKey(x => x.Id);
+
+                entity
+                    .HasOne(x => x.Collection)
+                    .WithMany(collection => collection.Products)
+                    .HasForeignKey(x => x.CollectionId);
             });
 
             modelBuilder.Entity<ProductOptionEntity>(entity =>
@@ -162,11 +169,39 @@ namespace Social_v2.Clothes.Api.Infrastructure
 
             modelBuilder.Entity<InventoryEntity>(entity =>
             {
+                entity.ToTable("Inventory");
                 entity.HasKey(x => x.ProductSkuId);
                 entity
                     .HasOne(x => x.ProductSku)
                     .WithOne(pro => pro.Inventory)
                     .HasForeignKey<InventoryEntity>(x => x.ProductSkuId);
+            });
+
+
+            modelBuilder.Entity<CollectionEntity>(entity =>
+            {
+                entity.ToTable("Collection");
+                entity.HasKey(x => x.Id);
+            });
+
+            modelBuilder.Entity<StockLocationInventoryEntity>(entity =>
+            {
+                entity.ToTable("StockLocationInventory");
+                entity.HasKey(table => new
+                {
+                    table.ProductSkuId,
+                    table.StockLocationId
+                });
+
+                entity
+                    .HasOne(x => x.Inventory)
+                    .WithMany(inventory => inventory.StockLocationInventories)
+                    .HasForeignKey(x => x.ProductSkuId);
+
+                entity
+                    .HasOne(x => x.StockLocation)
+                    .WithMany(stock => stock.StockLocationInventories)
+                    .HasForeignKey(x => x.ProductSkuId);
             });
         }
     }

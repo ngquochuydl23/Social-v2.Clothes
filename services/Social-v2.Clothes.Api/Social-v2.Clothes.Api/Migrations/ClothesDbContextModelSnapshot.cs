@@ -87,6 +87,34 @@ namespace Social_v2.Clothes.Api.Migrations
                     b.ToTable("CategoryProduct", (string)null);
                 });
 
+            modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Collections.CollectionEntity", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Handle")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("LastUpdate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Collection", (string)null);
+                });
+
             modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.DeliveryAddresses.DeliveryAddressEntity", b =>
                 {
                     b.Property<long>("Id")
@@ -178,12 +206,15 @@ namespace Social_v2.Clothes.Api.Migrations
 
                     b.HasKey("ProductSkuId");
 
-                    b.ToTable("InventoryEntity");
+                    b.ToTable("Inventory", (string)null);
                 });
 
             modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Products.ProductEntity", b =>
                 {
                     b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<string>("CollectionId")
                         .HasColumnType("text");
 
                     b.Property<DateTime>("CreateAt")
@@ -219,6 +250,8 @@ namespace Social_v2.Clothes.Api.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CollectionId");
 
                     b.ToTable("Product", (string)null);
                 });
@@ -404,6 +437,80 @@ namespace Social_v2.Clothes.Api.Migrations
                     b.ToTable("SkuValue", (string)null);
                 });
 
+            modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.StockLocations.StockLocationInventoryEntity", b =>
+                {
+                    b.Property<string>("ProductSkuId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("StockLocationId")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("LastUpdate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.HasKey("ProductSkuId", "StockLocationId");
+
+                    b.ToTable("StockLocationInventory", (string)null);
+                });
+
+            modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Stores.StockLocationEntity", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("DetailAddress")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
+
+                    b.Property<string>("District")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("LastUpdate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasMaxLength(11)
+                        .HasColumnType("character varying(11)");
+
+                    b.Property<string>("ProvinceOrCity")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<string>("WardOrCommune")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("StockLocationEntity");
+                });
+
             modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Users.UserEntity", b =>
                 {
                     b.Property<long>("Id")
@@ -540,6 +647,15 @@ namespace Social_v2.Clothes.Api.Migrations
                     b.Navigation("ProductSku");
                 });
 
+            modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Products.ProductEntity", b =>
+                {
+                    b.HasOne("Social_v2.Clothes.Api.Infrastructure.Entities.Collections.CollectionEntity", "Collection")
+                        .WithMany("Products")
+                        .HasForeignKey("CollectionId");
+
+                    b.Navigation("Collection");
+                });
+
             modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Products.ProductOptionEntity", b =>
                 {
                     b.HasOne("Social_v2.Clothes.Api.Infrastructure.Entities.Products.ProductEntity", "Product")
@@ -619,6 +735,25 @@ namespace Social_v2.Clothes.Api.Migrations
                     b.Navigation("ProductSku");
                 });
 
+            modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.StockLocations.StockLocationInventoryEntity", b =>
+                {
+                    b.HasOne("Social_v2.Clothes.Api.Infrastructure.Entities.Stores.StockLocationEntity", "StockLocation")
+                        .WithMany("StockLocationInventories")
+                        .HasForeignKey("ProductSkuId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Social_v2.Clothes.Api.Infrastructure.Entities.Inventories.InventoryEntity", "Inventory")
+                        .WithMany("StockLocationInventories")
+                        .HasForeignKey("ProductSkuId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Inventory");
+
+                    b.Navigation("StockLocation");
+                });
+
             modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Wishlists.WishlistEntity", b =>
                 {
                     b.HasOne("Social_v2.Clothes.Api.Infrastructure.Entities.Users.UserEntity", "Customer")
@@ -643,6 +778,16 @@ namespace Social_v2.Clothes.Api.Migrations
                     b.Navigation("CategoryProducts");
 
                     b.Navigation("ChildCategories");
+                });
+
+            modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Collections.CollectionEntity", b =>
+                {
+                    b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Inventories.InventoryEntity", b =>
+                {
+                    b.Navigation("StockLocationInventories");
                 });
 
             modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Products.ProductEntity", b =>
@@ -679,6 +824,11 @@ namespace Social_v2.Clothes.Api.Migrations
 
                     b.Navigation("Wishlist")
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Stores.StockLocationEntity", b =>
+                {
+                    b.Navigation("StockLocationInventories");
                 });
 
             modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Users.UserEntity", b =>

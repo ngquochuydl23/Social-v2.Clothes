@@ -8,5 +8,6 @@
         public const int UserHashPassword = 255;
 
         public const string CustomerRole = "Customer";
+        public const string AdministratorRole = "Administrator";
     }
 }

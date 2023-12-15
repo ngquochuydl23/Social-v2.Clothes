@@ -6,6 +6,7 @@ using Social_v2.Clothes.Api.Dtos.Product;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Categories;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Inventories;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Products;
+using Social_v2.Clothes.Api.Infrastructure.Entities.Users;
 using Social_v2.Clothes.Api.Infrastructure.Exceptions;
 using Social_v2.Clothes.Api.Infrastructure.Repository;
 
@@ -18,16 +19,19 @@ namespace Social_v2.Clothes.Api.Controllers
     {
         private readonly IRepository<ProductEntity> _productRepo;
         private readonly IRepository<ProductSkuEntity> _productSkuRepo;
+        private readonly IRepository<ProductOptionEntity> _productOptionRepo;
         private readonly IMapper _mapper;
 
         public ProductController(
             IRepository<ProductEntity> productRepo,
             IRepository<ProductSkuEntity> productSkuRepo,
+            IRepository<ProductOptionEntity> productOptionRepo,
             IHttpContextAccessor httpContextAccessor,
             IMapper mapper) : base(httpContextAccessor)
         {
             _productRepo = productRepo;
             _productSkuRepo = productSkuRepo;
+            _productOptionRepo = productOptionRepo;
             _mapper = mapper;
         }
 
@@ -54,8 +58,26 @@ namespace Social_v2.Clothes.Api.Controllers
             return Ok(_mapper.Map<AdminProductDto>(product));
         }
 
-        [HttpGet("sku/{skuId}")]
+        [HttpPost("{id}/option")]
+        [Authorize(Roles = UserConstants.AdministratorRole)]
+        public IActionResult AddProductOption(string id, [FromBody] CreateOptionDto value)
+        {
+            var product = _productRepo
+                .GetQueryableNoTracking()
+                .FirstOrDefault(x => x.Id.Equals(id) && !x.IsDeleted)
+                    ?? throw new AppException("Product is null");
+
+            var productOption = new ProductOptionEntity(value.Title, id);
+
+            foreach (var optionValue in value.OptionValues)
+                productOption.OptionValues.Add(new ProductOptionValueEntity(optionValue));
+
+            productOption = _productOptionRepo.Insert(productOption);
+            return Ok(_mapper.Map<ProductOptionDto>(productOption));
+        }
+
         [AllowAnonymous]
+        [HttpGet("sku/{skuId}")]
         public IActionResult GetProductSku(string skuId)
         {
             var product = _productSkuRepo
@@ -70,20 +92,75 @@ namespace Social_v2.Clothes.Api.Controllers
             return Ok(_mapper.Map<ProductSkuDto>(product));
         }
 
+
+        [AllowAnonymous]
+        [HttpGet("sku/{skuId}/inventory")]
+        public IActionResult GetProductSkuInInventory(string skuId)
+        {
+            return Ok();
+        }
+
+        [HttpPut("{id}/sku")]
+        public IActionResult CreateProductSku(string id, [FromBody] CreateUpdateProductSkuDto value)
+        {
+            var product = _productRepo
+               .GetQueryableNoTracking()
+               .FirstOrDefault(x => x.Id.Equals(id) && !x.IsDeleted)
+                   ?? throw new AppException("Product is null");
+
+            var productSku = new ProductSkuEntity(value.Title, value.Price, product.Id);
+
+            // add inventory in relation to sku
+            productSku.Inventory = new InventoryEntity(productSku.Id);
+
+            // add medias to each sku
+            foreach (var media in value.ProSkuMedias)
+                productSku.ProductMedias.Add(
+                    new ProductSkuMediaEntity(media.Url, media.Width, media.Height, media.Mime, productSku.Id));
+
+            // add sku value to each sku
+            foreach (var inSkuValue in value.SkuValues)
+            {
+                var option = product.Options.FirstOrDefault(x => x.Title.Equals(inSkuValue.Option))
+                    ?? throw new AppException("Option is invalid");
+
+                var optValue = option.OptionValues.FirstOrDefault(x => x.Value.Equals(inSkuValue.Value))
+                    ?? throw new AppException("Option Value is invalid");
+
+                productSku.SkuValues.Add(new SkuValueEntity()
+                {
+                    ProductId = product.Id,
+                    ProductOptionId = option.Id,
+                    ProductOptionValueId = optValue.Id
+                });
+            }
+
+            _productSkuRepo.Insert(productSku);
+
+            return Ok(_mapper.Map<ProductSkuDto>(productSku));
+        }
+
         [HttpPut("{id}/sku/{skuId}")]
         public IActionResult UpdateProductSku(string id, string skuId, [FromBody] CreateUpdateProductSkuDto value)
         {
             return Ok();
         }
-
-        [HttpDelete("{id}/sku/{skuId}")]
-        public IActionResult DeleteProductSku(string id, string skuId)
+        
+        [HttpDelete("sku/{skuId}")]
+        [Authorize(Roles = UserConstants.AdministratorRole)]
+        public IActionResult DeleteProductSku(string skuId)
         {
+            var productSku = _productSkuRepo
+                .GetQueryableNoTracking()
+                .FirstOrDefault(x => x.Id.Equals(skuId) && !x.IsDeleted)
+                    ?? throw new AppException("Sku is not exist");
+
+            _productSkuRepo.Delete(productSku);
             return Ok();
         }
 
-        [HttpGet("{id}/skus")]
         [AllowAnonymous]
+        [HttpGet("{id}/skus")]
         public IActionResult GetProductSkus(string id)
         {
             var productSkus = _productSkuRepo
@@ -95,9 +172,7 @@ namespace Social_v2.Clothes.Api.Controllers
         }
 
         [HttpPost]
-        //  [Authorize(Roles = "Customer")]
-        [AllowAnonymous]
-        
+        [Authorize(Roles = UserConstants.AdministratorRole)]
         public IActionResult CreateProduct([FromBody] CreateProductDto value)
         {
             var product = new ProductEntity(
@@ -106,7 +181,8 @@ namespace Social_v2.Clothes.Api.Controllers
               value.Handle,
               value.Description,
               value.Discountable,
-              value.Thumbnail);
+              value.Thumbnail,
+              value.CollectionId);
 
             if (_productRepo
                 .GetQueryableNoTracking()
@@ -170,14 +246,14 @@ namespace Social_v2.Clothes.Api.Controllers
         }
 
         [HttpPut("{id}")]
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = UserConstants.AdministratorRole)]
         public IActionResult EditProduct(int id, [FromBody] string value)
         {
             return Ok();
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = UserConstants.AdministratorRole)]
         public IActionResult Delete(string id)
         {
             return Ok();
