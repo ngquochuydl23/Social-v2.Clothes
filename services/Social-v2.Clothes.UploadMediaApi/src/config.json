@@ -2,7 +2,7 @@
   "port": 3854,
   "limitFileSize": 10000000,
   "useLocalStaticServe": true,
-  "serverUrl": "http://localhost:3854/",
+  "serverUrl": "/",
   "fileExtensionCheck": {
     "enabled": false,
     "extensionsAllowed": [

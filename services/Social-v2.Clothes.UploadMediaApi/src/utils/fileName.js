@@ -1,8 +1,17 @@
-const mime = require('mime');
-
-function generateFileName(file) {
-  return "social-v2" + '-' + Date.now()
+function createEncodeFileName(fileName) {
+  return Buffer.from(fileName).toString('base64')
 }
 
-module.exports = { generateFileName }
+function decodeFileParam(fileParam) {
+  return Buffer.from(fileParam, 'base64').toString('ascii')
+}
 
+function generateFileName(file) {
+  return "social-v2.clothes" + '-' + Date.now()
+}
+
+module.exports = {
+  generateFileName,
+  createEncodeFileName,
+  decodeFileParam
+}
