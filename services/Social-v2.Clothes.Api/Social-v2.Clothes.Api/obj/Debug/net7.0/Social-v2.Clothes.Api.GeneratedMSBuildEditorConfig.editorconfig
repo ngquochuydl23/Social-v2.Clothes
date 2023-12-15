@@ -9,19 +9,9 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Social_v2.Clothes.Api
 build_property.RootNamespace = Social_v2.Clothes.Api
-<<<<<<< HEAD
-build_property.ProjectDir = c:\Users\admin\Music\Social-v2.Clothes\services\Social-v2.Clothes.Api\Social-v2.Clothes.Api\
+build_property.ProjectDir = C:\Users\admin\Music\Social-v2.Clothes\services\Social-v2.Clothes.Api\Social-v2.Clothes.Api\
 build_property.RazorLangVersion = 7.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = c:\Users\admin\Music\Social-v2.Clothes\services\Social-v2.Clothes.Api\Social-v2.Clothes.Api
-=======
-build_property.ProjectDir = D:\ClothesWeb\Social-v2.Clothes\services\Social-v2.Clothes.Api\Social-v2.Clothes.Api\
-build_property.EnableComHosting = 
-build_property.EnableGeneratedComInterfaceComImportInterop = 
-build_property.RazorLangVersion = 7.0
-build_property.SupportLocalizedComponentNames = 
-build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = D:\ClothesWeb\Social-v2.Clothes\services\Social-v2.Clothes.Api\Social-v2.Clothes.Api
->>>>>>> 0fd627b0d53e47b5b99f97705322ccaa25d60e0d
+build_property.MSBuildProjectDirectory = C:\Users\admin\Music\Social-v2.Clothes\services\Social-v2.Clothes.Api\Social-v2.Clothes.Api
 build_property._RazorSourceGeneratorDebug = 

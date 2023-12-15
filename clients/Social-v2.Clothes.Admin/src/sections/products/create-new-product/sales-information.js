@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import ProductOptionItem from "./product-option-item";
 import CreateProductOptionDialog from "./create-product-option-dialog";
-
+import AddIcon from '@mui/icons-material/Add';
+import autoGenerateSkus from "src/utils/auto-generate-skus";
+import _ from "lodash";
+import ProductSkuItem from "./produc-sku-item";
 const { Typography, Box, Button, Stack, TextField, InputAdornment, FormControlLabel, Checkbox } = require("@mui/material");
 
 const SalesInformation = ({ onChangeSaleInfo }) => {
@@ -13,14 +16,23 @@ const SalesInformation = ({ onChangeSaleInfo }) => {
   const [singleInStock, setSingleInStock] = useState(0);
 
   useEffect(() => {
-    onChangeSaleInfo({
-      hasOptions: hasOptions,
-      single: {
-        price: singlePrice,
-        inStock: singleInStock
-      }
-    })
+    // onChangeSaleInfo({
+    //   hasOptions: hasOptions,
+    //   single: {
+    //     price: singlePrice,
+    //     inStock: singleInStock
+    //   }
+    // })
   }, [singlePrice, singleInStock])
+
+  useEffect(() => {
+    if (options.length > 0) {
+      onChangeSaleInfo({
+        hasOptions: hasOptions,
+        options
+      })
+    }
+  }, [options])
 
   return (
     <Box>
@@ -47,15 +59,23 @@ const SalesInformation = ({ onChangeSaleInfo }) => {
               variant="subtitle2">
               Product Options
             </Typography>
-            <Stack direction="column">
-              {_.map(options, (option) => {
-                return (<ProductOptionItem {...option} />)
+            <Stack direction="column" >
+              {_.map(options, (option, index) => {
+                return (
+                  <ProductOptionItem
+                    index={index}
+                    onDeleteOption={(idx) => {
+                      setOptions(options.filter((item, index) => index !== idx))
+                    }}
+                    {...option}
+                  />)
               })}
             </Stack>
             <Button
               fullWidth={false}
               onClick={() => setOpenDialog(true)}
               sx={{
+                mt: '20px',
                 width: '200px',
                 borderRadius: '4px',
                 height: '30px',
@@ -63,9 +83,27 @@ const SalesInformation = ({ onChangeSaleInfo }) => {
                 borderColor: '#606060',
                 color: '#606060'
               }}
+              startIcon={
+                <AddIcon />
+              }
               variant='outlined'>
               Add Product Option
             </Button>
+            <Typography
+              minWidth="150px"
+              fontSize="16px"
+              mt={"20px"}
+              marginRight="20px"
+              variant="subtitle2">
+              Product Skus From Options
+            </Typography>
+            <Stack direction="column" >
+              {_.map(autoGenerateSkus(options), (productSku) => {
+                return (
+                  <ProductSkuItem {...productSku}/>
+                )
+              })}
+            </Stack>
           </Stack>)
           : (<Box>
             <Stack
@@ -118,6 +156,9 @@ const SalesInformation = ({ onChangeSaleInfo }) => {
       </Box>
       <CreateProductOptionDialog
         open={openDialog}
+        onCreateOption={(option) => {
+          setOptions([...options, option]);
+        }}
         handleClose={() => setOpenDialog(false)} />
     </Box>
   )

@@ -8,6 +8,7 @@ import SelectCategories from 'src/sections/products/create-new-product/select-ca
 import { useState } from 'react';
 import PickProductThumbnail from 'src/sections/products/create-new-product/pick-product-thumbnail';
 import SalesInformation from 'src/sections/products/create-new-product/sales-information';
+import generateDashByText from 'src/utils/generate-dash-by-text';
 
 const collections = [
   {
@@ -33,9 +34,11 @@ const CreateNewProduct = () => {
       collectionId: null,
       categories: [],
       thumbnail: null,
+      options: []
     },
     onSubmit: values => {
       alert(JSON.stringify(values, null, 2));
+      console.log(values);
     },
   });
   return (
@@ -66,8 +69,8 @@ const CreateNewProduct = () => {
                     fullWidth
                     onChange={(e) => {
                       formik.handleChange(e);
-                      formik.setFieldValue('handle', e.target.value);
-                      setHandle(e.target.value);
+                      formik.setFieldValue('handle', generateDashByText(e.target.value));
+                      setHandle(generateDashByText(e.target.value));
                     }}
                     value={formik.values.title}
                     id="title"
@@ -101,7 +104,7 @@ const CreateNewProduct = () => {
                   required
                   fullWidth
                   multiline
-                  rows={4}
+                  minRows={4}
                   id="description"
                   label="Description"
                   onChange={formik.handleChange}
@@ -185,7 +188,11 @@ const CreateNewProduct = () => {
                 </Box>
                 <Divider sx={{ marginY: '20px' }} />
                 <SalesInformation
-                  onChangeSaleInfo={(value) => { }} />
+                  onChangeSaleInfo={(value) => {
+                    if (value.hasOptions) {
+                      formik.setFieldValue('options', value.options)
+                    }
+                  }} />
                 <Button
                   sx={{
                     borderRadius: '10px',

@@ -3,7 +3,7 @@ import { useState } from "react";
 const { Stack, Box, Typography, Button } = require("@mui/material")
 
 const PickProductThumbnail = ({ onReceiveThumbnail }) => {
-    const [thumbnail, setThumbnail] = useState('');
+    const [thumbnail, setThumbnail] = useState(null);
     return (
         <Stack
             direction="row"
@@ -12,7 +12,7 @@ const PickProductThumbnail = ({ onReceiveThumbnail }) => {
                 onChange={(event) => {
                     var file = event.target.files[0];
                     setThumbnail(file)
-                    onReceiveThumbnail(URL.createObjectURL(file))
+                    onReceiveThumbnail(file ? URL.createObjectURL(file) : null)
                 }}
                 style={{ display: 'none' }}
                 type="file"
@@ -43,7 +43,10 @@ const PickProductThumbnail = ({ onReceiveThumbnail }) => {
                     <Stack direction="row">
                         <Button
                             fullWidth={false}
-                            onClick={() => setThumbnail('')}
+                            onClick={() => {
+                                setThumbnail(null)
+                                onReceiveThumbnail(null)
+                            }}
                             sx={{
                                 color: 'red',
                                 borderColor: 'red',

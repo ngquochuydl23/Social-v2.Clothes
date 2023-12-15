@@ -1,83 +1,130 @@
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, InputAdornment, Stack, TextField, Typography } from "@mui/material";
-import { useState } from "react";
-import { Chips } from "primereact/chips";
+import { MuiChipsInput } from 'mui-chips-input'
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { useEffect, useState } from "react";
+import AlertDialog from "src/components/alert-dialog";
 
+const CreateProductOptionDialog = ({ open, handleClose, onCreateOption }) => {
+    const [openAlert, setOpenAlert] = useState(false);
+    const onClose = (event, reason) => {
+        if (reason && reason === "backdropClick" && (formik.values.title || formik.values.optionValues.length > 0)) {
+            setOpenAlert(true);
+            return;
+        }
+        handleClose();
+    }
 
-const CreateProductOptionDialog = ({ open, handleClose }) => {
-    const [option, setOption] = useState({
-        title: '',
-        optionValues: []
+    const formik = useFormik({
+        initialValues: {
+            title: '',
+            optionValues: []
+        },
+        onSubmit: value => {
+            handleClose();
+            onCreateOption(value);
+        },
+        validationSchema: Yup.object({
+            title: Yup.string()
+                .required("Please enter option title!"),
+            optionValues: Yup.array()
+                .of(Yup.string())
+                .min(2, "Enter at least two option values")
+                .required("Please enter option values!")
+        })
     });
+
+    useEffect(() => {
+        formik.resetForm();
+    }, [open])
 
     return (
         <Dialog
             maxWidth={'lg'}
             open={open}
-            onClose={handleClose}>
-            <DialogTitle>Optional sizes</DialogTitle>
-            <DialogContent>
-                <Stack
-                    marginTop={"10px"}
-                    direction="row"
-                    alignItems="center">
-                    <Typography
-                        minWidth="150px"
-                        fontSize="16px"
-                        marginRight="20px"
-                        variant="subtitle2">
-                        Price*
-                    </Typography>
-                    <TextField
-                        hiddenLabel
-                        id="outlined-start-adornment"
-                        sx={{
-                            width: '45ch',
-                            height: '40px',
-                        }}
-                        onChange={(e) => setSinglePrice(e.target.value)}
-                        InputProps={{
-                            borderRadius: '4px',
-                            startAdornment: <InputAdornment position="start">đ</InputAdornment>,
-                        }}
-                    />
-                </Stack>
-                <Stack
-                    marginTop="15px"
-                    direction="row"
-                    alignItems="center">
-                    <Typography
-                        minWidth="150px"
-                        fontSize="16px"
-                        marginRight="20px"
-                        variant="subtitle2">
-                        Option values*
-                    </Typography>
-                    <div
-                        className="card p-fluid">
-                        <Chips
-
-                            style={{
-                                borderRadius: '4px',
-                                borderColor: '#d3d3d3',
-                                borderWidth: 1,
+            disableBackdropClick
+            onClose={onClose}>
+            <form onSubmit={formik.handleSubmit}>
+                <DialogTitle>Add new option</DialogTitle>
+                <DialogContent>
+                    <Stack
+                        marginTop={"10px"}
+                        direction="row"
+                        alignItems="center">
+                        <Typography
+                            minWidth="150px"
+                            fontSize="16px"
+                            marginRight="20px"
+                            variant="subtitle2">
+                            Title*
+                        </Typography>
+                        <TextField
+                            id="title"
+                            placeholder="Enter option title"
+                            onBlur={formik.handleBlur}
+                            error={formik.errors.title && formik.touched.title}
+                            helperText={formik.errors.title}
+                            value={formik.values.title}
+                            onChange={formik.handleChange}
+                            hiddenLabel
+                            sx={{ width: '45ch', }}
+                        />
+                    </Stack>
+                    <Stack
+                        marginTop="15px"
+                        direction="row"
+                        alignItems="center">
+                        <Typography
+                            minWidth="150px"
+                            fontSize="16px"
+                            marginRight="20px"
+                            variant="subtitle2">
+                            Option values*
+                        </Typography>
+                        <MuiChipsInput
+                            id="optionValues"
+                            onBlur={formik.handleBlur}
+                            value={formik.values.optionValues}
+                            error={formik.errors.optionValues && formik.touched.optionValues}
+                            helperText={formik.errors.optionValues}
+                            onChange={(options) => {
+                                formik.setFieldValue('optionValues', options)
+                            }}
+                            placeholder="Enter option values"
+                            hiddenLabel
+                            sx={{
                                 width: '45ch',
                                 minHeight: '40px',
-                                '&:focus': {
-                                    border: '1px solid green'
-                                },
                             }}
-                            value={option.optionValues}
-                            onChange={(e) => setOption({
-                                ...option,
-                                optionValues: e.value
-                            })}
                         />
-                    </div>
-                </Stack>
-            </DialogContent>
-            <DialogActions>
-                <Button onClick={handleClose}>Close</Button>
-            </DialogActions>
+                    </Stack>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => {
+                        if (formik.values.title || formik.values.optionValues.length > 0) {
+                            setOpenAlert(true);
+                            return;
+                        }
+                        handleClose()
+                        formik.resetForm()
+                    }}>
+                        Close
+                    </Button>
+                    <Button type="submit">Add</Button>
+                </DialogActions>
+            </form>
+            <AlertDialog
+                title={"Discard changes?"}
+                leftTxt={"Cancel"}
+                rightTxt={"Discard"}
+                content={"Are you sure you want to discard changes? This action cannot be undone."}
+                open={openAlert}
+                onRightClick={() => {
+                    handleClose()
+                    formik.resetForm()
+                }}
+                onLeftClick={() => setOpenAlert(false)}
+                handleClose={() => setOpenAlert(false)} />
         </Dialog>
     )
 }

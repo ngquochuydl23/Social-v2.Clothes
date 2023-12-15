@@ -1,13 +1,12 @@
-const { Box, Stack, Typography, TextField, InputAdornment, Button } = require("@mui/material")
+const { Box, Button, Typography, Stack } = require("@mui/material")
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import AddIcon from '@mui/icons-material/Add';
 
-const ProductOptionItem = ({ index, title, optionValues, onDeleteOption }) => {
-    const getOptionValuesAsString = () => {
-        var nOtherElements = optionValues.length - 3
-        return optionValues.slice(0, 3).join(', ') + (nOtherElements > 0 ? ' + ' + nOtherElements + ' more' : '');
-    }
+const ProductSkuItem = ({
+    title,
+    price,
+    skuValues
+}) => {
     return (
         <Box my={'10px'}>
             <Stack
@@ -27,7 +26,6 @@ const ProductOptionItem = ({ index, title, optionValues, onDeleteOption }) => {
                     textAlign={'center'}
                     fontSize="16px"
                     variant="h4">
-                    {index + 1}
                 </Typography>
                 <Stack sx={{ display: 'flex', flex: 1 }}>
                     <Typography
@@ -42,9 +40,15 @@ const ProductOptionItem = ({ index, title, optionValues, onDeleteOption }) => {
                         fontSize="14px"
                         marginRight="20px"
                         variant="caption">
-                        {getOptionValuesAsString(optionValues)}
+                        {skuValues.map(item => item.value).join('/')}
                     </Typography>
                 </Stack>
+                <Typography
+                    fontSize="14px"
+                    marginRight="20px"
+                    variant="subtitle2">
+                    200 available
+                </Typography>
                 <Button
                     variant='outlined'
                     startIcon={<EditIcon />}
@@ -58,22 +62,9 @@ const ProductOptionItem = ({ index, title, optionValues, onDeleteOption }) => {
                     }}>
                     Edit
                 </Button>
-                <Button
-                    onClick={() => onDeleteOption(index)}
-                    variant='outlined'
-                    startIcon={<DeleteIcon />}
-                    sx={{
-                        height: '30px',
-                        borderRadius: '4px',
-                        borderColor: 'red',
-                        fontSize: '13px',
-                        color: 'red',
-                    }}>
-                    Delete
-                </Button>
             </Stack>
         </Box>
     )
 }
 
-export default ProductOptionItem;
+export default ProductSkuItem;
