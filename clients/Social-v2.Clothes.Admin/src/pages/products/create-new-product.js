@@ -1,15 +1,13 @@
 import Head from 'next/head';
 import { Box, Button, Container, Divider, FormControlLabel, Grid, MenuItem, Stack, Switch, TextField, Typography } from '@mui/material';
-import { SettingsNotifications } from 'src/sections/settings/settings-notifications';
-import { SettingsPassword } from 'src/sections/settings/settings-password';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
-import { SettingSectionItem } from 'src/sections/settings/setting-section-item';
 import _ from 'lodash';
-import { Form, Formik, useFormik } from 'formik';
+import { useFormik } from 'formik';
 import { Scrollbar } from 'src/components/scrollbar';
 import SelectCategories from 'src/sections/products/create-new-product/select-categories';
 import { useState } from 'react';
 import PickProductThumbnail from 'src/sections/products/create-new-product/pick-product-thumbnail';
+import SalesInformation from 'src/sections/products/create-new-product/sales-information';
 
 const collections = [
   {
@@ -186,11 +184,8 @@ const CreateNewProduct = () => {
                   </TextField>
                 </Box>
                 <Divider sx={{ marginY: '20px' }} />
-                <Box>
-                  <Typography variant='subtitle1'>Create product skus</Typography>
-                  <Typography variant='caption'>Add skus of this product.
-                    Offer your customers different options for price, color, format, size, shape, etc.</Typography>
-                </Box>
+                <SalesInformation
+                  onChangeSaleInfo={(value) => { }} />
                 <Button
                   sx={{
                     borderRadius: '10px',
