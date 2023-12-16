@@ -1,26 +1,14 @@
 import Head from 'next/head';
 import { Box, Button, Container, Divider, FormControlLabel, Grid, MenuItem, Stack, Switch, TextField, Typography } from '@mui/material';
-<<<<<<< HEAD
 import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
 import _ from 'lodash';
 import { useFormik } from 'formik';
-=======
-import { SettingsNotifications } from 'src/sections/settings/settings-notifications';
-import { SettingsPassword } from 'src/sections/settings/settings-password';
-import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
-import { SettingSectionItem } from 'src/sections/settings/setting-section-item';
-import _ from 'lodash';
-import { Form, Formik, useFormik } from 'formik';
->>>>>>> 1cc9f323600225d34c8d2b46560cc806fbbb51e6
 import { Scrollbar } from 'src/components/scrollbar';
 import SelectCategories from 'src/sections/products/create-new-product/select-categories';
 import { useState } from 'react';
 import PickProductThumbnail from 'src/sections/products/create-new-product/pick-product-thumbnail';
-<<<<<<< HEAD
 import SalesInformation from 'src/sections/products/create-new-product/sales-information';
 import generateDashByText from 'src/utils/generate-dash-by-text';
-=======
->>>>>>> 1cc9f323600225d34c8d2b46560cc806fbbb51e6
 
 const collections = [
   {
@@ -46,17 +34,11 @@ const CreateNewProduct = () => {
       collectionId: null,
       categories: [],
       thumbnail: null,
-<<<<<<< HEAD
       options: []
     },
     onSubmit: values => {
       alert(JSON.stringify(values, null, 2));
       console.log(values);
-=======
-    },
-    onSubmit: values => {
-      alert(JSON.stringify(values, null, 2));
->>>>>>> 1cc9f323600225d34c8d2b46560cc806fbbb51e6
     },
   });
   return (
@@ -87,13 +69,8 @@ const CreateNewProduct = () => {
                     fullWidth
                     onChange={(e) => {
                       formik.handleChange(e);
-<<<<<<< HEAD
                       formik.setFieldValue('handle', generateDashByText(e.target.value));
                       setHandle(generateDashByText(e.target.value));
-=======
-                      formik.setFieldValue('handle', e.target.value);
-                      setHandle(e.target.value);
->>>>>>> 1cc9f323600225d34c8d2b46560cc806fbbb51e6
                     }}
                     value={formik.values.title}
                     id="title"
@@ -127,11 +104,7 @@ const CreateNewProduct = () => {
                   required
                   fullWidth
                   multiline
-<<<<<<< HEAD
                   minRows={4}
-=======
-                  rows={4}
->>>>>>> 1cc9f323600225d34c8d2b46560cc806fbbb51e6
                   id="description"
                   label="Description"
                   onChange={formik.handleChange}
@@ -214,20 +187,12 @@ const CreateNewProduct = () => {
                   </TextField>
                 </Box>
                 <Divider sx={{ marginY: '20px' }} />
-<<<<<<< HEAD
                 <SalesInformation
                   onChangeSaleInfo={(value) => {
                     if (value.hasOptions) {
                       formik.setFieldValue('options', value.options)
                     }
                   }} />
-=======
-                <Box>
-                  <Typography variant='subtitle1'>Create product skus</Typography>
-                  <Typography variant='caption'>Add skus of this product.
-                    Offer your customers different options for price, color, format, size, shape, etc.</Typography>
-                </Box>
->>>>>>> 1cc9f323600225d34c8d2b46560cc806fbbb51e6
                 <Button
                   sx={{
                     borderRadius: '10px',
