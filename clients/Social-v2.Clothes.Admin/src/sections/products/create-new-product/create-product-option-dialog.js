@@ -110,7 +110,12 @@ const CreateProductOptionDialog = ({ open, handleClose, onCreateOption }) => {
                     }}>
                         Close
                     </Button>
-                    <Button type="submit">Add</Button>
+                    <Button
+                        disabled={
+                            (formik.errors.optionValues || formik.errors.title)
+                            || (formik.initialValues === formik.values)
+                        }
+                        type="submit">Add</Button>
                 </DialogActions>
             </form>
             <AlertDialog
@@ -125,7 +130,7 @@ const CreateProductOptionDialog = ({ open, handleClose, onCreateOption }) => {
                 }}
                 onLeftClick={() => setOpenAlert(false)}
                 handleClose={() => setOpenAlert(false)} />
-        </Dialog>
+        </Dialog >
     )
 }
 

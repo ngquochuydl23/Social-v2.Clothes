@@ -34,11 +34,11 @@ const CreateNewProduct = () => {
       collectionId: null,
       categories: [],
       thumbnail: null,
-      options: []
+      options: [],
+      productSkus: []
     },
     onSubmit: values => {
-      alert(JSON.stringify(values, null, 2));
-      console.log(values);
+      console.log(JSON.stringify(values, null));
     },
   });
   return (
@@ -58,6 +58,13 @@ const CreateNewProduct = () => {
                 Create new product
               </Typography>
               <form onSubmit={formik.handleSubmit}>
+                <Typography
+                  mt="22px"
+                  mb="40px"
+                  fontSize="20px"
+                  variant='h3'>
+                  {String("General information").toUpperCase()}
+                </Typography>
                 <PickProductThumbnail
                   onReceiveThumbnail={(thumbnail) => formik.setFieldValue('thumbnail', thumbnail)} />
                 <Stack
@@ -189,8 +196,10 @@ const CreateNewProduct = () => {
                 <Divider sx={{ marginY: '20px' }} />
                 <SalesInformation
                   onChangeSaleInfo={(value) => {
+                    console.log(value);
                     if (value.hasOptions) {
                       formik.setFieldValue('options', value.options)
+                      formik.setFieldValue('productSkus', value.productSkus);
                     }
                   }} />
                 <Button
