@@ -26,12 +26,22 @@ import SelectCategories from "src/sections/products/create-new-product/select-ca
 import { useState } from "react";
 import PickProductThumbnail from "src/sections/products/create-new-product/pick-product-thumbnail";
 
+const categories = [
+  {
+    value: "ao-polo",
+    label: "Áo Polo",
+  },
+  {
+    value: "quan-jean",
+    label: "Quần Jean",
+  },
+];
+
 const CreateNewProduct = () => {
   const [handle, setHandle] = useState("");
   const formik = useFormik({
     initialValues: {
       name: "",
-      subtitle: "",
       description: "",
       isActive: true,
       handle: "",
@@ -39,6 +49,7 @@ const CreateNewProduct = () => {
     },
     onSubmit: (values) => {
       alert(JSON.stringify(values, null, 2));
+      window.history.back();
     },
   });
   return (
@@ -61,17 +72,9 @@ const CreateNewProduct = () => {
                       formik.setFieldValue("handle", e.target.value);
                       setHandle(e.target.value);
                     }}
-                    value={formik.values.title}
-                    id="title"
+                    value={formik.values.name}
+                    id="name"
                     label="Title"
-                  />
-                  <TextField
-                    required
-                    fullWidth
-                    id="subtitle"
-                    label="Subtitle"
-                    onChange={formik.handleChange}
-                    value={formik.values.subtitle}
                   />
                 </Stack>
                 <Typography sx={{ marginY: "10px", width: "50%" }} variant="caption">
@@ -115,7 +118,7 @@ const CreateNewProduct = () => {
                   control={
                     <Switch
                       onChange={formik.handleChange}
-                      value={formik.values.isGiftCard}
+                      value={formik.values.isActive}
                       id="isGiftCard"
                       color="primary"
                     />
@@ -131,11 +134,33 @@ const CreateNewProduct = () => {
                   labelPlacement="start"
                 />
                 <Divider sx={{ marginY: "20px" }} />
-                <SelectCategories
-                  onReturnCategories={(categories) => {
-                    formik.setFieldValue("categories", categories);
+                <FormControl
+                  fullWidth
+                  sx={{
+                    width: "100%",
+                    justifyContent: "space-between",
+                    marginLeft: 0,
+                    marginTop: "20px",
                   }}
-                />
+                >
+                  <InputLabel id="demo-simple-select-label">Parent Category</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={formik.values.parentCategoryId}
+                    label="Parent Category"
+                    onChange={(e) => formik.setFieldValue("parentCategoryId", e.target.value)}
+                  >
+                    {categories.map((option) => (
+                      <MenuItem key={option.value} value={option.value}>
+                        {option.label}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                  <Typography variant="caption">
+                    Select parent category for one if available
+                  </Typography>
+                </FormControl>
                 <Divider sx={{ marginY: "20px" }} />
                 <Button
                   sx={{

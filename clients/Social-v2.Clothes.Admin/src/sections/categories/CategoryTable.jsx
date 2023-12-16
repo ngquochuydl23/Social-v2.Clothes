@@ -118,7 +118,7 @@ export const CategoryTable = (props) => {
                     <TableCell>
                       <Stack alignItems="center" direction="row" spacing={2}>
                         <Typography sx={{ fontWeight: "600" }} variant="subtitle2">
-                          {category.parentCategoryID == null ? category.name : '__' + category.name}
+                          {category.parentCategoryID == null ? category.name : "__" + category.name}
                         </Typography>
                       </Stack>
                     </TableCell>
