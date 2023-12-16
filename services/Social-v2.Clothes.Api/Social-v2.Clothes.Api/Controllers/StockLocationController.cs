@@ -1,20 +1,44 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Social_v2.Clothes.Api.Dtos.StockLocation;
+using Social_v2.Clothes.Api.Infrastructure.Entities.Stores;
+using Social_v2.Clothes.Api.Infrastructure.Repository;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Social_v2.Clothes.Api.Controllers
 {
+
     [Authorize]
-    [Route("api/[controller]")]
+    [Route ("api/[controller]")]
     [ApiController]
-    public class StockLocationController : ControllerBase
+    public class StockLocationController : BaseController
     {
-       
-        [HttpGet]
-        public IEnumerable<string> Get()
+        private readonly IRepository<StockLocationEntity> _locationRepo;
+        private readonly IMapper _mapper;
+
+        public StockLocationController(
+            IRepository<StockLocationEntity> locationRepo,
+            IHttpContextAccessor httpContextAccessor,
+            IMapper mapper) : base(httpContextAccessor)
         {
-            return new string[] { "value1", "value2" };
+            this._locationRepo = locationRepo;
+            this._mapper = mapper;
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public IActionResult Get()
+        {
+            var locations = _locationRepo
+              .GetQueryableNoTracking()
+              .Where(x => !x.IsDeleted)
+              .ToList();
+
+            var mappedLocations = _mapper.Map<List<AdminStockLocationDto>>(locations);
+
+            return Ok(mappedLocations);
         }
 
         // GET api/<StockLocationController>/5

@@ -145,7 +145,7 @@ namespace Social_v2.Clothes.Api.Controllers
         {
             return Ok();
         }
-        
+
         [HttpDelete("sku/{skuId}")]
         [Authorize(Roles = UserConstants.AdministratorRole)]
         public IActionResult DeleteProductSku(string skuId)
