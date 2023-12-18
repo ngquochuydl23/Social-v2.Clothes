@@ -56,7 +56,7 @@ namespace Social_v2.Clothes.Api.Controllers
 
 
         [HttpPut("{id}")]
-        public IActionResult UpdateInventoyy(string id, [FromBody] UpdateInventoryDto value)
+        public IActionResult UpdateInventory(string id, [FromBody] UpdateInventoryDto value)
         {
             return Ok();
         }

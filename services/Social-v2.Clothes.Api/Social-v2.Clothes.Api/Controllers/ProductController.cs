@@ -59,7 +59,7 @@ namespace Social_v2.Clothes.Api.Controllers
         }
 
         [HttpPost("{id}/option")]
-        [Authorize(Roles = UserConstants.AdministratorRole)]
+      //  [Authorize(Roles = UserConstants.AdministratorRole)]
         public IActionResult AddProductOption(string id, [FromBody] CreateOptionDto value)
         {
             var product = _productRepo
@@ -145,7 +145,7 @@ namespace Social_v2.Clothes.Api.Controllers
         {
             return Ok();
         }
-        
+
         [HttpDelete("sku/{skuId}")]
         [Authorize(Roles = UserConstants.AdministratorRole)]
         public IActionResult DeleteProductSku(string skuId)
@@ -172,7 +172,7 @@ namespace Social_v2.Clothes.Api.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = UserConstants.AdministratorRole)]
+       // [Authorize(Roles = UserConstants.AdministratorRole)]
         public IActionResult CreateProduct([FromBody] CreateProductDto value)
         {
             var product = new ProductEntity(

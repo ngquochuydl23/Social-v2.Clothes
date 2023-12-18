@@ -196,7 +196,7 @@ const CreateNewProduct = () => {
                 <Divider sx={{ marginY: '20px' }} />
                 <SalesInformation
                   onChangeSaleInfo={(value) => {
-                    console.log(value);
+
                     if (value.hasOptions) {
                       formik.setFieldValue('options', value.options)
                       formik.setFieldValue('productSkus', value.productSkus);

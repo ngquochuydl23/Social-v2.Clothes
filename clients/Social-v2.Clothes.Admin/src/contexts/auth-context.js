@@ -84,8 +84,8 @@ export const AuthProvider = (props) => {
       const user = {
         id: '5e86809283e28b96d2d38537',
         avatar: '/assets/avatars/avatar-anika-visser.png',
-        name: 'Anika Visser',
-        email: 'anika.visser@devias.io'
+        name: 'Nguyễn Quốc Huy',
+        email: 'nguyenquochuydl123@gmail.com'
       };
 
       dispatch({
@@ -127,8 +127,8 @@ export const AuthProvider = (props) => {
     });
   };
 
-  const signIn = async (email, password) => {
-    if (email !== 'demo@devias.io' || password !== 'Password123!') {
+  const signIn = async (phoneNumber, password) => {
+    if (phoneNumber !== '0868684961' || password !== '123!@#') {
       throw new Error('Please check your email and password');
     }
 

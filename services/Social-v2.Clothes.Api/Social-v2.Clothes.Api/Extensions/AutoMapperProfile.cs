@@ -2,6 +2,7 @@
 using Social_v2.Clothes.Api.Dtos;
 using Social_v2.Clothes.Api.Dtos.Category;
 using Social_v2.Clothes.Api.Dtos.Collection;
+using Social_v2.Clothes.Api.Dtos.Customer;
 using Social_v2.Clothes.Api.Dtos.DeliveryAddress;
 using Social_v2.Clothes.Api.Dtos.Product;
 using Social_v2.Clothes.Api.Dtos.Product.SkuValue;
@@ -34,6 +35,8 @@ namespace Social_v2.Clothes.Api.Extensions
             CreateMap<WishlistEntity, WishlistDto>();
             CreateMap<CategoryEntity, CategoryDto>();
             CreateMap<CollectionEntity, CollectionDto>();
+            CreateMap<UserEntity, CustomerDto>(); 
+            CreateMap<UserEntity, CustomerDetailDto>();
         }
     }
 }

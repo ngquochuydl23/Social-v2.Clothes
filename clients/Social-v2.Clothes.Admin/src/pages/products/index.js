@@ -24,55 +24,11 @@ import { ProductTable } from 'src/sections/products/product-table';
 
 const songs = [
   {
-    id: '5e887ac47eed253091be10cb',
+    id: 'jeans-basics-dang-regular-straight',
     name: 'Jeans Basics dáng Regular Straight',
     thumbnail: 'https://media2.coolmate.me/cdn-cgi/image/quality=80,format=auto/uploads/November2023/23CMCW.JE003.11_52.jpg',
     collection: 'Winter 2023',
-    createdAt: '2019-04-11T10:20:30Z'
-  },
-  {
-    id: '5e887ac47eed253091be10cb',
-    name: 'Jeans Basics dáng Regular Straight',
-    thumbnail: 'https://media2.coolmate.me/cdn-cgi/image/quality=80,format=auto/uploads/November2023/23CMCW.JE003.11_52.jpg',
-    listenerCount: 2300000,
-    duration: 243000,
-    collection: 'Winter 2023',
-    createdAt: '2019-04-11T10:20:30Z'
-  },
-  {
-    id: '5e887ac47eed253091be10cb',
-    name: 'Jeans Basics dáng Regular Straight',
-    thumbnail: 'https://media2.coolmate.me/cdn-cgi/image/quality=80,format=auto/uploads/November2023/23CMCW.JE003.11_52.jpg',
-    listenerCount: 2300000,
-    duration: 243000,
-    collection: 'Winter 2023',
-    createdAt: '2019-04-11T10:20:30Z'
-  },
-  {
-    id: '5e887ac47eed253091be10cb',
-    name: 'Jeans Basics dáng Regular Straight',
-    thumbnail: 'https://media2.coolmate.me/cdn-cgi/image/quality=80,format=auto/uploads/November2023/23CMCW.JE003.11_52.jpg',
-    listenerCount: 2300000,
-    duration: 243000,
-    collection: 'Winter 2023',
-    createdAt: '2019-04-11T10:20:30Z'
-  },
-  {
-    id: '5e887ac47eed253091be10cb',
-    name: 'Jeans Basics dáng Regular Straight',
-    thumbnail: 'https://media2.coolmate.me/cdn-cgi/image/quality=80,format=auto/uploads/November2023/23CMCW.JE003.11_52.jpg',
-    listenerCount: 2300000,
-    duration: 243000,
-    collection: 'Winter 2023',
-    createdAt: '2019-04-11T10:20:30Z'
-  },
-  {
-    id: '5e887ac47eed253091be10cb',
-    name: 'Jeans Basics dáng Regular Straight',
-    thumbnail: 'https://media2.coolmate.me/cdn-cgi/image/quality=80,format=auto/uploads/November2023/23CMCW.JE003.11_52.jpg',
-    listenerCount: 2300000,
-    duration: 243000,
-    collection: 'Winter 2023',
+    status: 'Published',
     createdAt: '2019-04-11T10:20:30Z'
   }
 ];
@@ -82,7 +38,7 @@ const Page = () => (
   <>
     <Head>
       <title>
-        Settings | Devias Kit
+        Products
       </title>
     </Head>
     <Box

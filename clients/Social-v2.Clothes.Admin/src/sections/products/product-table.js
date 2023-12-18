@@ -3,6 +3,7 @@ import {
   Avatar,
   Box,
   Button,
+  Popover,
   Stack,
   Table,
   TableBody,
@@ -19,6 +20,8 @@ import moment from 'moment/moment';
 import { Filter } from '@mui/icons-material';
 import TuneIcon from '@mui/icons-material/Tune';
 import AddIcon from '@mui/icons-material/Add';
+import Link from 'next/link'
+import { useState } from 'react';
 
 export const ProductTable = (props) => {
   const {
@@ -35,7 +38,14 @@ export const ProductTable = (props) => {
     selected = []
   } = props;
 
+
+
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const id = open ? 'simple-popover' : undefined;
+
   return (
+
     <Stack>
       <div style={{
         display: 'flex',
@@ -51,12 +61,45 @@ export const ProductTable = (props) => {
               borderColor: '#d9d9d9',
               color: '#696969'
             }}
+            onClick={(event) => setAnchorEl(event.currentTarget)}
             size="medium"
             variant="outlined"
             startIcon={<TuneIcon />}
             fullWidth={false}>
             Filter
           </Button>
+          <Popover
+            id={id}
+            open={open}
+            anchorEl={anchorEl}
+            onClose={() => setAnchorEl(null)}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left',
+            }}
+            PaperProps={{ sx: { width: '250px', padding: '10px' } }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'left',
+            }}>
+            <Stack
+              sx={{
+                width: '100%',
+                backgroundColor: 'white'
+              }}>
+              abc
+              <Button
+                sx={{
+                  fontSize: '14px',
+                  height: '30px',
+                  borderRadius: '4px',
+                }}
+                variant="contained"
+                fullWidth={false}>
+                Apply
+              </Button>
+            </Stack>
+          </Popover>
           <Button
             sx={{
               marginLeft: '10px',
@@ -98,6 +141,9 @@ export const ProductTable = (props) => {
                   Collection
                 </TableCell>
                 <TableCell>
+                  Status
+                </TableCell>
+                <TableCell>
                   Inventory
                 </TableCell>
               </TableRow>
@@ -106,8 +152,12 @@ export const ProductTable = (props) => {
               {products.map((product, index) => {
                 const isSelected = selected.includes(product.id);
                 return (
+
                   <TableRow
                     hover
+                    component={Link}
+                    href={"/products/" + product.id}
+                    sx={{ textDecoration: 'none' }}
                     key={product.id}
                     selected={isSelected}>
                     <TableCell padding="checkbox">
@@ -133,16 +183,21 @@ export const ProductTable = (props) => {
                       {product.collection ? product.collection : `-`}
                     </TableCell>
                     <TableCell>
+                      {product.collection ? product.status : `-`}
+                    </TableCell>
+                    <TableCell>
                       {product.listenerCount ? millify(product.listenerCount) : `-`}
                     </TableCell>
+
                   </TableRow>
+
                 );
               })}
             </TableBody>
           </Table>
         </Box>
       </Scrollbar>
-    </Stack>
+    </Stack >
   );
 };
 

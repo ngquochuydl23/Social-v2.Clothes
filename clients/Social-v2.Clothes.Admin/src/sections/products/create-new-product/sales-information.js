@@ -36,9 +36,7 @@ const SalesInformation = ({ onChangeSaleInfo }) => {
         productSkus
       })
     }
-  }, [options])
-
-  console.log(productSkus);
+  }, [options, productSkus])
 
   return (
     <Box>
@@ -137,10 +135,17 @@ const SalesInformation = ({ onChangeSaleInfo }) => {
               </Stack>
             }
             <Stack direction="column" >
-              {options.length > 0 && _.map(productSkus, (productSku) => {
+              {options.length > 0 && _.map(productSkus, (productSku, index) => {
                 return (
                   <ProductSkuItem
                     {...productSku}
+                    onEdited={(newProductSku) => {
+
+                      let copySkus = [...productSkus];
+                      copySkus[index] = newProductSku
+                      console.log(copySkus[index]);
+                      setProductSkus(copySkus);
+                    }}
                   />
                 )
               })}
@@ -207,8 +212,6 @@ const SalesInformation = ({ onChangeSaleInfo }) => {
         onApply={(value) => {
           if (!value.price && !value.stock)
             return;
-
-          //setProductSkus()
 
           setProductSkus(_.map(productSkus, (item) => {
             item.price = value.price || item.price

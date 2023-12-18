@@ -1,4 +1,4 @@
-import { Box, Button, Typography, Stack } from "@mui/material"
+import { Box, Button, Typography, Stack, Divider } from "@mui/material"
 import EditIcon from '@mui/icons-material/Edit';
 import EditProductSkuDialog from './edit-product-sku-dialog';
 import { useEffect, useState } from 'react';
@@ -9,12 +9,14 @@ const ProductSkuItem = ({
     price,
     stock,
     skuValues,
+    proSkuMedias,
     onEdited
 }) => {
     const [productSku, setProductSku] = useState({
         title: title,
         price: price,
         skuValues: skuValues,
+        proSkuMedias: proSkuMedias || [],
         stock: stock
     })
     const [open, setOpen] = useState(false);
@@ -24,9 +26,10 @@ const ProductSkuItem = ({
             title: title,
             price: price,
             skuValues: skuValues,
+            proSkuMedias: proSkuMedias || [],
             stock: stock
         })
-    }, [title, price, stock, skuValues])
+    }, [title, price, stock, skuValues, proSkuMedias])
 
     return (
         <Box my={'10px'}>
@@ -97,6 +100,10 @@ const ProductSkuItem = ({
             <EditProductSkuDialog
                 open={open}
                 onProductEdited={(newSku) => {
+                    onEdited({
+                        ...productSku,
+                        ...newSku
+                    })
                     setProductSku({
                         ...productSku,
                         ...newSku
@@ -105,7 +112,34 @@ const ProductSkuItem = ({
                 productSku={productSku}
                 handleClose={() => setOpen(false)}
             />
-        </Box>
+            {productSku.proSkuMedias.length > 0 &&
+                <Stack
+                    spacing="10px"
+                    direction="row"
+                    sx={{
+                        marginLeft: '60px',
+                        marginTop: '20px'
+                    }}>
+                    {_.map(proSkuMedias, (productSkuMedia) => {
+                        return (
+                            <Box
+                                overflow="hidden"
+                                borderRadius="4px"
+                                width="100px"
+                                height="100px">
+                                <img
+                                    src={URL.createObjectURL(productSkuMedia.localFile)}
+                                    width="100%"
+                                    height="100%" />
+                            </Box>
+                        )
+                    })}
+                </Stack>}
+            <Divider sx={{
+                marginLeft: '60px',
+                marginTop: '20px'
+            }} />
+        </Box >
     )
 }
 

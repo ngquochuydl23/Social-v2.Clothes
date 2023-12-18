@@ -46,7 +46,7 @@ namespace Social_v2.Clothes.Api.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = UserConstants.AdministratorRole)]
+       // [Authorize(Roles = UserConstants.AdministratorRole)]
         public IActionResult CreateCategory([FromBody] CreateCategoryDto value)
         {
             var category = _categoryRepo
