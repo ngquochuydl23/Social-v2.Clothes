@@ -44,7 +44,7 @@ const Profile = () => {
 
   // date credentials for date of birth
   const date = new Date(dob);
-  const defaultValue = date.toISOString().substr(0, 10);
+  const defaultValue = date
 
   const handleUpdateUserAccount = (data) => {
     data.avatar = Object.keys(photo)?.length ? photo : avatar;

@@ -11,11 +11,6 @@ const Profile = () => {
 
   const items = [
     {
-      name: "Dashboard",
-      icon: DashboardIcon,
-      link: "/dashboard",
-    },
-    {
       name: "My Profile",
       icon: ProfileIcon,
       link: "/my-profile",

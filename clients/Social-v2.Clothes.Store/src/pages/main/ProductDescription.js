@@ -12,6 +12,10 @@ import { useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { useUpdateUserMutation } from "../../features/auth/authApi";
 import { toast } from "react-hot-toast";
+import Stack from '@mui/material/Stack';
+import { Typography } from "@mui/material";
+const { format } = require('number-currency-format');
+
 
 const ProductDescription = () => {
   const { pid } = useParams();
@@ -30,9 +34,77 @@ const ProductDescription = () => {
     subcategory,
     brand,
     store,
-    tags,
-    review,
-  } = productData?.data || {};
+    options,
+    reviews,
+  } = {
+    title: `Nike Air Force 1 '07`,
+    description: `The radiance lives on in the Nike Air Force 1 '07, the basketball original that puts a fresh spin on what you know best: durably stitched overlays, clean finishes and the perfect amount of flash to make you shine.\n\nColour Shown: White/White\nStyle: CW2288-111`,
+    thumbnail: 'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/b7d9211c-26e7-431a-ac24-b0540fb3c00f/air-force-1-07-shoes-WrLlWX.png',
+    price: 2929000,
+    options: [
+      {
+        "title": "Color",
+        "optionValues": [
+          "White",
+          "Black"
+        ]
+      },
+      {
+        "title": "Size",
+        "optionValues": [
+          "35",
+          "36",
+          "37",
+          "38",
+          "39",
+          "40",
+          "41",
+          "42"
+        ]
+      }
+    ],
+    reviews: [{
+
+      id: 1,
+      reviewer: {
+        avatar: 'https://avatars.githubusercontent.com/u/36536025?v=4',
+        fullName: 'Nguyễn Quốc Huy',
+       
+      },
+      createAt: '2019-04-11T10:20:30Z',
+      description: 'Very nice feeling sweater. I like it better than a regular hoody because it is tailored to be a slimmer fit. Perfect for going out when you want to stay comfy. The head opening is a little tight which makes it a little.'
+    },{
+
+      id: 1,
+      reviewer: {
+        avatar: 'https://avatars.githubusercontent.com/u/36536025?v=4',
+        fullName: 'Nguyễn Quốc Huy',
+       
+      },
+      createAt: '2019-04-11T10:20:30Z',
+      description: 'Very nice feeling sweater. I like it better than a regular hoody because it is tailored to be a slimmer fit. Perfect for going out when you want to stay comfy. The head opening is a little tight which makes it a little.'
+    },{
+
+      id: 1,
+      reviewer: {
+        avatar: 'https://avatars.githubusercontent.com/u/36536025?v=4',
+        fullName: 'Nguyễn Quốc Huy',
+       
+      },
+      createAt: '2019-04-11T10:20:30Z',
+      description: 'Very nice feeling sweater. I like it better than a regular hoody because it is tailored to be a slimmer fit. Perfect for going out when you want to stay comfy. The head opening is a little tight which makes it a little.'
+    },{
+
+      id: 1,
+      reviewer: {
+        avatar: 'https://avatars.githubusercontent.com/u/36536025?v=4',
+        fullName: 'Nguyễn Quốc Huy',
+       
+      },
+      createAt: '2019-04-11T10:20:30Z',
+      description: 'Very nice feeling sweater. I like it better than a regular hoody because it is tailored to be a slimmer fit. Perfect for going out when you want to stay comfy. The head opening is a little tight which makes it a little.'
+    }]
+  };
 
   const [addProductReview, { isLoading: isReviewLoading }] =
     useUpdateProductMutation();
@@ -79,8 +151,8 @@ const ProductDescription = () => {
               <LazyLoadingImage
                 height={"401"}
                 width={"640"}
-                src={thumbnail?.url}
-                alt={thumbnail?.public_id}
+                src={thumbnail}
+                alt={thumbnail}
                 className={"max-w-full h-full w-full object-cover rounded-2xl"}
               />
               <div className="grid grid-cols-3 gap-4">
@@ -108,7 +180,7 @@ const ProductDescription = () => {
                   <div className="">
                     <div className="flex items-center border-2 border-green-500 rounded-lg py-1 px-2 md:py-1.5 md:px-3 text-lg font-semibold">
                       <span className="text-green-500 !leading-none">
-                        ৳{price}
+                        {format(price, { currency: 'đ', thumbnail: ',' })}
                       </span>
                     </div>
                   </div>
@@ -132,10 +204,10 @@ const ProductDescription = () => {
                         ></path>
                       </svg>
                       <div className="ml-1.5 flex">
-                        <span>N/A</span>
+                        <span>{4.5}</span>
                         <span className="block mx-2">·</span>
                         <span className="text-slate-600 underline">
-                          {review?.length} reviews
+                          {142} reviews
                         </span>
                       </div>
                     </a>
@@ -157,7 +229,7 @@ const ProductDescription = () => {
                         ></path>
                       </svg>
                       <span className="ml-1 leading-none text-black">
-                        {subcategory?.title}
+                        New in
                       </span>
                     </div>
                   </div>
@@ -166,13 +238,26 @@ const ProductDescription = () => {
 
               {/* product meta tags */}
               <div className="flex flex-wrap gap-y-2">
-                {tags?.map((tag, index) => (
-                  <span
-                    key={index}
-                    className="bg-cyan-100 text-cyan-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded border border-cyan-400"
-                  >
-                    #{tag}
-                  </span>
+                {options?.map(({ title }, index) => (
+                  <Stack
+                    sx={{ width: '100%' }}
+                    direction="column">
+                    <Stack direction="row">
+                      <Typography
+                        fontWeight="500"
+                        fontSize="16px"
+                        variant="subtitle2">
+                        {title}:
+                      </Typography>
+                      <Typography
+                        sx={{ ml: '5px' }}
+                        fontWeight="600"
+                        fontSize="16px"
+                        variant="subtitle2">
+                        Black
+                      </Typography>
+                    </Stack>
+                  </Stack>
                 ))}
               </div>
 
@@ -289,9 +374,8 @@ const ProductDescription = () => {
                       <Disclosure.Button className="flex items-center justify-between w-full px-4 py-2 font-medium text-left bg-slate-100/80 hover:bg-slate-200/60 rounded-lg focus:outline-none focus-visible:ring focus-visible:ring-slate-500 focus-visible:ring-opacity-75 ">
                         <span>Description</span>
                         <ChevronUpIcon
-                          className={`${
-                            open ? "rotate-180 transform" : ""
-                          } h-5 w-5 text-slate-500`}
+                          className={`${open ? "rotate-180 transform" : ""
+                            } h-5 w-5 text-slate-500`}
                         />
                       </Disclosure.Button>
                       <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm text-gray-500">
@@ -308,9 +392,8 @@ const ProductDescription = () => {
                       <Disclosure.Button className="flex items-center justify-between w-full px-4 py-2 font-medium text-left bg-slate-100/80 hover:bg-slate-200/60 rounded-lg focus:outline-none focus-visible:ring focus-visible:ring-slate-500 focus-visible:ring-opacity-75 ">
                         <span>Subcategory</span>
                         <ChevronUpIcon
-                          className={`${
-                            open ? "rotate-180 transform" : ""
-                          } h-5 w-5 text-slate-500`}
+                          className={`${open ? "rotate-180 transform" : ""
+                            } h-5 w-5 text-slate-500`}
                         />
                       </Disclosure.Button>
                       <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm text-gray-500">
@@ -350,14 +433,14 @@ const ProductDescription = () => {
                             </p>
                           </div>
                           <div className="flex flex-wrap ml-4">
-                            {subcategory?.tags?.map((tag, index) => (
+                            {/* {subcategory?.tags?.map((tag, index) => (
                               <span
                                 key={index}
                                 className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded border border-blue-400"
                               >
                                 {tag}
                               </span>
-                            ))}
+                            ))} */}
                           </div>
                         </div>
                       </Disclosure.Panel>
@@ -372,9 +455,8 @@ const ProductDescription = () => {
                       <Disclosure.Button className="flex items-center justify-between w-full px-4 py-2 font-medium text-left bg-slate-100/80 hover:bg-slate-200/60 rounded-lg focus:outline-none focus-visible:ring focus-visible:ring-slate-500 focus-visible:ring-opacity-75 ">
                         <span>Brand</span>
                         <ChevronUpIcon
-                          className={`${
-                            open ? "rotate-180 transform" : ""
-                          } h-5 w-5 text-slate-500`}
+                          className={`${open ? "rotate-180 transform" : ""
+                            } h-5 w-5 text-slate-500`}
                         />
                       </Disclosure.Button>
                       <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm text-gray-500">
@@ -426,9 +508,8 @@ const ProductDescription = () => {
                       <Disclosure.Button className="flex items-center justify-between w-full px-4 py-2 font-medium text-left bg-slate-100/80 hover:bg-slate-200/60 rounded-lg focus:outline-none focus-visible:ring focus-visible:ring-slate-500 focus-visible:ring-opacity-75 ">
                         <span>Store</span>
                         <ChevronUpIcon
-                          className={`${
-                            open ? "rotate-180 transform" : ""
-                          } h-5 w-5 text-slate-500`}
+                          className={`${open ? "rotate-180 transform" : ""
+                            } h-5 w-5 text-slate-500`}
                         />
                       </Disclosure.Button>
                       <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm text-gray-500">
@@ -468,14 +549,14 @@ const ProductDescription = () => {
                             </p>
                           </div>
                           <div className="flex flex-wrap ml-4">
-                            {store?.tags?.map((tag, index) => (
+                            {/* {store?.tags?.map((tag, index) => (
                               <span
                                 key={index}
                                 className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded border border-blue-400"
                               >
                                 {tag}
                               </span>
-                            ))}
+                            ))} */}
                           </div>
                         </div>
                       </Disclosure.Panel>
@@ -770,13 +851,13 @@ const ProductDescription = () => {
                   clipRule="evenodd"
                 ></path>
               </svg>
-              <span className="ml-1.5"> N/A · {review?.length} Reviews</span>
+              <span className="ml-1.5"> 4,87 · {142} Reviews</span>
             </h2>
-            <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8">
-              {review?.map((rev) => (
+            <div className="grid lg:grid-cols-2 md:grid-cols-2 grid-cols-2 gap-8">
+              {reviews?.map((rev) => (
                 <div
-                  key={rev?._id}
-                  className="flex flex-col shadow p-6 rounded-2xl h-fit mb-4"
+                  key={rev?.id}
+                  className="flex flex-col shadow p-6 rounded-2xl h-fit mb-6"
                   data-nc-id="ReviewItem"
                 >
                   <div className="flex space-x-4">
@@ -784,8 +865,8 @@ const ProductDescription = () => {
                       <div className="wil-avatar relative flex-shrink-0 inline-flex items-center justify-center text-neutral-100 uppercase font-semibold shadow-inner rounded-full h-10 w-10 text-lg ring-1 ring-white">
                         <LazyLoadingImage
                           className="absolute inset-0 w-10 h-10 object-cover rounded-full"
-                          src={rev?.reviewer?.avatar?.url}
-                          alt={rev?.reviewer?.avatar?.public_id}
+                          src={rev?.reviewer?.avatar}
+                          alt={rev?.reviewer?.avatar}
                           height={"40"}
                           width={"40"}
                         />
@@ -795,10 +876,10 @@ const ProductDescription = () => {
                     <div className="flex-1 flex justify-between">
                       <div className="text-sm sm:text-base">
                         <span className="block font-semibold">
-                          {rev?.reviewer?.name}
+                          {rev?.reviewer?.fullName}
                         </span>
                         <span className="block mt-0.5 text-slate-500 text-sm">
-                          {rev?.createdAt?.split("T")[0]}
+                          {rev?.createAt?.split("T")[0]}
                         </span>
                       </div>
                     </div>
@@ -857,10 +938,9 @@ const ProductDescription = () => {
                         required: true,
                         maxLength: 500,
                       })}
-                      className={`w-full form-textarea rounded-md ${
-                        watch("review")?.length > 500 &&
+                      className={`w-full form-textarea rounded-md ${watch("review")?.length > 500 &&
                         "focus:border-red-500 focus:ring-1 focus:ring-red-500"
-                      }`}
+                        }`}
                       rows="3"
                     />
                     {isReviewLoading ? (

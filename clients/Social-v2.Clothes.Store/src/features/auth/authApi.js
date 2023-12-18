@@ -24,7 +24,11 @@ const authApi = apiSlice.injectEndpoints({
       providesTags: ["User"],
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
-          const userData = await queryFulfilled;
+          //const userData = await queryFulfilled;
+
+          const userData = {
+            avatar: "https://avatars.githubusercontent.com/u/36536025?v=4"
+          }
 
           if (Object.keys(userData.data).length > 0) {
             localStorage.setItem("accessToken", userData.data.accessToken);

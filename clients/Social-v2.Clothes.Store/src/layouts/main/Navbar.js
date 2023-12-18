@@ -4,13 +4,14 @@ import Dropdown from "../../components/main/Dropdown";
 import Profile from "../../components/main/Profile";
 import LazyLoadingImage from "../../components/LazyLoadingImage";
 import ProductCart from "../../components/main/ProductCart";
+import CategoryDropdown from "../../components/main/category-dropdown";
 
 export default function NavBar() {
   const [navbar, setNavbar] = useState(false);
 
   return (
     <nav className="w-full bg-white">
-      <div className="justify-between px-4 mx-auto lg:max-w-7xl md:items-center md:flex md:px-8">
+      <div className="justify-between mx-auto lg:max-w-7xl md:items-center md:flex">
         <div>
           <div className="flex items-center justify-between py-4 md:py-5 md:block">
             <div className="flex items-center gap-x-4">
@@ -24,7 +25,8 @@ export default function NavBar() {
                 />
               </Link>
               <span className="hidden md:block h-10 border-l border-slate-200" />
-              <Dropdown />
+              <CategoryDropdown />
+              {/* <Dropdown /> */}
             </div>
             <div className="md:hidden">
               <button
