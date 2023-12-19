@@ -3,6 +3,12 @@ import {
   Avatar,
   Box,
   Button,
+  Drawer,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Popover,
+  Select,
   Stack,
   Table,
   TableBody,
@@ -10,15 +16,15 @@ import {
   TableHead,
   TablePagination,
   TableRow,
+  TextField,
   Typography,
 } from "@mui/material";
 import { Scrollbar } from "src/components/scrollbar";
 import millify from "millify";
-import format from "format-duration";
-import moment from "moment/moment";
-import { Filter } from "@mui/icons-material";
-import TuneIcon from "@mui/icons-material/Tune";
-import AddIcon from "@mui/icons-material/Add";
+import { useState } from "react";
+import LocationCityIcon from '@mui/icons-material/LocationCity';
+import CloseIcon from '@mui/icons-material/Close';
+import AdjustInventoryForm from "./adjust-inventory-form";
 
 export const InventoryTable = (props) => {
   const {
@@ -26,7 +32,7 @@ export const InventoryTable = (props) => {
     inventories = [],
     onDeselectAll,
     onDeselectOne,
-    onPageChange = () => {},
+    onPageChange = () => { },
     onRowsPerPageChange,
     onSelectAll,
     onSelectOne,
@@ -35,6 +41,12 @@ export const InventoryTable = (props) => {
     selected = [],
   } = props;
 
+  const [age, setAge] = useState('');
+  const [inventoryDrawer, setInventoryDrawer] = useState(null);
+
+  const handleChange = (event) => {
+    setAge(event.target.value);
+  };
   return (
     <Stack>
       <div
@@ -49,7 +61,44 @@ export const InventoryTable = (props) => {
         {" "}
       </div>
       <Scrollbar>
-        <Box sx={{ minWidth: 800 }}>
+        <Box
+          sx={{
+            flex: 1,
+            display: 'flex',
+            flexDirection: 'column'
+          }}>
+          <Stack
+            mb="20px"
+            height="50px"
+            alignItems="center"
+            justifyContent="space-between"
+            direction="row">
+            <Typography variant="h5">Inventory list</Typography>
+            <Stack direction="row">
+              <FormControl>
+                <Select
+                  sx={{
+                    mx: '10px',
+                    height: '40px',
+                    width: '200px',
+                    borderRadius: '4px'
+                  }}
+                  startAdornment={
+                    <Box mr="20px" justifyContent="center" alignItems="center">
+                      <LocationCityIcon />
+                    </Box>
+                  }
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={age}
+                  onChange={handleChange}>
+                  <MenuItem value={10}>Phú Nhuận</MenuItem>
+                  <MenuItem value={20}>Quận 1</MenuItem>
+                  <MenuItem value={30}>Gò Vấp</MenuItem>
+                </Select>
+              </FormControl>
+            </Stack>
+          </Stack>
           <Table>
             <TableHead>
               <TableRow>
@@ -65,9 +114,12 @@ export const InventoryTable = (props) => {
             <TableBody>
               {inventories.map((inventory, index) => {
                 const isSelected = selected.includes(inventory.id);
-                console.log(inventory.variants);
                 return (
-                  <TableRow hover key={inventory.id} selected={isSelected}>
+                  <TableRow
+                    onClick={() => setInventoryDrawer(inventory)}
+                    hover
+                    key={inventory.id}
+                    selected={isSelected}>
                     <TableCell padding="checkbox">{index + 1}</TableCell>
                     <TableCell>
                       <Stack alignItems="center" direction="row" spacing={2}>
@@ -97,7 +149,34 @@ export const InventoryTable = (props) => {
           </Table>
         </Box>
       </Scrollbar>
-    </Stack>
+      <Drawer
+        anchor="right"
+        sx={{ maxWidth: '200px' }}
+        open={inventoryDrawer !== null}
+        onClose={() => setInventoryDrawer(null)}>
+        <Stack
+          sx={{ mt: '10px' }}
+          alignItems="center"
+          direction="row">
+          <Button
+            onClick={() => setInventoryDrawer(null)}
+            sx={{ color: 'black' }}
+            variant='text'>
+            <CloseIcon />
+          </Button>
+          <Typography
+            fontSize="20px"
+            variant='h4'>
+            Adjust availablity
+          </Typography>
+        </Stack>
+        <AdjustInventoryForm
+          onSave={() => {
+            setInventoryDrawer(null)
+          }}
+          inventory={inventoryDrawer} />
+      </Drawer>
+    </Stack >
   );
 };
 
