@@ -7,7 +7,7 @@ namespace Social_v2.Clothes.Api.Infrastructure.Entities.Wishlists
     {
         public string ProductSkuId { get; set; }
 
-        public ProductSkuEntity ProductSku { get; set; }
+        public ProductVarientEntity ProductSku { get; set; }
 
         public UserEntity Customer { get; set; }
 

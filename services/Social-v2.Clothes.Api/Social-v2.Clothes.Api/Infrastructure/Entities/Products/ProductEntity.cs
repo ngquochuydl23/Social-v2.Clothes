@@ -27,11 +27,11 @@ namespace Social_v2.Clothes.Api.Infrastructure.Entities.Products
 
         public virtual ICollection<ProductOptionEntity> Options { get; set; } = new List<ProductOptionEntity>();
 
-        public virtual ICollection<ProductSkuEntity> ProductSkus { get; set; } = new List<ProductSkuEntity>();
+        public virtual ICollection<ProductVarientEntity> ProductVarients { get; set; } = new List<ProductVarientEntity>();
 
         public ICollection<CategoryProductEntity> CategoryProducts { get; set; } = new List<CategoryProductEntity>();
 
-        public virtual ICollection<SkuValueEntity> SkuValues { get; set; } = new List<SkuValueEntity>();
+        public virtual ICollection<VarientValueEntity> VarientValues { get; set; } = new List<VarientValueEntity>();
 
         public string? CollectionId { get; set; }
 

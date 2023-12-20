@@ -7,7 +7,6 @@ using Social_v2.Clothes.Api.Infrastructure.Entities.DeliveryAddresses;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Users;
 using Social_v2.Clothes.Api.Infrastructure.Exceptions;
 using Social_v2.Clothes.Api.Infrastructure.Repository;
-using Social_v2.Clothes.Api.Migrations;
 using System.Security.Claims;
 
 

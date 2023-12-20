@@ -3,6 +3,8 @@ using Social_v2.Clothes.Api.Extensions;
 using Social_v2.Clothes.Api.Infrastructure.Repository;
 using Social_v2.Clothes.Api.Middlewares;
 using Newtonsoft.Json;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Social_v2.Clothes.Api
 {
@@ -26,7 +28,8 @@ namespace Social_v2.Clothes.Api
                     .AddDbContext(builder.Configuration)
                     .AddLogger(builder.Configuration)
                     .AddJwtExtension(builder.Configuration)
-                    .AddAutoMapperConfig();
+                    .AddAutoMapperConfig()
+                    .AddEmailSender(builder.Configuration);
 
             builder.Services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
             builder.Services.AddTransient(typeof(IRepository<>), typeof(Repository<>));

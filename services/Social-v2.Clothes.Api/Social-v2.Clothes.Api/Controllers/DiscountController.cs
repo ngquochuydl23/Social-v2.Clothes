@@ -11,7 +11,6 @@ namespace Social_v2.Clothes.Api.Controllers
     [ApiController]
     public class DiscountController : BaseController
     {
-
         private readonly IMapper _mapper;
         private readonly IRepository<DiscountEntity> _discountRepo;
         private readonly IRepository<StockLocationInventoryEntity> _stockLocationInventoryRepo;

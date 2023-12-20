@@ -19,12 +19,12 @@ namespace Social_v2.Clothes.Api.Controllers
     public class WishlistController : BaseController
     {
         private readonly IRepository<WishlistEntity> _wishlistRepo;
-        private readonly IRepository<ProductSkuEntity> _productSkuRepo;
+        private readonly IRepository<ProductVarientEntity> _productSkuRepo;
         private readonly IMapper _mapper;
 
         public WishlistController(
             IRepository<WishlistEntity> wishlistRepo,
-            IRepository<ProductSkuEntity> productSkuRepo,
+            IRepository<ProductVarientEntity> productSkuRepo,
             IHttpContextAccessor httpContextAccessor,
             IMapper mapper) : base(httpContextAccessor)
         {

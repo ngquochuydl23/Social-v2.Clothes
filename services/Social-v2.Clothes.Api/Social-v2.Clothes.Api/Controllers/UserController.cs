@@ -53,7 +53,7 @@ namespace Social_v2.Clothes.Api.Controllers
                 throw new AppException("Password is incorrect");
 
             var token = _jwtExtension.GenerateToken(user.Id, user.Role);
-            return Ok(new LoginResponseDto(token, user.Id));
+            return Ok(new LoginResponseDto(token, _mapper.Map<UserDto>(user)));
         }
 
         [AllowAnonymous]

@@ -7,7 +7,7 @@ namespace Social_v2.Clothes.Api.Infrastructure.Entities.Inventories
     {
         public string ProductSkuId { get; set; }
 
-        public virtual ProductSkuEntity ProductSku { get; set; }
+        public virtual ProductVarientEntity ProductSku { get; set; }
 
         public int Ean { get; set; } = 0;
 

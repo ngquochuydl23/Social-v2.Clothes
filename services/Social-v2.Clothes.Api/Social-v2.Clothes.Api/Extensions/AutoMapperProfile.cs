@@ -4,13 +4,16 @@ using Social_v2.Clothes.Api.Dtos.Category;
 using Social_v2.Clothes.Api.Dtos.Collection;
 using Social_v2.Clothes.Api.Dtos.Customer;
 using Social_v2.Clothes.Api.Dtos.DeliveryAddress;
+using Social_v2.Clothes.Api.Dtos.Invites;
 using Social_v2.Clothes.Api.Dtos.Product;
 using Social_v2.Clothes.Api.Dtos.Product.SkuValue;
+using Social_v2.Clothes.Api.Dtos.ProductType;
 using Social_v2.Clothes.Api.Dtos.Users;
 using Social_v2.Clothes.Api.Dtos.Wishlist;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Categories;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Collections;
 using Social_v2.Clothes.Api.Infrastructure.Entities.DeliveryAddresses;
+using Social_v2.Clothes.Api.Infrastructure.Entities.Invites;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Products;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Users;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Wishlists;
@@ -29,14 +32,17 @@ namespace Social_v2.Clothes.Api.Extensions
             CreateMap<ProductEntity, AdminProductDto>();
             CreateMap<ProductOptionEntity, ProductOptionDto>();
             CreateMap<ProductOptionValueEntity, ProductOptionValueDto>();
-            CreateMap<ProductSkuEntity, ProductSkuDto>();
-            CreateMap<SkuValueEntity, SkuValueDto>();
+            CreateMap<ProductVarientEntity, ProductSkuDto>();
+            CreateMap<VarientValueEntity, SkuValueDto>();
 
             CreateMap<WishlistEntity, WishlistDto>();
             CreateMap<CategoryEntity, CategoryDto>();
             CreateMap<CollectionEntity, CollectionDto>();
             CreateMap<UserEntity, CustomerDto>(); 
             CreateMap<UserEntity, CustomerDetailDto>();
+
+            CreateMap<ProductTypeEntity, ProductTypeDto>();
+            CreateMap<InviteEntity, InviteDto>();
         }
     }
 }

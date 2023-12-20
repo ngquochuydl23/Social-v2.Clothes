@@ -18,13 +18,13 @@ namespace Social_v2.Clothes.Api.Controllers
     public class ProductController : BaseController
     {
         private readonly IRepository<ProductEntity> _productRepo;
-        private readonly IRepository<ProductSkuEntity> _productSkuRepo;
+        private readonly IRepository<ProductVarientEntity> _productSkuRepo;
         private readonly IRepository<ProductOptionEntity> _productOptionRepo;
         private readonly IMapper _mapper;
 
         public ProductController(
             IRepository<ProductEntity> productRepo,
-            IRepository<ProductSkuEntity> productSkuRepo,
+            IRepository<ProductVarientEntity> productSkuRepo,
             IRepository<ProductOptionEntity> productOptionRepo,
             IHttpContextAccessor httpContextAccessor,
             IMapper mapper) : base(httpContextAccessor)
@@ -80,16 +80,8 @@ namespace Social_v2.Clothes.Api.Controllers
         [HttpGet("sku/{skuId}")]
         public IActionResult GetProductSku(string skuId)
         {
-            var product = _productSkuRepo
-                .GetQueryableNoTracking()
-                .Include(x => x.SkuValues)
-                .ThenInclude(skuVal => skuVal.ProductOption)
-                .Include(x => x.SkuValues)
-                .ThenInclude(skuVal => skuVal.ProductOptionValue)
-                .FirstOrDefault(x => x.Id.Equals(skuId))
-                    ?? throw new AppException("Sku is null");
-
-            return Ok(_mapper.Map<ProductSkuDto>(product));
+            
+            return Ok(_mapper.Map<ProductSkuDto>(null));
         }
 
 
@@ -108,7 +100,7 @@ namespace Social_v2.Clothes.Api.Controllers
                .FirstOrDefault(x => x.Id.Equals(id) && !x.IsDeleted)
                    ?? throw new AppException("Product is null");
 
-            var productSku = new ProductSkuEntity(value.Title, value.Price, product.Id);
+            var productSku = new ProductVarientEntity(value.Title, value.Price, product.Id);
 
             // add inventory in relation to sku
             productSku.Inventory = new InventoryEntity(productSku.Id);
@@ -127,7 +119,7 @@ namespace Social_v2.Clothes.Api.Controllers
                 var optValue = option.OptionValues.FirstOrDefault(x => x.Value.Equals(inSkuValue.Value))
                     ?? throw new AppException("Option Value is invalid");
 
-                productSku.SkuValues.Add(new SkuValueEntity()
+                productSku.VarientValues.Add(new VarientValueEntity()
                 {
                     ProductId = product.Id,
                     ProductOptionId = option.Id,
@@ -211,7 +203,7 @@ namespace Social_v2.Clothes.Api.Controllers
             // create skus
             foreach (var inSku in value.ProductSkus)
             {
-                var productSku = new ProductSkuEntity(inSku.Title, inSku.Price, product.Id);
+                var productSku = new ProductVarientEntity(inSku.Title, inSku.Price, product.Id);
 
                 // add inventory in relation to sku
                 productSku.Inventory = new InventoryEntity(productSku.Id);
@@ -230,14 +222,14 @@ namespace Social_v2.Clothes.Api.Controllers
                     var optValue = option.OptionValues.FirstOrDefault(x => x.Value.Equals(inSkuValue.Value))
                         ?? throw new AppException("Option Value is invalid");
 
-                    productSku.SkuValues.Add(new SkuValueEntity()
+                    productSku.VarientValues.Add(new VarientValueEntity()
                     {
                         ProductId = product.Id,
                         ProductOptionId = option.Id,
                         ProductOptionValueId = optValue.Id
                     });
                 }
-                product.ProductSkus.Add(productSku);
+                product.ProductVarients.Add(productSku);
             }
 
             _productRepo.SaveChanges();

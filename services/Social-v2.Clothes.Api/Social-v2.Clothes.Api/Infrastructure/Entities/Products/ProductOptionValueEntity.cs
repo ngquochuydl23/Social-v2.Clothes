@@ -8,7 +8,7 @@
 
     public string Value { get; set; }
 
-    public List<SkuValueEntity> SkuValues { get; set; } = new List<SkuValueEntity>();
+    public List<VarientValueEntity> VarientValues { get; set; } = new List<VarientValueEntity>();
     public ProductOptionValueEntity(string value)
     {
       Value= value;

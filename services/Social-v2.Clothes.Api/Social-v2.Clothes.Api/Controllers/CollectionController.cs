@@ -6,7 +6,6 @@ using Social_v2.Clothes.Api.Infrastructure.Entities.Collections;
 using Social_v2.Clothes.Api.Infrastructure.Exceptions;
 using Social_v2.Clothes.Api.Infrastructure.Repository;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Social_v2.Clothes.Api.Controllers
 {

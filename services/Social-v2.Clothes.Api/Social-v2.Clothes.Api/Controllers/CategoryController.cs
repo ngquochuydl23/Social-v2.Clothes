@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
 using Social_v2.Clothes.Api.Dtos.Category;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Categories;
@@ -36,17 +37,37 @@ namespace Social_v2.Clothes.Api.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAllCategories([FromQuery] bool? isActive)
+        public IActionResult GetAllCategories(
+            [FromQuery] bool? isActive,
+            [FromQuery] bool? hierarchy,
+            [FromQuery] string? productTypeId,
+            [FromQuery] int? forGender)
         {
-            var categories = _categoryRepo
-              .GetQueryableNoTracking()
-              .Where(x => !x.IsDeleted);
+
+            var queryClause = _categoryRepo
+                    .GetQueryableNoTracking()
+                    .Where(x => x.IsActive == isActive)
+                    .Where(x => (forGender.HasValue ? x.ForGender == forGender : true) || x.ForGender == 0)
+                    .Where(x => !string.IsNullOrEmpty(productTypeId) ? x.ProductTypeId.Equals(productTypeId) : true)
+                    .Where(x => !x.IsDeleted);
+
+            var categories = new List<CategoryEntity>();
+
+            if (hierarchy.HasValue && hierarchy.Value)
+            {
+                categories = queryClause
+                    .Include(x => x.ChildCategories
+                       .Where(x => (forGender.HasValue ? x.ForGender == forGender : true) || x.ForGender == 0))
+                    .Where(x => x.ParentCategoryId.Equals(null))
+                    .ToList();
+            }
+            else categories = queryClause.ToList();
 
             return Ok(_mapper.Map<ICollection<CategoryDto>>(categories));
         }
 
         [HttpPost]
-       // [Authorize(Roles = UserConstants.AdministratorRole)]
+        [Authorize(Roles = UserConstants.AdministratorRole)]
         public IActionResult CreateCategory([FromBody] CreateCategoryDto value)
         {
             var category = _categoryRepo
@@ -56,7 +77,15 @@ namespace Social_v2.Clothes.Api.Controllers
             if (category != null)
                 throw new AppException("Category is already exist");
 
-            category = _categoryRepo.Insert(new CategoryEntity(value.Name, value.Description, value.IsActive, value.ParentCategoryId, value.Handle));
+
+            if (!string.IsNullOrEmpty(value.ParentCategoryId))
+            {
+                if (_categoryRepo.GetQueryableNoTracking()
+                    .FirstOrDefault(x => x.Id.Equals(value.ParentCategoryId) && !x.IsDeleted) == null)
+                    throw new AppException("Parent category is not exist");
+            }
+
+            category = _categoryRepo.Insert(new CategoryEntity(value.Name, value.Description, value.IsActive, value.ParentCategoryId, value.Handle, value.ProductTypeId, value.ForGender));
             return Ok(_mapper.Map<CategoryDto>(category));
         }
 

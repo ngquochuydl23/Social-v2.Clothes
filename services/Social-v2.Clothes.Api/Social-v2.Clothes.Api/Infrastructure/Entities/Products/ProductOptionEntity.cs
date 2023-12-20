@@ -10,7 +10,7 @@
 
     public ICollection<ProductOptionValueEntity> OptionValues { get; set; } = new List<ProductOptionValueEntity>();
 
-    public ICollection<SkuValueEntity> SkuValues { get; set; } = new List<SkuValueEntity>();
+    public ICollection<VarientValueEntity> VarientValues { get; set; } = new List<VarientValueEntity>();
 
     public ProductOptionEntity(string title, string productId)
     {

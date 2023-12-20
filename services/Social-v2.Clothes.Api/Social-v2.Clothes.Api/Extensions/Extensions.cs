@@ -7,6 +7,9 @@ using System.Text;
 using Microsoft.OpenApi.Models;
 using Social_v2.Clothes.Api.Extensions.JwtHelpers;
 using Microsoft.Extensions.Options;
+using Social_v2.Clothes.Api.Extensions.EmailSender;
+using Mailjet.Client;
+using Microsoft.Extensions.Configuration;
 
 namespace Social_v2.Clothes.Api.Extensions
 {
@@ -147,6 +150,28 @@ namespace Social_v2.Clothes.Api.Extensions
         public static IServiceCollection AddAutoMapperConfig(this IServiceCollection services)
         {
             services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
+            return services;
+        }
+
+        public static IServiceCollection AddEmailSender(this IServiceCollection services, IConfiguration configuration)
+        {
+            var mailJet = configuration.GetSection("MailJet");
+
+            if (!mailJet.Exists())
+                return services;
+
+
+            var privateKey = mailJet.GetRequiredValue("privateKey");
+            var publicKey = mailJet.GetRequiredValue("publicKey");
+
+
+            services.AddHttpClient<IMailjetClient, MailjetClient>(client =>
+            {
+                client.SetDefaultSettings();
+                client.UseBasicAuthentication(publicKey, privateKey);
+            });
+
+            services.AddSingleton<IEmailSender, EmailSenderImpl>();
             return services;
         }
     }

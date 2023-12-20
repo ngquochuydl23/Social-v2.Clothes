@@ -10,17 +10,17 @@
 
         public string Mime { get; set; }
 
-        public string ProductSkuId { get; set; }
+        public string ProductVarientId { get; set; }
 
-        public virtual ProductSkuEntity ProductSku { get; set; }
+        public virtual ProductVarientEntity ProductVarient { get; set; }
 
-        public ProductSkuMediaEntity(string url, long width, long height, string mime, string productSkuId)
+        public ProductSkuMediaEntity(string url, long width, long height, string mime, string productVarientId)
         {
             Url = url;
             Width = width;
             Height = height;
             Mime = mime;
-            ProductSkuId = productSkuId;
+            ProductVarientId = productVarientId;
         }
     }
 }
