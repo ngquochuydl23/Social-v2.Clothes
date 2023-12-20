@@ -58,7 +58,7 @@ const mainRoutes = {
       ),
     },
     {
-      path: "/about-us",
+      path: "/  ",
       element: (
         <SplitRouter>
           <About />
