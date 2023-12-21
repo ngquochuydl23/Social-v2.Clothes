@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Social_v2.Clothes.Api.Infrastructure;
@@ -11,9 +12,11 @@ using Social_v2.Clothes.Api.Infrastructure;
 namespace Social_v2.Clothes.Api.Migrations
 {
     [DbContext(typeof(ClothesDbContext))]
-    partial class ClothesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231221044528_ProductMedia")]
+    partial class ProductMedia
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -660,16 +663,10 @@ namespace Social_v2.Clothes.Api.Migrations
                     b.Property<DateTime>("LastUpdate")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<long>("RootOptionValueId")
-                        .HasColumnType("bigint");
-
                     b.Property<long>("RootProductOptionId")
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("RootOptionValueId")
-                        .IsUnique();
 
                     b.HasIndex("RootProductOptionId");
 
@@ -1061,19 +1058,11 @@ namespace Social_v2.Clothes.Api.Migrations
 
             modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Products.ProductVarientMediaSetEntity", b =>
                 {
-                    b.HasOne("Social_v2.Clothes.Api.Infrastructure.Entities.Products.ProductOptionValueEntity", "RootOptionValue")
-                        .WithOne("MediaSet")
-                        .HasForeignKey("Social_v2.Clothes.Api.Infrastructure.Entities.Products.ProductVarientMediaSetEntity", "RootOptionValueId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Social_v2.Clothes.Api.Infrastructure.Entities.Products.ProductOptionEntity", "RootProductOption")
                         .WithMany("MediaSets")
                         .HasForeignKey("RootProductOptionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("RootOptionValue");
 
                     b.Navigation("RootProductOption");
                 });
@@ -1208,9 +1197,6 @@ namespace Social_v2.Clothes.Api.Migrations
 
             modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Products.ProductOptionValueEntity", b =>
                 {
-                    b.Navigation("MediaSet")
-                        .IsRequired();
-
                     b.Navigation("VarientValues");
                 });
 

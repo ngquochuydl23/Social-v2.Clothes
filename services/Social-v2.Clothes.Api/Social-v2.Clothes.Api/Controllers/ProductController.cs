@@ -106,9 +106,9 @@ namespace Social_v2.Clothes.Api.Controllers
             productSku.Inventory = new InventoryEntity(productSku.Id);
 
             // add medias to each sku
-            foreach (var media in value.ProSkuMedias)
-                productSku.ProductMedias.Add(
-                    new ProductSkuMediaEntity(media.Url, media.Width, media.Height, media.Mime, productSku.Id));
+            //foreach (var media in value.ProSkuMedias)
+            //    productSku.ProductMedias.Add(
+            //        new ProductSkuMediaEntity(media.Url, media.Width, media.Height, media.Mime, productSku.Id));
 
             // add sku value to each sku
             foreach (var inSkuValue in value.SkuValues)
@@ -209,9 +209,9 @@ namespace Social_v2.Clothes.Api.Controllers
                 productSku.Inventory = new InventoryEntity(productSku.Id);
 
                 // add medias to each sku
-                foreach (var media in inSku.ProSkuMedias)
-                    productSku.ProductMedias.Add(
-                        new ProductSkuMediaEntity(media.Url, media.Width, media.Height, media.Mime, productSku.Id));
+                //foreach (var media in inSku.ProSkuMedias)
+                //    productSku.ProductMedias.Add(
+                //        new ProductSkuMediaEntity(media.Url, media.Width, media.Height, media.Mime, productSku.Id));
 
                 // add sku value to each sku
                 foreach (var inSkuValue in inSku.SkuValues)

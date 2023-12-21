@@ -12,6 +12,9 @@ namespace Social_v2.Clothes.Api.Infrastructure.Entities.Discounts
 
         public virtual DiscountEntity Discount { get; set; }
 
+
+        public DiscountConditionEntity() { }
+
         public DiscountConditionEntity(string discountCode, string operatorDis)
         {
             DiscountCode = discountCode;

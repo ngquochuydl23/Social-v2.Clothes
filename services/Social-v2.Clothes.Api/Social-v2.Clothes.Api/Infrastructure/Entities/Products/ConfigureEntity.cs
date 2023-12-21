@@ -49,17 +49,38 @@ namespace Social_v2.Clothes.Api.Infrastructure.Entities.Products
                     .HasOne(x => x.Product)
                     .WithMany(proOptionValue => proOptionValue.ProductVarients)
                     .HasForeignKey(x => x.ProductId);
+
+                entity
+                   .HasOne(x => x.MediaSet)
+                   .WithMany(set => set.ProductVarients)
+                   .HasForeignKey(x => x.MediaSetId);
             });
 
-            modelBuilder.Entity<ProductSkuMediaEntity>(entity =>
+            modelBuilder.Entity<ProductVarientMediaSetEntity>(entity =>
+            {
+                entity.ToTable("ProductVarientMediaSet");
+                entity.HasKey(x => x.Id);
+
+                entity
+                  .HasOne(x => x.RootProductOption)
+                  .WithMany(pOpt => pOpt.MediaSets)
+                  .HasForeignKey(x => x.RootProductOptionId);
+
+                entity
+                    .HasOne(x => x.RootOptionValue)
+                    .WithOne(optVal => optVal.MediaSet)
+                    .HasForeignKey<ProductVarientMediaSetEntity>(x => x.RootOptionValueId);
+            });
+
+            modelBuilder.Entity<ProductVarientMediaEntity>(entity =>
             {
                 entity.ToTable("ProductVarientMedia");
                 entity.HasKey(x => x.Id);
 
                 entity
-                  .HasOne(x => x.ProductVarient)
-                  .WithMany(pro => pro.ProductMedias)
-                  .HasForeignKey(x => x.ProductVarientId);
+                  .HasOne(x => x.MediaSet)
+                  .WithMany(pOpt => pOpt.ProductMedias)
+                  .HasForeignKey(x => x.MediaSetId);
             });
 
             modelBuilder.Entity<VarientValueEntity>(entity =>
