@@ -18,7 +18,7 @@ namespace Social_v2.Clothes.Api.Dtos.Product
 
     public string Thumbnail { get; set; }
 
-    public ProductSkuDto ProductSku { get; set; }
+    public ProductVarientDto ProductSku { get; set; }
 
     public ICollection<ProductOptionDto> Options { get; set; } = new List<ProductOptionDto>();
   }

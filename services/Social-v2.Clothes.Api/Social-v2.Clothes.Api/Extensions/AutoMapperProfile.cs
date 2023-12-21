@@ -32,7 +32,7 @@ namespace Social_v2.Clothes.Api.Extensions
             CreateMap<ProductEntity, AdminProductDto>();
             CreateMap<ProductOptionEntity, ProductOptionDto>();
             CreateMap<ProductOptionValueEntity, ProductOptionValueDto>();
-            CreateMap<ProductVarientEntity, ProductSkuDto>();
+            CreateMap<ProductVarientEntity, ProductVarientDto>();
             CreateMap<VarientValueEntity, SkuValueDto>();
 
             CreateMap<WishlistEntity, WishlistDto>();

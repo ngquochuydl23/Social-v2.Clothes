@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Social_v2.Clothes.Api.Infrastructure;
@@ -11,9 +12,11 @@ using Social_v2.Clothes.Api.Infrastructure;
 namespace Social_v2.Clothes.Api.Migrations
 {
     [DbContext(typeof(ClothesDbContext))]
-    partial class ClothesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231220235810_DiscountEntity")]
+    partial class DiscountEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -320,40 +323,6 @@ namespace Social_v2.Clothes.Api.Migrations
                     b.ToTable("Discount", (string)null);
                 });
 
-            modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Discounts.ProductDiscountConditionEntity", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
-
-                    b.Property<DateTime>("CreateAt")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("DiscountConditionId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<DateTime>("LastUpdate")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("ProductId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DiscountConditionId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("ProductDiscountCondition", (string)null);
-                });
-
             modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Inventories.InventoryEntity", b =>
                 {
                     b.Property<string>("ProductSkuId")
@@ -450,6 +419,9 @@ namespace Social_v2.Clothes.Api.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("DiscountConditionEntityDiscountCode")
+                        .HasColumnType("text");
+
                     b.Property<bool>("Discountable")
                         .HasColumnType("boolean");
 
@@ -478,6 +450,8 @@ namespace Social_v2.Clothes.Api.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CollectionId");
+
+                    b.HasIndex("DiscountConditionEntityDiscountCode");
 
                     b.ToTable("Product", (string)null);
                 });
@@ -934,25 +908,6 @@ namespace Social_v2.Clothes.Api.Migrations
                     b.Navigation("Discount");
                 });
 
-            modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Discounts.ProductDiscountConditionEntity", b =>
-                {
-                    b.HasOne("Social_v2.Clothes.Api.Infrastructure.Entities.Discounts.DiscountConditionEntity", "DiscountCondition")
-                        .WithMany("DiscountCondtionProducts")
-                        .HasForeignKey("DiscountConditionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Social_v2.Clothes.Api.Infrastructure.Entities.Products.ProductEntity", "Product")
-                        .WithMany("DiscountCondtionProducts")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("DiscountCondition");
-
-                    b.Navigation("Product");
-                });
-
             modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Inventories.InventoryEntity", b =>
                 {
                     b.HasOne("Social_v2.Clothes.Api.Infrastructure.Entities.Products.ProductVarientEntity", "ProductSku")
@@ -969,6 +924,10 @@ namespace Social_v2.Clothes.Api.Migrations
                     b.HasOne("Social_v2.Clothes.Api.Infrastructure.Entities.Collections.CollectionEntity", "Collection")
                         .WithMany("Products")
                         .HasForeignKey("CollectionId");
+
+                    b.HasOne("Social_v2.Clothes.Api.Infrastructure.Entities.Discounts.DiscountConditionEntity", null)
+                        .WithMany("Products")
+                        .HasForeignKey("DiscountConditionEntityDiscountCode");
 
                     b.Navigation("Collection");
                 });
@@ -1109,7 +1068,7 @@ namespace Social_v2.Clothes.Api.Migrations
 
             modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Discounts.DiscountConditionEntity", b =>
                 {
-                    b.Navigation("DiscountCondtionProducts");
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Discounts.DiscountEntity", b =>
@@ -1126,8 +1085,6 @@ namespace Social_v2.Clothes.Api.Migrations
             modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Products.ProductEntity", b =>
                 {
                     b.Navigation("CategoryProducts");
-
-                    b.Navigation("DiscountCondtionProducts");
 
                     b.Navigation("Options");
 

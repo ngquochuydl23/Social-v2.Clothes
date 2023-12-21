@@ -1,8 +1,10 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
+using Social_v2.Clothes.Api.Infrastructure.Entities.Cart;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Categories;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Collections;
 using Social_v2.Clothes.Api.Infrastructure.Entities.DeliveryAddresses;
+using Social_v2.Clothes.Api.Infrastructure.Entities.Discounts;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Inventories;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Invites;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Products;
@@ -32,6 +34,8 @@ namespace Social_v2.Clothes.Api.Infrastructure
             modelBuilder.AddCollectionEntities();
             modelBuilder.AddProductTypeEntities();
             modelBuilder.AddInviteEntities();
+            modelBuilder.AddCartEntities();
+            modelBuilder.AddDiscountEntities();
         }
     }
 }

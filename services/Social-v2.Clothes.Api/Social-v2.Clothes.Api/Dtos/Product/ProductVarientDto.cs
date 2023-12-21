@@ -3,7 +3,7 @@ using Social_v2.Clothes.Api.Infrastructure.Entities.Products;
 
 namespace Social_v2.Clothes.Api.Dtos.Product
 {
-    public class ProductSkuDto
+    public class ProductVarientDto
     {
         public string Id { get; set; }
 

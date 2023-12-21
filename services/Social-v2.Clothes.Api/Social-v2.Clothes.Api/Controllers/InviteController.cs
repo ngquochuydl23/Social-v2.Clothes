@@ -5,12 +5,9 @@ using Social_v2.Clothes.Api.Extensions.EmailSender;
 using Social_v2.Clothes.Api.Extensions.JwtHelpers;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Categories;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Invites;
-using Social_v2.Clothes.Api.Infrastructure.Entities.Products;
 using Social_v2.Clothes.Api.Infrastructure.Exceptions;
 using Social_v2.Clothes.Api.Infrastructure.Repository;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Users;
-using Social_v2.Clothes.Api.Dtos.Users;
-using Mailjet.Client.Resources.SMS;
 
 namespace Social_v2.Clothes.Api.Controllers
 {
@@ -83,13 +80,40 @@ namespace Social_v2.Clothes.Api.Controllers
             return Ok(_mapper.Map<InviteDto>(invitation));
         }
 
+        [HttpPost("Resend")]
+        public IActionResult ResendInvitation([FromBody] AddNewInviteDto value)
+        {
+            var invitation = _inviteRepo
+                .GetQueryable()
+                .FirstOrDefault(x => x.Email.Equals(value.Email))
+                    ?? throw new AppException("Invitation does not exist");
+
+
+            var token = _jwtExtension.GenerateTokenForInvitation(value.Email, value.Role);
+
+            invitation.Token = token;
+            invitation.ResentAt = DateTime.Now;
+            invitation.LastUpdate = DateTime.Now;
+
+            _inviteRepo.SaveChanges();
+
+            _emailSender.SendEmail(new EmailForm()
+            {
+                FromEmail = "huy@social-v2.com",
+                Subject = token,
+                ToEmail = value.Email
+            });
+
+            return Ok(_mapper.Map<InviteDto>(invitation));
+        }
+
         [HttpPost("accept")]
         public IActionResult AcceptInvitation([FromBody] AcceptInvitationDto value)
         {
             var claims = _jwtExtension.DecodeToken(value.Token)
                 ?? throw new AppException("Token is null");
 
-            var exp = claims.FirstOrDefault(claim => claim.Type == "exp").Value
+            var exp = claims?.FirstOrDefault(claim => claim.Type == "exp")?.Value
                 ?? throw new AppException("Token is invalid");
 
             var expire = new DateTime(1970, 1, 1, 0, 0, 0, 0)
@@ -98,10 +122,10 @@ namespace Social_v2.Clothes.Api.Controllers
             if (DateTime.Compare(DateTime.Now, expire) > 0)
                 throw new AppException("Token is expire");
 
-            var email = claims.FirstOrDefault(claim => claim.Type == "email").Value
+            var email = claims?.FirstOrDefault(claim => claim.Type == "email")?.Value
                 ?? throw new AppException("Token is invalid");
 
-            var role = claims.FirstOrDefault(claim => claim.Type == "role").Value
+            var role = claims?.FirstOrDefault(claim => claim.Type == "role")?.Value
                 ?? throw new AppException("Token is invalid");
 
             var invitation = _inviteRepo
@@ -123,14 +147,19 @@ namespace Social_v2.Clothes.Api.Controllers
                 PhoneNumber = value.User.PhoneNumber,
                 HashPassword = BCrypt.Net.BCrypt.HashPassword(value.User.Password),
             });
-
-
             return Ok();
         }
 
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(long id)
         {
+            var invitation = _inviteRepo
+                .GetQueryable()
+                .FirstOrDefault(x => x.Id == id && !x.IsDeleted)
+                ?? throw new AppException("Invitation does not exist");
+
+            _inviteRepo.Delete(invitation);
+            return Ok();
         }
     }
 }

@@ -5,7 +5,6 @@ namespace Social_v2.Clothes.Api.Infrastructure.Entities.Discounts
 {
     public class DiscountEntity : Entity
     {
-        private string ruleValue;
 
         public string Code { get; set; }
 
@@ -30,6 +29,7 @@ namespace Social_v2.Clothes.Api.Infrastructure.Entities.Discounts
         [MaxLength(DiscountConstants.RuleDescriptionMaxLength)]
         public string? RuleDescription { get; set; }
 
+        public virtual DiscountConditionEntity Condition { get; set; }
 
         public DiscountEntity(
             string code,

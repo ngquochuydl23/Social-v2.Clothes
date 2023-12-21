@@ -1,4 +1,5 @@
-﻿using Social_v2.Clothes.Api.Infrastructure.Entities.DeliveryAddresses;
+﻿using Social_v2.Clothes.Api.Infrastructure.Entities.Cart;
+using Social_v2.Clothes.Api.Infrastructure.Entities.DeliveryAddresses;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Wishlists;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
@@ -29,6 +30,8 @@ namespace Social_v2.Clothes.Api.Infrastructure.Entities.Users
 
 
         public string Role { get; set; } = UserConstants.CustomerRole;
+
+        public virtual CartEntity Cart { get; set; }
 
         public virtual IEnumerable<DeliveryAddressEntity> DeliveryAddresses { get; set; } = new List<DeliveryAddressEntity>();
 

@@ -19,17 +19,17 @@ namespace Social_v2.Clothes.Api.Controllers
     public class WishlistController : BaseController
     {
         private readonly IRepository<WishlistEntity> _wishlistRepo;
-        private readonly IRepository<ProductVarientEntity> _productSkuRepo;
+        private readonly IRepository<ProductVarientEntity> _productVarientRepo;
         private readonly IMapper _mapper;
 
         public WishlistController(
             IRepository<WishlistEntity> wishlistRepo,
-            IRepository<ProductVarientEntity> productSkuRepo,
+            IRepository<ProductVarientEntity> productVarientRepo,
             IHttpContextAccessor httpContextAccessor,
             IMapper mapper) : base(httpContextAccessor)
         {
             _wishlistRepo = wishlistRepo;
-            _productSkuRepo = productSkuRepo;
+            _productVarientRepo = productVarientRepo;
             _mapper = mapper;
         }
 
@@ -48,22 +48,22 @@ namespace Social_v2.Clothes.Api.Controllers
         [HttpPost]
         public IActionResult AddToWishlist([FromBody] AddToWishlistDto value)
         {
-            var productSku = _productSkuRepo
+            var productVarient = _productVarientRepo
                 .GetQueryableNoTracking()
-                .FirstOrDefault(x => x.Id.Equals(value.ProductSkuId) && !x.IsDeleted)
-                    ?? throw new AppException("Sku is not exist");
+                .FirstOrDefault(x => x.Id.Equals(value.ProductVarientId) && !x.IsDeleted)
+                    ?? throw new AppException("Varient is not exist");
 
 
             var wishlist = _wishlistRepo
                 .GetQueryableNoTracking()
-                .FirstOrDefault(x => x.ProductSkuId.Equals(productSku.Id) && x.CustomerId == Id && !x.IsDeleted);
+                .FirstOrDefault(x => x.ProductSkuId.Equals(productVarient.Id) && x.CustomerId == Id && !x.IsDeleted);
 
             if (wishlist != null)
-                throw new AppException("Wishlist with sku is already exist");
+                throw new AppException("Wishlist with varient is already exist");
 
 
-            wishlist = _wishlistRepo.Insert(new WishlistEntity(productSku.Id, Id));
-            wishlist.ProductSku = productSku;
+            wishlist = _wishlistRepo.Insert(new WishlistEntity(productVarient.Id, Id));
+            wishlist.ProductSku = productVarient;
 
             return Ok(_mapper.Map<WishlistDto>(wishlist));
         }
@@ -71,14 +71,14 @@ namespace Social_v2.Clothes.Api.Controllers
         [HttpDelete]
         public IActionResult RemoveFromWishlist([FromQuery] string productSkuId)
         {
-            var productSku = _productSkuRepo
+            var productVarient = _productVarientRepo
             .GetQueryableNoTracking()
                 .FirstOrDefault(x => x.Id.Equals(productSkuId))
-                    ?? throw new AppException("Sku is not exist");
+                    ?? throw new AppException("Varient is not exist");
 
             var wishlist = _wishlistRepo
                 .GetQueryableNoTracking()
-                .FirstOrDefault(x => x.ProductSkuId.Equals(productSku.Id) && x.CustomerId == Id && !x.IsDeleted)
+                .FirstOrDefault(x => x.ProductSkuId.Equals(productVarient.Id) && x.CustomerId == Id && !x.IsDeleted)
                 ?? throw new AppException("Wishlist with sku is not exist");
 
 

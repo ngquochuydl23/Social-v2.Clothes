@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Wishlists;
 using System.Diagnostics.CodeAnalysis;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Inventories;
+using Social_v2.Clothes.Api.Infrastructure.Entities.Cart;
 
 namespace Social_v2.Clothes.Api.Infrastructure.Entities.Products
 {
@@ -22,6 +23,8 @@ namespace Social_v2.Clothes.Api.Infrastructure.Entities.Products
         public virtual ProductEntity Product { get; set; }
 
         public virtual WishlistEntity Wishlist { get; set; }
+
+        public virtual CartItemEntity CartItem { get; set; }
 
         public ICollection<VarientValueEntity> VarientValues { get; set; } = new List<VarientValueEntity>();
 

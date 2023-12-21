@@ -1,6 +1,17 @@
-﻿namespace Social_v2.Clothes.Api.Infrastructure.Entities.Cart
+﻿using Social_v2.Clothes.Api.Infrastructure.Entities.Products;
+
+namespace Social_v2.Clothes.Api.Infrastructure.Entities.Cart
 {
-    public class CartItemEntity
+    public class CartItemEntity: Entity<long>
     {
+        public long CartId { get; set; }
+
+        public string ProductVarientId { get; set; }
+
+        public virtual CartEntity Cart { get; set; }
+
+        public virtual ProductVarientEntity ProductVarient { get; set; }
+
+        public int Quantity { get; set; } = 0;
     }
 }

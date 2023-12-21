@@ -16,6 +16,8 @@ namespace Social_v2.Clothes.Api.Infrastructure.Entities.Invites
 
         public DateTime ExpiresAt { get; set; }
 
+        public DateTime ResentAt { get; set; }
+
         public DateTime AcceptedAt { get; set; }
     }
 }

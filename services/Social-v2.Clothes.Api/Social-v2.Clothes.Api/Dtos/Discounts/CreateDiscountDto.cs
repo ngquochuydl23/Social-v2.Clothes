@@ -1,4 +1,4 @@
-﻿namespace Social_v2.Clothes.Api.Dtos
+﻿namespace Social_v2.Clothes.Api.Dtos.Discounts
 {
     public class CreateDiscountDto
     {
@@ -13,10 +13,10 @@
         public bool IsDisabled { get; set; } = false;
 
         public string RuleType { get; set; }
-            
+
         public int RuleValue { get; set; }
 
-        public string RuleAllocation { get; set; }  
+        public string RuleAllocation { get; set; }
 
         public string? RuleDescription { get; set; }
     }

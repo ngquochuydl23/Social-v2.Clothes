@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Social_v2.Clothes.Api.Infrastructure;
@@ -11,9 +12,11 @@ using Social_v2.Clothes.Api.Infrastructure;
 namespace Social_v2.Clothes.Api.Migrations
 {
     [DbContext(typeof(ClothesDbContext))]
-    partial class ClothesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231220223620_AddResent")]
+    partial class AddResent
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,71 +24,6 @@ namespace Social_v2.Clothes.Api.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
-
-            modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Cart.CartEntity", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
-
-                    b.Property<DateTime>("CreateAt")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<long>("CustomerId")
-                        .HasColumnType("bigint");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<DateTime>("LastUpdate")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CustomerId")
-                        .IsUnique();
-
-                    b.ToTable("Cart", (string)null);
-                });
-
-            modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Cart.CartItemEntity", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
-
-                    b.Property<long>("CartId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime>("CreateAt")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<DateTime>("LastUpdate")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("ProductVarientId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CartId");
-
-                    b.HasIndex("ProductVarientId")
-                        .IsUnique();
-
-                    b.ToTable("CartItem", (string)null);
-                });
 
             modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Categories.CategoryEntity", b =>
                 {
@@ -247,111 +185,6 @@ namespace Social_v2.Clothes.Api.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("DeliveryAddress", (string)null);
-                });
-
-            modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Discounts.DiscountConditionEntity", b =>
-                {
-                    b.Property<string>("DiscountCode")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("CreateAt")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<DateTime>("LastUpdate")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("Operator")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("DiscountCode");
-
-                    b.ToTable("DiscountCondition", (string)null);
-                });
-
-            modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Discounts.DiscountEntity", b =>
-                {
-                    b.Property<string>("Code")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("CreateAt")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<DateTime>("EndsAt")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("IsDisabled")
-                        .HasColumnType("boolean");
-
-                    b.Property<DateTime>("LastUpdate")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("RuleAllocation")
-                        .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("character varying(25)");
-
-                    b.Property<string>("RuleDescription")
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.Property<string>("RuleType")
-                        .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("character varying(25)");
-
-                    b.Property<int>("RuleValue")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("StartsAt")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<int>("UsageLimit")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Code");
-
-                    b.ToTable("Discount", (string)null);
-                });
-
-            modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Discounts.ProductDiscountConditionEntity", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
-
-                    b.Property<DateTime>("CreateAt")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("DiscountConditionId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<DateTime>("LastUpdate")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("ProductId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DiscountConditionId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("ProductDiscountCondition", (string)null);
                 });
 
             modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Inventories.InventoryEntity", b =>
@@ -846,36 +679,6 @@ namespace Social_v2.Clothes.Api.Migrations
                     b.ToTable("Wishlist", (string)null);
                 });
 
-            modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Cart.CartEntity", b =>
-                {
-                    b.HasOne("Social_v2.Clothes.Api.Infrastructure.Entities.Users.UserEntity", "Customer")
-                        .WithOne("Cart")
-                        .HasForeignKey("Social_v2.Clothes.Api.Infrastructure.Entities.Cart.CartEntity", "CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Customer");
-                });
-
-            modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Cart.CartItemEntity", b =>
-                {
-                    b.HasOne("Social_v2.Clothes.Api.Infrastructure.Entities.Cart.CartEntity", "Cart")
-                        .WithMany("CartItems")
-                        .HasForeignKey("CartId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Social_v2.Clothes.Api.Infrastructure.Entities.Products.ProductVarientEntity", "ProductVarient")
-                        .WithOne("CartItem")
-                        .HasForeignKey("Social_v2.Clothes.Api.Infrastructure.Entities.Cart.CartItemEntity", "ProductVarientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Cart");
-
-                    b.Navigation("ProductVarient");
-                });
-
             modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Categories.CategoryEntity", b =>
                 {
                     b.HasOne("Social_v2.Clothes.Api.Infrastructure.Entities.Categories.CategoryEntity", "ParentCategory")
@@ -921,36 +724,6 @@ namespace Social_v2.Clothes.Api.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Discounts.DiscountConditionEntity", b =>
-                {
-                    b.HasOne("Social_v2.Clothes.Api.Infrastructure.Entities.Discounts.DiscountEntity", "Discount")
-                        .WithOne("Condition")
-                        .HasForeignKey("Social_v2.Clothes.Api.Infrastructure.Entities.Discounts.DiscountConditionEntity", "DiscountCode")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Discount");
-                });
-
-            modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Discounts.ProductDiscountConditionEntity", b =>
-                {
-                    b.HasOne("Social_v2.Clothes.Api.Infrastructure.Entities.Discounts.DiscountConditionEntity", "DiscountCondition")
-                        .WithMany("DiscountCondtionProducts")
-                        .HasForeignKey("DiscountConditionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Social_v2.Clothes.Api.Infrastructure.Entities.Products.ProductEntity", "Product")
-                        .WithMany("DiscountCondtionProducts")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("DiscountCondition");
-
-                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Inventories.InventoryEntity", b =>
@@ -1090,11 +863,6 @@ namespace Social_v2.Clothes.Api.Migrations
                     b.Navigation("ProductSku");
                 });
 
-            modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Cart.CartEntity", b =>
-                {
-                    b.Navigation("CartItems");
-                });
-
             modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Categories.CategoryEntity", b =>
                 {
                     b.Navigation("CategoryProducts");
@@ -1107,17 +875,6 @@ namespace Social_v2.Clothes.Api.Migrations
                     b.Navigation("Products");
                 });
 
-            modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Discounts.DiscountConditionEntity", b =>
-                {
-                    b.Navigation("DiscountCondtionProducts");
-                });
-
-            modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Discounts.DiscountEntity", b =>
-                {
-                    b.Navigation("Condition")
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Inventories.InventoryEntity", b =>
                 {
                     b.Navigation("StockLocationInventories");
@@ -1126,8 +883,6 @@ namespace Social_v2.Clothes.Api.Migrations
             modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Products.ProductEntity", b =>
                 {
                     b.Navigation("CategoryProducts");
-
-                    b.Navigation("DiscountCondtionProducts");
 
                     b.Navigation("Options");
 
@@ -1155,9 +910,6 @@ namespace Social_v2.Clothes.Api.Migrations
 
             modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Products.ProductVarientEntity", b =>
                 {
-                    b.Navigation("CartItem")
-                        .IsRequired();
-
                     b.Navigation("Inventory")
                         .IsRequired();
 
@@ -1176,9 +928,6 @@ namespace Social_v2.Clothes.Api.Migrations
 
             modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Users.UserEntity", b =>
                 {
-                    b.Navigation("Cart")
-                        .IsRequired();
-
                     b.Navigation("DeliveryAddresses");
 
                     b.Navigation("Wishlists");

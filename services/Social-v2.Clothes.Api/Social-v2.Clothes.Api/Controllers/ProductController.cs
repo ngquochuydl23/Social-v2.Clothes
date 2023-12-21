@@ -81,7 +81,7 @@ namespace Social_v2.Clothes.Api.Controllers
         public IActionResult GetProductSku(string skuId)
         {
             
-            return Ok(_mapper.Map<ProductSkuDto>(null));
+            return Ok(_mapper.Map<ProductVarientDto>(null));
         }
 
 
@@ -129,7 +129,7 @@ namespace Social_v2.Clothes.Api.Controllers
 
             _productSkuRepo.Insert(productSku);
 
-            return Ok(_mapper.Map<ProductSkuDto>(productSku));
+            return Ok(_mapper.Map<ProductVarientDto>(productSku));
         }
 
         [HttpPut("{id}/sku/{skuId}")]
@@ -160,7 +160,7 @@ namespace Social_v2.Clothes.Api.Controllers
                 .Where(x => x.ProductId.Equals(id))
                 .ToList();
 
-            return Ok(_mapper.Map<ICollection<ProductSkuDto>>(productSkus));
+            return Ok(_mapper.Map<ICollection<ProductVarientDto>>(productSkus));
         }
 
         [HttpPost]

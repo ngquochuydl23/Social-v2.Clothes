@@ -2,7 +2,7 @@
 {
     public class CreateCartDto
     {
-        public string ProductSkuId { get; set; }    
+        public string ProductVarientId { get; set; }    
 
         public int Quantity { get; set; }
     }

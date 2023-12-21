@@ -6,6 +6,6 @@ namespace Social_v2.Clothes.Api.Dtos.Wishlist
     {
         public long Id { get; set; }
 
-        public ProductSkuDto ProductSku { get; set; }
+        public ProductVarientDto ProductVarient { get; set; }
     }
 }

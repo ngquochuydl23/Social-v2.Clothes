@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Categories;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Collections;
+using Social_v2.Clothes.Api.Infrastructure.Entities.Discounts;
 
 namespace Social_v2.Clothes.Api.Infrastructure.Entities.Products
 {
@@ -32,6 +33,8 @@ namespace Social_v2.Clothes.Api.Infrastructure.Entities.Products
         public ICollection<CategoryProductEntity> CategoryProducts { get; set; } = new List<CategoryProductEntity>();
 
         public virtual ICollection<VarientValueEntity> VarientValues { get; set; } = new List<VarientValueEntity>();
+
+        public ICollection<ProductDiscountConditionEntity> DiscountCondtionProducts { get; set; } = new List<ProductDiscountConditionEntity>();
 
         public string? CollectionId { get; set; }
 
