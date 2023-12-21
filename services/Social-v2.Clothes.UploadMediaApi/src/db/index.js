@@ -4,9 +4,11 @@ const mongoose = require('mongoose');
 module.exports = {
   configureMongoDb() {
     return new Promise((resolve, reject) => {
-      mongoose.connect("mongodb://127.0.0.1:27017/clothes-socialv2-uploadDb", {
+
+      mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {
         useNewUrlParser: true,
-        useUnifiedTopology: true
+        useUnifiedTopology: true,
+        dbName: 'clothes-socialv2-uploadDb'
       });
 
       mongoose.connection.on('connected', () => {

@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Social_v2.Clothes.Api.Dtos.Discounts;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Discounts;
-using Social_v2.Clothes.Api.Infrastructure.Entities.StockLocations;
 using Social_v2.Clothes.Api.Infrastructure.Exceptions;
 using Social_v2.Clothes.Api.Infrastructure.Repository;
 
