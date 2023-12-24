@@ -10,8 +10,8 @@ services:
       - 3854:3854
 
   socialv2clothesapi:
-    image: imageName
-    container_name: name
+    image: socialv2clothesapi
+    container_name: socialv2clothesapi
     build:
       context: ./services/Social-v2.Clothes.Api/Social-v2.Clothes.Api
       dockerfile: Dockerfile
