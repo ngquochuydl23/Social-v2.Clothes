@@ -9,11 +9,11 @@ services:
     ports:
       - 3854:3854
 
-  socialv2clothesapi:
-    image: socialv2clothesapi
-    container_name: socialv2clothesapi
+  socialv2clothesapi-debug:
+    image: socialv2clothesapi-debug
+    container_name: socialv2clothesapi-debug
     build:
-      context: ./services/Social-v2.Clothes.Api/Social-v2.Clothes.Api
-      dockerfile: Dockerfile
+      context: ./services/Social-v2.Clothes.Api
+      dockerfile: Dockerfile-debug
     ports:
-      - 3954: 3954
+      - 3954:80
