@@ -13,12 +13,7 @@ namespace Social_v2.Clothes.Api.Infrastructure.Entities.Collections
         [MaxLength(CollectionConstants.NameMaxLength)]
         public string Title
         {
-            get { return Title; }
-            set
-            {
-                Id = GenerateStringId(value);
-                Title = value;
-            }
+            get; set;
         }
 
         [NotNull]

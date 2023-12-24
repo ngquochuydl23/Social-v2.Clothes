@@ -22,13 +22,11 @@ namespace Social_v2.Clothes.Api.Infrastructure.Entities.Products
 
         public virtual ProductEntity Product { get; set; }
 
-        public long MediaSetId { get; set; }
-
-        public virtual ProductVarientMediaSetEntity MediaSet { get; set; }
-
         public virtual WishlistEntity Wishlist { get; set; }
 
         public virtual CartItemEntity CartItem { get; set; }
+
+        public ICollection<ProductVarientMediaEntity> VarientMedias { get; set; } = new List<ProductVarientMediaEntity>();
 
         public ICollection<VarientValueEntity> VarientValues { get; set; } = new List<VarientValueEntity>();
 

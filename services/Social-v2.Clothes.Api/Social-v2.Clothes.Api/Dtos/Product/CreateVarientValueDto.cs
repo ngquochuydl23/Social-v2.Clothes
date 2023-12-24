@@ -1,6 +1,6 @@
 ﻿namespace Social_v2.Clothes.Api.Dtos.Product
 {
-  public class CreateSkuValueDto
+  public class CreateVarientValueDto
   {
     public string Option { get; set; }
 

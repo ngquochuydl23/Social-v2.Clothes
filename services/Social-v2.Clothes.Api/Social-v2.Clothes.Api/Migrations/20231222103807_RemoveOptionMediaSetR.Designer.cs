@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Social_v2.Clothes.Api.Infrastructure;
@@ -11,9 +12,11 @@ using Social_v2.Clothes.Api.Infrastructure;
 namespace Social_v2.Clothes.Api.Migrations
 {
     [DbContext(typeof(ClothesDbContext))]
-    partial class ClothesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231222103807_RemoveOptionMediaSetR")]
+    partial class RemoveOptionMediaSetR
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,7 +36,7 @@ namespace Social_v2.Clothes.Api.Migrations
                     b.Property<DateTime>("CreateAt")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<long?>("CustomerId")
+                    b.Property<long>("CustomerId")
                         .HasColumnType("bigint");
 
                     b.Property<bool>("IsDeleted")
@@ -585,6 +588,9 @@ namespace Social_v2.Clothes.Api.Migrations
                     b.Property<DateTime>("LastUpdate")
                         .HasColumnType("timestamp without time zone");
 
+                    b.Property<long>("MediaSetId")
+                        .HasColumnType("bigint");
+
                     b.Property<double>("Price")
                         .HasColumnType("double precision");
 
@@ -597,6 +603,8 @@ namespace Social_v2.Clothes.Api.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("MediaSetId");
 
                     b.HasIndex("ProductId");
 
@@ -620,11 +628,10 @@ namespace Social_v2.Clothes.Api.Migrations
                     b.Property<DateTime>("LastUpdate")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<string>("Mime")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<long>("MediaSetId")
+                        .HasColumnType("bigint");
 
-                    b.Property<string>("ProductVarientId")
+                    b.Property<string>("Mime")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -634,9 +641,42 @@ namespace Social_v2.Clothes.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductVarientId");
+                    b.HasIndex("MediaSetId");
 
                     b.ToTable("ProductVarientMedia", (string)null);
+                });
+
+            modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Products.ProductVarientMediaSetEntity", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("LastUpdate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<long>("RootOptionValueId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("RootProductOptionId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RootOptionValueId")
+                        .IsUnique();
+
+                    b.HasIndex("RootProductOptionId");
+
+                    b.ToTable("ProductVarientMediaSet", (string)null);
                 });
 
             modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Products.VarientValueEntity", b =>
@@ -847,7 +887,9 @@ namespace Social_v2.Clothes.Api.Migrations
                 {
                     b.HasOne("Social_v2.Clothes.Api.Infrastructure.Entities.Users.UserEntity", "Customer")
                         .WithOne("Cart")
-                        .HasForeignKey("Social_v2.Clothes.Api.Infrastructure.Entities.Cart.CartEntity", "CustomerId");
+                        .HasForeignKey("Social_v2.Clothes.Api.Infrastructure.Entities.Cart.CartEntity", "CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Customer");
                 });
@@ -992,24 +1034,51 @@ namespace Social_v2.Clothes.Api.Migrations
 
             modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Products.ProductVarientEntity", b =>
                 {
+                    b.HasOne("Social_v2.Clothes.Api.Infrastructure.Entities.Products.ProductVarientMediaSetEntity", "MediaSet")
+                        .WithMany("ProductVarients")
+                        .HasForeignKey("MediaSetId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Social_v2.Clothes.Api.Infrastructure.Entities.Products.ProductEntity", "Product")
                         .WithMany("ProductVarients")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("MediaSet");
+
                     b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Products.ProductVarientMediaEntity", b =>
                 {
-                    b.HasOne("Social_v2.Clothes.Api.Infrastructure.Entities.Products.ProductVarientEntity", "ProductVarient")
-                        .WithMany("VarientMedias")
-                        .HasForeignKey("ProductVarientId")
+                    b.HasOne("Social_v2.Clothes.Api.Infrastructure.Entities.Products.ProductVarientMediaSetEntity", "MediaSet")
+                        .WithMany("ProductMedias")
+                        .HasForeignKey("MediaSetId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("ProductVarient");
+                    b.Navigation("MediaSet");
+                });
+
+            modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Products.ProductVarientMediaSetEntity", b =>
+                {
+                    b.HasOne("Social_v2.Clothes.Api.Infrastructure.Entities.Products.ProductOptionValueEntity", "RootOptionValue")
+                        .WithOne("MediaSet")
+                        .HasForeignKey("Social_v2.Clothes.Api.Infrastructure.Entities.Products.ProductVarientMediaSetEntity", "RootOptionValueId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Social_v2.Clothes.Api.Infrastructure.Entities.Products.ProductOptionEntity", "RootProductOption")
+                        .WithMany()
+                        .HasForeignKey("RootProductOptionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("RootOptionValue");
+
+                    b.Navigation("RootProductOption");
                 });
 
             modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Products.VarientValueEntity", b =>
@@ -1140,6 +1209,9 @@ namespace Social_v2.Clothes.Api.Migrations
 
             modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Products.ProductOptionValueEntity", b =>
                 {
+                    b.Navigation("MediaSet")
+                        .IsRequired();
+
                     b.Navigation("VarientValues");
                 });
 
@@ -1156,12 +1228,17 @@ namespace Social_v2.Clothes.Api.Migrations
                     b.Navigation("Inventory")
                         .IsRequired();
 
-                    b.Navigation("VarientMedias");
-
                     b.Navigation("VarientValues");
 
                     b.Navigation("Wishlist")
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Products.ProductVarientMediaSetEntity", b =>
+                {
+                    b.Navigation("ProductMedias");
+
+                    b.Navigation("ProductVarients");
                 });
 
             modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Stores.StockLocationEntity", b =>
@@ -1171,7 +1248,8 @@ namespace Social_v2.Clothes.Api.Migrations
 
             modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Users.UserEntity", b =>
                 {
-                    b.Navigation("Cart");
+                    b.Navigation("Cart")
+                        .IsRequired();
 
                     b.Navigation("DeliveryAddresses");
 

@@ -4,7 +4,16 @@ services:
     image: socialv2upload
     container_name: socialv2upload
     build:
-      context: .
-      dockerfile: ./services/Social-v2.Clothes.UploadMediaApi/Dockerfile
+      context: ./services/Social-v2.Clothes.UploadMediaApi
+      dockerfile: Dockerfile
     ports:
       - 3854:3854
+
+  socialv2clothesapi:
+    image: imageName
+    container_name: name
+    build:
+      context: ./services/Social-v2.Clothes.Api/Social-v2.Clothes.Api
+      dockerfile: Dockerfile
+    ports:
+      - 3954: 3954

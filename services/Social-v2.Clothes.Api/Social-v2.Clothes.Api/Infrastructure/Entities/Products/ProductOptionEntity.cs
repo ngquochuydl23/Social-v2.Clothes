@@ -7,10 +7,9 @@
         public string ProductId { get; set; }
 
         public virtual ProductEntity Product { get; set; }
-
+         
         public bool IsRoot { get; set; } = false;
 
-        public ICollection<ProductVarientMediaSetEntity> MediaSets { get; set; } = new List<ProductVarientMediaSetEntity>();
 
         public ICollection<ProductOptionValueEntity> OptionValues { get; set; } = new List<ProductOptionValueEntity>();
 

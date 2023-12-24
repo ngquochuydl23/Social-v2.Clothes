@@ -31,7 +31,7 @@ namespace Social_v2.Clothes.Api.Infrastructure.Entities.Users
 
         public string Role { get; set; } = UserConstants.CustomerRole;
 
-        public virtual CartEntity Cart { get; set; }
+        public virtual CartEntity? Cart { get; set; }
 
         public virtual IEnumerable<DeliveryAddressEntity> DeliveryAddresses { get; set; } = new List<DeliveryAddressEntity>();
 

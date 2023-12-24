@@ -30,7 +30,7 @@
 
         public ICollection<CreateOptionDto> Options { get; set; } = new List<CreateOptionDto>();
 
-        public ICollection<CreateUpdateProductSkuDto> ProductSkus { get; set; } = new List<CreateUpdateProductSkuDto>();
+        public ICollection<CreateUpdateProductVarientDto> ProductVarients { get; set; } = new List<CreateUpdateProductVarientDto>();
 
         public ICollection<ChooseCategoryDto> Categories { get; set; } = new List<ChooseCategoryDto>();
     }

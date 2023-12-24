@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Social_v2.Clothes.Api.Dtos;
+using Social_v2.Clothes.Api.Dtos.Cart;
 using Social_v2.Clothes.Api.Dtos.Category;
 using Social_v2.Clothes.Api.Dtos.Collection;
 using Social_v2.Clothes.Api.Dtos.Customer;
@@ -10,6 +11,7 @@ using Social_v2.Clothes.Api.Dtos.Product.SkuValue;
 using Social_v2.Clothes.Api.Dtos.ProductType;
 using Social_v2.Clothes.Api.Dtos.Users;
 using Social_v2.Clothes.Api.Dtos.Wishlist;
+using Social_v2.Clothes.Api.Infrastructure.Entities.Cart;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Categories;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Collections;
 using Social_v2.Clothes.Api.Infrastructure.Entities.DeliveryAddresses;
@@ -43,6 +45,10 @@ namespace Social_v2.Clothes.Api.Extensions
 
             CreateMap<ProductTypeEntity, ProductTypeDto>();
             CreateMap<InviteEntity, InviteDto>();
+
+            CreateMap<CartEntity, CartDto>();
+            CreateMap<UserEntity, CartCustomerDto>();
+
         }
     }
 }

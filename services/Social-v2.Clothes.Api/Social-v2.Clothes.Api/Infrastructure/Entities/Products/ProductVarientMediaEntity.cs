@@ -6,15 +6,17 @@
 
         public string Mime { get; set; }
 
-        public long MediaSetId { get; set; }
+        public string ProductVarientId { get; set; }
 
-        public virtual ProductVarientMediaSetEntity MediaSet { get; set; }
+        public virtual ProductVarientEntity ProductVarient { get; set; }
 
+        public ProductVarientMediaEntity() { }
 
-        public ProductVarientMediaEntity(string url, string mime)
+        public ProductVarientMediaEntity(string url, string mime, string pVarientId)
         {
             Url = url;
             Mime = mime;
+            ProductVarientId= pVarientId;
         }
     }
 }

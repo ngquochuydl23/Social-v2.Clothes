@@ -4,8 +4,6 @@
     {
         public virtual ProductOptionEntity Option { get; set; }
 
-        public virtual ProductVarientMediaSetEntity MediaSet { get; set; }
-
         public long OptionId { get; set; }
 
         public string Value { get; set; }
