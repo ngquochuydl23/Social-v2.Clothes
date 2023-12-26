@@ -32,9 +32,10 @@ const Profile = () => {
       <div className="container mx-auto lg:px-0 px-4">
         <div className="max-w-4xl mx-auto pt-14 sm:pt-26 pb-24 lg:pb-32">
           <div className="space-y-10 sm:space-y-12">
-            <h2 className="text-2xl sm:text-3xl font-semibold">
-              Account information
-            </h2>
+            <Typography
+              mb="20px"
+              fontWeight="800"
+              variant="h4">{`Personal Information`}</Typography>
             <div className="flex flex-col md:flex-row">
               <div className="flex-shrink-0 flex items-start">
                 <div className="relative rounded-full overflow-hidden flex">
@@ -56,33 +57,33 @@ const Profile = () => {
                 className="flex-grow mt-10 md:mt-0 md:pl-16 max-w-3xl space-y-6"
               >
                 <TextField
-                    required
-                    fullWidth
-                    id="subtitle"
-                    label="Full name"
-                    
-                  // onChange={formik.handleChange}
-                  // value={formik.values.subtitle}
-                  />
+                  required
+                  fullWidth
+                  id="subtitle"
+                  label="Full name"
+
+                // onChange={formik.handleChange}
+                // value={formik.values.subtitle}
+                />
                 <TextField
-                    required
-                    fullWidth
-                    id="subtitle"
-                    label="Email"
-                    
-                  // onChange={formik.handleChange}
-                  // value={formik.values.subtitle}
-                  />
-                 <TextField
-                    required
-                    fullWidth
-                    id="subtitle"
-                    label="Date of birth"
-                    
-                  // onChange={formik.handleChange}
-                  // value={formik.values.subtitle}
-                  />
-                
+                  required
+                  fullWidth
+                  id="subtitle"
+                  label="Email"
+
+                // onChange={formik.handleChange}
+                // value={formik.values.subtitle}
+                />
+                <TextField
+                  required
+                  fullWidth
+                  id="subtitle"
+                  label="Date of birth"
+
+                // onChange={formik.handleChange}
+                // value={formik.values.subtitle}
+                />
+
                 <div>
                   <label
                     className="nc-Label text-base font-medium text-neutral-900"
@@ -107,14 +108,14 @@ const Profile = () => {
                   </select>
                 </div>
                 <TextField
-                    required
-                    fullWidth
-                    id="subtitle"
-                    label="Phone number"
-                    
-                  // onChange={formik.handleChange}
-                  // value={formik.values.subtitle}
-                  />
+                  required
+                  fullWidth
+                  id="subtitle"
+                  label="Phone number"
+
+                // onChange={formik.handleChange}
+                // value={formik.values.subtitle}
+                />
                 <Button variant="contained">
                   Save
                 </Button>

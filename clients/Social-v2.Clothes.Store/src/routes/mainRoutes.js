@@ -87,18 +87,18 @@ const mainRoutes = {
             </SplitRouter>
           ),
         },
+        {
+          path: "my-order",
+          element: (
+            <SplitRouter>
+              <Order />
+            </SplitRouter>
+          ),
+        },
       ]
     },
     {
-      path: "/my-order",
-      element: (
-        <SplitRouter>
-          <Order />
-        </SplitRouter>
-      ),
-    },
-    {
-      path: "/product/:title/:pid",
+      path: "/product/:title",
       element: (
         <SplitRouter>
           <ProductDescription />

@@ -1,36 +1,52 @@
 import { Box, Container, Stack, Typography } from "@mui/material";
 import React, { useState } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 
-function a11yProps(index) {
-    return {
-        id: `vertical-tab-${index}`,
-        'aria-controls': `vertical-tabpanel-${index}`,
-    };
-}
-
 const tabSx = {
-    width: '100%',
     fontWeight: '500',
+    padding: 0,
     textTransform: 'none',
-    fontSize: '15px',
-    fontFamily: 'Poppins',
     alignItems: 'flex-start',
     '&.Mui-selected': {
         color: 'white',
         backgroundColor: 'black',
         borderRadius: '7.5px'
     },
+    '&.MuiTab-root': {
+        width: '100%',
+        marginLeft: 0,
+        paddingLeft: '15px'
+    },
 }
 
+
+const accountRoutes = [
+    {
+        label: "Personal Information",
+        path: "/account/info"
+    },
+    {
+        label: "Shipping Addresses",
+        path: "/account/shipping-address"
+    },
+    {
+        label: "My Orders",
+        path: "/account/my-order"
+    },
+    {
+        label: "My Vouchers",
+        path: "/account/my-vouchers"
+    }
+]
 const AccountLayout = () => {
     const [value, setValue] = useState(0);
-
+    const { pathname } = useLocation()
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
+
     return (
         <Container>
             <Stack direction="row">
@@ -38,27 +54,22 @@ const AccountLayout = () => {
                     indicatorColor="black"
                     orientation="vertical"
                     variant="scrollable"
-                    value={value}
+                    value={accountRoutes.findIndex((route) => route.path === pathname)}
                     onChange={handleChange}
-                    aria-label="Vertical tabs example"
                     sx={{
                         width: '400px',
                         mt: '56px',
                         mr: '100px',
-                    }} >
-                    <Tab
-                        href="/account/info"
-                        label="Personal Information" {...a11yProps(0)}
-                        sx={tabSx} />
-                    <Tab
-                        href="/account/shipping-address"
-                        label="Shipping Addresses" {...a11yProps(1)} sx={tabSx} />
-                    <Tab label="Ordered History" {...a11yProps(2)} sx={tabSx} />
-                    <Tab label="Vouchers" {...a11yProps(2)} sx={tabSx} />
+                    }}>
+                    {accountRoutes.map((route) => (
+                        <Tab
+                            href={route.path}
+                            label={route.label}
+                            sx={tabSx} />
+                    ))}
                 </Tabs>
                 <Outlet />
             </Stack>
-
         </Container>
     );
 };

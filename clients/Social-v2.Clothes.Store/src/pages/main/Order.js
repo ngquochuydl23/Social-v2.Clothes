@@ -1,15 +1,14 @@
 import React from "react";
-import LazyLoadingImage from "../../components/LazyLoadingImage";
+import { Box, Typography } from "@mui/material";
 
 const Order = () => {
   return (
-    <>
-      <LazyLoadingImage
-        src={"/coming-soon.gif"}
-        alt={"coming-soom"}
-        className={"max-w-full object-contain h-full w-full"}
-      />
-    </>
+    <Box py="15px" sx={{ width: '100%' }}>
+      <Typography
+        mb="20px"
+        fontWeight="800"
+        variant="h4">{`My Orders`}</Typography>
+    </Box >
   );
 };
 

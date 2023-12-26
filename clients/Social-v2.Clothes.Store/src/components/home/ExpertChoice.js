@@ -60,8 +60,8 @@ const ExpertChoice = ({ products, loading, type }) => {
                           <LazyLoadingImage
                             height={"253"}
                             width={"405"}
-                            src={thumbnail.url}
-                            alt={thumbnail.public_id}
+                            src={thumbnail}
+                            alt={thumbnail}
                             className="object-contain max-w-full w-[405px] h-[253px] rounded-2xl"
                           />
                         </div>

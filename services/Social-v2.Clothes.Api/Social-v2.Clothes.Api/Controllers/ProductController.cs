@@ -187,7 +187,7 @@ namespace Social_v2.Clothes.Api.Controllers
                 if (_productRepo
                     .GetQueryableNoTracking()
                     .FirstOrDefault(x => x.Id.Equals(product.Id)) != null)
-                    throw new Exception("Product is already exist.");
+                    throw new AppException("Product is already exist.");
 
                 foreach (var x in value.Options)
                 {

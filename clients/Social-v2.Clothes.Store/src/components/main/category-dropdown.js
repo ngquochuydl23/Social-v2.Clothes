@@ -27,7 +27,6 @@ export default function CategoryDropdown() {
             <Popover
                 PaperProps={{ style: { width: '100%', paddingRight: 0 } }}
                 elevation={1}
-
                 id="mouse-over-popover"
                 sx={{
                     pointerEvents: 'none',
@@ -44,9 +43,9 @@ export default function CategoryDropdown() {
                     horizontal: 'center',
                 }}
                 onClose={handlePopoverClose}
-                disableRestoreFocus
+                //disableRestoreFocus
             >
-                <Typography sx={{ p: 1 }}>I use Popover.</Typography>
+                <Typography sx={{ p: 1, height: 400 }}>I use Popover.</Typography>
             </Popover>
         </div>
     );

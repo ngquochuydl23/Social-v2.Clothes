@@ -6,6 +6,7 @@ import store from "./app/store";
 import { Provider } from "react-redux";
 import reportWebVitals from "./reportWebVitals";
 import { createTheme } from "./theme/index";
+import { ThemeProvider } from "@mui/material";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 const theme = createTheme();
@@ -13,7 +14,9 @@ const theme = createTheme();
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <ThemeProvider theme={theme}>
+        <App />
+      </ThemeProvider>
     </Provider>
   </React.StrictMode>
 );

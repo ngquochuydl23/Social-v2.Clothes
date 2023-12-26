@@ -7,7 +7,8 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
 export default function AlertDialog({
-    open, handleClose, onLeftClick, onRightClick, title, content, leftTxt, rightTxt
+    open, handleClose, onLeftClick, onRightClick, title, content, leftTxt, rightTxt,
+    sxLeftBtn, sxRightBtn,
 }) {
     return (
         <Dialog
@@ -24,14 +25,19 @@ export default function AlertDialog({
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
-                <Button onClick={() => {
-                    onLeftClick()
-                    handleClose()
-                }}>{leftTxt}</Button>
-                <Button onClick={() => {
-                    onRightClick()
-                    handleClose()
-                }} autoFocus>
+                <Button
+                    sx={sxLeftBtn}
+                    onClick={() => {
+                        onLeftClick()
+                        handleClose()
+                    }}>{leftTxt}
+                </Button>
+                <Button
+                    sx={sxRightBtn}
+                    onClick={() => {
+                        onRightClick()
+                        handleClose()
+                    }} autoFocus>
                     {rightTxt}
                 </Button>
             </DialogActions>

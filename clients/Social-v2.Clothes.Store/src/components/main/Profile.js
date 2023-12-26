@@ -13,12 +13,12 @@ const Profile = () => {
     {
       name: "My Profile",
       icon: ProfileIcon,
-      link: "/my-profile",
+      link: "/account/info",
     },
     {
       name: "My Order",
       icon: OrderIcon,
-      link: "/my-order",
+      link: "/account/my-order",
     },
     {
       name: "Contact Us",
@@ -69,39 +69,23 @@ const Profile = () => {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="absolute md:-left-[500%] left-0 mt-2 w-64 origin-top-right divide-y divide-gray-100 bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none p-7 rounded-2xl">
+        <Menu.Items className="absolute md:-left-[800%] left-0 mt-2 w-[300px] origin-top-right divide-y divide-gray-100 bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none p-7 rounded-2xl">
           <div className="flex flex-col gap-y-4">
-            {Object.keys(user).length ? (
-              <div className="flex items-center space-x-3">
-                <div className="relative flex-shrink-0 inline-flex items-center justify-center text-neutral-100 uppercase font-semibold shadow-inner rounded-full w-12 h-12 ring-1 ring-white">
-                  <LazyLoadingImage
-                    className="absolute inset-0 w-full h-full object-cover rounded-full"
-                    src={user?.avatar?.url}
-                    alt={user?.name}
-                    height={"48"}
-                    width={"48"}
-                  />
-                </div>
-                <div className="flex-grow">
-                  <h4 className="font-semibold">{user?.name}</h4>
-                  <p className="text-xs mt-0.5">{user?.email}</p>
-                </div>
+            <div className="flex items-center space-x-3">
+              <div className="relative flex-shrink-0 inline-flex items-center justify-center text-neutral-100 uppercase font-semibold shadow-inner rounded-full w-12 h-12 ring-1 ring-white">
+                <LazyLoadingImage
+                  className="absolute inset-0 w-full h-full object-cover rounded-full"
+                  src={'https://img.freepik.com/premium-psd/3d-male-cute-cartoon-character-avatar-isolated-3d-rendering_235528-1280.jpg'}
+                  alt={user?.name}
+                  height={"48"}
+                  width={"48"}
+                />
               </div>
-            ) : (
-              <Menu.Item>
-                {({ active }) => (
-                  <Link
-                    to="/sign-in"
-                    className={`${
-                      active ? "shadow" : "text-gray-900"
-                    } group flex gap-x-4 w-full items-center rounded-md px-2 py-2 text-sm`}
-                  >
-                    <LogoutIcon className="h-5 w-5" aria-hidden="true" />
-                    Login
-                  </Link>
-                )}
-              </Menu.Item>
-            )}
+              <div className="flex-grow">
+                <h4 className="font-semibold">{`Nguyễn Quốc Huy`}</h4>
+                <p className="text-xs mt-0.5">{`0868684961`}</p>
+              </div>
+            </div>
             <hr />
             <div className="flex flex-col gap-y-6">
               {items.map((item, index) => (
@@ -109,10 +93,8 @@ const Profile = () => {
                   {({ active }) => (
                     <Link
                       to={item.link}
-                      className={`flex items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50 ${
-                        active ? "text-slate-900/50 shadow-sm" : "text-gray-900"
-                      }`}
-                    >
+                      className={`flex items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50 ${active ? "text-slate-900/50 shadow-sm" : "text-gray-900"
+                        }`}>
                       <div className="flex items-center justify-center flex-shrink-0 text-neutral-500">
                         <item.icon />
                       </div>
@@ -148,26 +130,6 @@ const Profile = () => {
     </Menu>
   );
 };
-
-function DashboardIcon(props) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-      strokeWidth={1.5}
-      stroke="currentColor"
-      className="w-6 h-6"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5m.75-9l3-3 2.148 2.148A12.061 12.061 0 0116.5 7.605"
-      />
-    </svg>
-  );
-}
 
 function LogoutIcon(props) {
   return (

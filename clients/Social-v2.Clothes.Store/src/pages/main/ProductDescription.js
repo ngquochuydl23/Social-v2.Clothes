@@ -31,15 +31,28 @@ const ProductDescription = () => {
     thumbnail,
     gallery,
     price,
-    subcategory,
+    materials,
     brand,
     store,
     options,
     reviews,
+    subtitle
   } = {
-    title: `Nike Air Force 1 '07`,
-    description: `The radiance lives on in the Nike Air Force 1 '07, the basketball original that puts a fresh spin on what you know best: durably stitched overlays, clean finishes and the perfect amount of flash to make you shine.\n\nColour Shown: White/White\nStyle: CW2288-111`,
-    thumbnail: 'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/b7d9211c-26e7-431a-ac24-b0540fb3c00f/air-force-1-07-shoes-WrLlWX.png',
+    title: `Áo Nỉ`,
+    subtitle: 'Regular Straight',
+    description: `Tổng quan
+    - Chất liệu vải dệt kim mịn với màu sắc tuyệt đẹp và vẻ ngoài thanh lịch.\n
+    - Độ dày vừa phải để dễ dàng tạo layer.\n
+    - Chất vải mịn, chống xù.\n
+    - Thiết kế tay áo có gân và chữ V cổ điển.\n
+    - Tay áo cài sẵn kiểu dáng đẹp.\n`,
+    thumbnail: 'https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/460322/item/goods_31_460322.jpg?width=750',
+    gallery: [
+      "https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/460322/sub/vngoods_460322_sub1.jpg?width=750",
+      "https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/460322/sub/vngoods_460322_sub4.jpg?width=750",
+      "https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/460322/sub/vngoods_460322_sub6.jpg?width=750",
+      "https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/460322/sub/goods_460322_sub14.jpg?width=750"
+    ],
     price: 2929000,
     options: [
       {
@@ -63,43 +76,52 @@ const ProductDescription = () => {
         ]
       }
     ],
+    materials: `
+    Mã sản phẩm 460322
+    Xin lưu ý mã số nhận diện của sản phẩm có thể có sự khác biệt, kể cả khi đó là cùng một mặt hàng.
+    VẢI
+    Thân: 100% Bông/ Bo: 82% Bông, 18% Polyeste
+    HƯỚNG DẪN GIẶT
+    Giặt máy nước lạnh, Không giặt khô
+    - Những hình ảnh sản phẩm có thể bao gồm những màu không có sẵn.
+    `,
     reviews: [{
 
       id: 1,
       reviewer: {
         avatar: 'https://avatars.githubusercontent.com/u/36536025?v=4',
         fullName: 'Nguyễn Quốc Huy',
-       
+
       },
       createAt: '2019-04-11T10:20:30Z',
       description: 'Very nice feeling sweater. I like it better than a regular hoody because it is tailored to be a slimmer fit. Perfect for going out when you want to stay comfy. The head opening is a little tight which makes it a little.'
-    },{
+    }, {
 
       id: 1,
       reviewer: {
         avatar: 'https://avatars.githubusercontent.com/u/36536025?v=4',
         fullName: 'Nguyễn Quốc Huy',
-       
+
       },
       createAt: '2019-04-11T10:20:30Z',
       description: 'Very nice feeling sweater. I like it better than a regular hoody because it is tailored to be a slimmer fit. Perfect for going out when you want to stay comfy. The head opening is a little tight which makes it a little.'
-    },{
+    }, {
 
       id: 1,
       reviewer: {
         avatar: 'https://avatars.githubusercontent.com/u/36536025?v=4',
         fullName: 'Nguyễn Quốc Huy',
-       
+
       },
       createAt: '2019-04-11T10:20:30Z',
       description: 'Very nice feeling sweater. I like it better than a regular hoody because it is tailored to be a slimmer fit. Perfect for going out when you want to stay comfy. The head opening is a little tight which makes it a little.'
-    },{
+    }, {
 
       id: 1,
       reviewer: {
         avatar: 'https://avatars.githubusercontent.com/u/36536025?v=4',
         fullName: 'Nguyễn Quốc Huy',
-       
+
       },
       createAt: '2019-04-11T10:20:30Z',
       description: 'Very nice feeling sweater. I like it better than a regular hoody because it is tailored to be a slimmer fit. Perfect for going out when you want to stay comfy. The head opening is a little tight which makes it a little.'
@@ -117,13 +139,12 @@ const ProductDescription = () => {
     if (isCartSuccess) {
       toast.success("Product added to cart!");
       setTimeout(() => {
-        // window.location.reload();
+        window.location.reload();
         navigate(0);
       }, 1000);
     }
   }, [isCartSuccess, navigate]);
 
-  // react hook form credentials
   const {
     register,
     handleSubmit,
@@ -155,33 +176,33 @@ const ProductDescription = () => {
                 alt={thumbnail}
                 className={"max-w-full h-full w-full object-cover rounded-2xl"}
               />
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-4 gap-2">
                 {gallery?.map((image) => (
                   <LazyLoadingImage
-                    key={image?._id}
+                    key={image}
                     height={"135"}
-                    width={"202"}
-                    src={image?.url}
-                    alt={image?.public_id}
+                    width={"100%"}
+                    src={image}
                     className={
-                      "max-w-full h-[135px] w-[202px] object-cover rounded-2xl"
+                      "max-w-full h-[135px] object-cover rounded-2xl"
                     }
                   />
                 ))}
               </div>
             </div>
 
-            {/* product information */}
             <div className="flex flex-col gap-y-8">
-              {/* name & price */}
               <div className="flex flex-col gap-y-1">
                 <h2 className="text-2xl sm:text-3xl font-semibold">{title}</h2>
+                <h4 className="text-1xl sm:text-1xl font-medium">{subtitle}</h4>
                 <div className="flex items-center mt-5 space-x-4 sm:space-x-5">
                   <div className="">
                     <div className="flex items-center border-2 border-green-500 rounded-lg py-1 px-2 md:py-1.5 md:px-3 text-lg font-semibold">
-                      <span className="text-green-500 !leading-none">
-                        {format(price, { currency: 'đ', thumbnail: ',' })}
-                      </span>
+                      <Typography>
+                        <span className="text-green-500 !leading-none">
+                          {format(price, { currency: 'đ', thumbnail: ',' })}
+                        </span>
+                      </Typography>
                     </div>
                   </div>
                   <div className="h-7 border-l border-slate-300"></div>
@@ -364,10 +385,7 @@ const ProductDescription = () => {
               </div>
 
               <hr className="border-slate-200"></hr>
-
-              {/* disclosures */}
               <div className="flex flex-col gap-y-4">
-                {/* description */}
                 <Disclosure>
                   {({ open }) => (
                     <>
@@ -384,181 +402,73 @@ const ProductDescription = () => {
                     </>
                   )}
                 </Disclosure>
-
-                {/* subcategory */}
                 <Disclosure>
                   {({ open }) => (
                     <>
                       <Disclosure.Button className="flex items-center justify-between w-full px-4 py-2 font-medium text-left bg-slate-100/80 hover:bg-slate-200/60 rounded-lg focus:outline-none focus-visible:ring focus-visible:ring-slate-500 focus-visible:ring-opacity-75 ">
-                        <span>Subcategory</span>
-                        <ChevronUpIcon
-                          className={`${open ? "rotate-180 transform" : ""
-                            } h-5 w-5 text-slate-500`}
-                        />
+                        <span>Materials</span>
+                        <ChevronUpIcon className={`${open ? "rotate-180 transform" : ""} h-5 w-5 text-slate-500`} />
                       </Disclosure.Button>
                       <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm text-gray-500">
-                        <div
-                          className="nc-ReviewItem flex flex-col"
-                          data-nc-id="ReviewItem"
-                        >
-                          <div className="flex space-x-4">
-                            <div className="flex-shrink-0 pt-0.5">
-                              <div className="wil-avatar relative flex-shrink-0 inline-flex items-center justify-center text-neutral-100 uppercase font-semibold shadow-inner rounded-full h-10 w-10 text-lg ring-1 ring-white">
-                                <LazyLoadingImage
-                                  height={"40"}
-                                  width={"40"}
-                                  src={subcategory?.thumbnail?.url}
-                                  alt={subcategory?.thumbnail?.public_id}
-                                  className={
-                                    "object-cover rounded-full h-10 w-10 absolute inset-0"
-                                  }
-                                />
-                                <span className="wil-avatar__name">S</span>
-                              </div>
-                            </div>
-                            <div className="flex-1 flex justify-between">
-                              <div className="text-sm sm:text-base">
-                                <span className="block font-semibold">
-                                  {subcategory?.title}
-                                </span>
-                                <span className="block mt-0.5 text-slate-500 text-sm">
-                                  {subcategory?.category?.title}
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="prose prose-sm sm:prose sm:max-w-2xl">
-                            <p className="px-4 pt-4 pb-2 text-sm text-gray-500">
-                              {subcategory?.description}
-                            </p>
-                          </div>
-                          <div className="flex flex-wrap ml-4">
-                            {/* {subcategory?.tags?.map((tag, index) => (
-                              <span
-                                key={index}
-                                className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded border border-blue-400"
-                              >
-                                {tag}
-                              </span>
-                            ))} */}
-                          </div>
-                        </div>
+                        {materials}
                       </Disclosure.Panel>
                     </>
                   )}
                 </Disclosure>
-
-                {/* brand */}
                 <Disclosure>
                   {({ open }) => (
                     <>
                       <Disclosure.Button className="flex items-center justify-between w-full px-4 py-2 font-medium text-left bg-slate-100/80 hover:bg-slate-200/60 rounded-lg focus:outline-none focus-visible:ring focus-visible:ring-slate-500 focus-visible:ring-opacity-75 ">
-                        <span>Brand</span>
+                        <span>Shipping</span>
                         <ChevronUpIcon
                           className={`${open ? "rotate-180 transform" : ""
                             } h-5 w-5 text-slate-500`}
                         />
                       </Disclosure.Button>
                       <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm text-gray-500">
-                        <div
-                          className="nc-ReviewItem flex flex-col"
-                          data-nc-id="ReviewItem"
-                        >
-                          <div className="flex space-x-4">
-                            <div className="flex-shrink-0 pt-0.5">
-                              <div className="wil-avatar relative flex-shrink-0 inline-flex items-center justify-center text-neutral-100 uppercase font-semibold shadow-inner rounded-full h-10 w-10 text-lg ring-1 ring-white">
-                                <LazyLoadingImage
-                                  height={"40"}
-                                  width={"40"}
-                                  src={brand?.logo?.url}
-                                  alt={brand?.logo?.public_id}
-                                  className={
-                                    "object-cover rounded-full h-10 w-10 absolute inset-0"
-                                  }
-                                />
-                                <span className="wil-avatar__name">S</span>
-                              </div>
-                            </div>
-                            <div className="flex-1 flex justify-between">
-                              <div className="text-sm sm:text-base">
-                                <span className="block font-semibold">
-                                  {brand?.title}
-                                </span>
-                                <span className="block mt-0.5 text-slate-500 text-sm">
-                                  {brand?.location}
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="prose prose-sm sm:prose sm:max-w-2xl">
-                            <p className="px-4 pt-4 pb-2 text-sm text-gray-500">
-                              {brand?.description}
-                            </p>
-                          </div>
-                        </div>
+
+                        Please note all orders are subject to review and Christian Louboutin reserves the right to request additional identification information and to ship the order to the billing address. Please allow a minimum of 24 hours for this process in addition to your shipping time.
+
+                        Mainland U.S.
+
+                        Ground - FREE (3-5 business days)
+
+                        Second Day - $30.00 - (2 business days)
+
+                        Next Day - $50.00 - Packages arrive within 1 business day, provided your order is placed by 2pm (EST).
+
+                        Saturday Delivery - $70.00 - Packages arrive on Saturday, provided order is placed before 2 pm (EST) on Friday.
+
+                        Same Day Delivery - $75 – only available for Manhattan Monday through Friday. Please ensure that you place your order before 11am. Order placed after this time cannot be delivered using same day service. Orders will be delivered between 2pm and 6pm. Please ensure you are available to sign for your order. If the driver is unable to obtain a signature a customer service representative wil call to arrange another delivery which will be subject to a fee.
+
+                        Alaska, Hawaii,*
+
+                        Next Day $50.00
+
+                        Second-day $30.00
+
+                        *Ground and Saturday delivery not available
+
+
                       </Disclosure.Panel>
                     </>
                   )}
                 </Disclosure>
-
-                {/* store */}
                 <Disclosure>
                   {({ open }) => (
                     <>
                       <Disclosure.Button className="flex items-center justify-between w-full px-4 py-2 font-medium text-left bg-slate-100/80 hover:bg-slate-200/60 rounded-lg focus:outline-none focus-visible:ring focus-visible:ring-slate-500 focus-visible:ring-opacity-75 ">
-                        <span>Store</span>
+                        <span>Returns</span>
                         <ChevronUpIcon
                           className={`${open ? "rotate-180 transform" : ""
                             } h-5 w-5 text-slate-500`}
                         />
                       </Disclosure.Button>
                       <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm text-gray-500">
-                        <div
-                          className="nc-ReviewItem flex flex-col"
-                          data-nc-id="ReviewItem"
-                        >
-                          <div className="flex space-x-4">
-                            <div className="flex-shrink-0 pt-0.5">
-                              <div className="wil-avatar relative flex-shrink-0 inline-flex items-center justify-center text-neutral-100 uppercase font-semibold shadow-inner rounded-full h-10 w-10 text-lg ring-1 ring-white">
-                                <LazyLoadingImage
-                                  height={"40"}
-                                  width={"40"}
-                                  src={store?.thumbnail?.url}
-                                  alt={store?.thumbnail?.public_id}
-                                  className={
-                                    "object-cover rounded-full h-10 w-10 absolute inset-0"
-                                  }
-                                />
-                                <span className="wil-avatar__name">S</span>
-                              </div>
-                            </div>
-                            <div className="flex-1 flex justify-between">
-                              <div className="text-sm sm:text-base">
-                                <span className="block font-semibold">
-                                  {store?.title}
-                                </span>
-                                <span className="block mt-0.5 text-slate-500 text-sm">
-                                  {store?.seller?.name}
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="prose prose-sm sm:prose sm:max-w-2xl">
-                            <p className="px-4 pt-4 pb-2 text-sm text-gray-500">
-                              {store?.description}
-                            </p>
-                          </div>
-                          <div className="flex flex-wrap ml-4">
-                            {/* {store?.tags?.map((tag, index) => (
-                              <span
-                                key={index}
-                                className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded border border-blue-400"
-                              >
-                                {tag}
-                              </span>
-                            ))} */}
-                          </div>
-                        </div>
+                        Free returns within 30 days from the date of delivery.
+                        Online Orders can NOT be returned at our boutiques. Please refer to our FAQ for more details.
+                        Items must be returned in perfect condition. The red sole must be unmarked. Christian Louboutin will not accept any return of products that appear to have been used or have been damaged.
+                        See our Return policy.
                       </Disclosure.Panel>
                     </>
                   )}
