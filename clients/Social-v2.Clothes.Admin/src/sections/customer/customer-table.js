@@ -19,6 +19,7 @@ import moment from 'moment/moment';
 import { Filter } from '@mui/icons-material';
 import TuneIcon from '@mui/icons-material/Tune';
 import AddIcon from '@mui/icons-material/Add';
+import Link from 'next/link';
 
 export const CustomerTable = (props) => {
   const {
@@ -65,6 +66,9 @@ export const CustomerTable = (props) => {
                 return (
                   <TableRow
                     hover
+                    component={Link}
+                    sx={{ textDecoration: 'none' }}
+                    href={"/customers/" + customer.id}
                     key={customer.id}
                     selected={isSelected}>
                     <TableCell padding="checkbox">

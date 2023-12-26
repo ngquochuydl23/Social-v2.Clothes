@@ -1,7 +1,4 @@
 import Head from "next/head";
-import ArrowUpOnSquareIcon from "@heroicons/react/24/solid/ArrowUpOnSquareIcon";
-import ArrowDownOnSquareIcon from "@heroicons/react/24/solid/ArrowDownOnSquareIcon";
-import PlusIcon from "@heroicons/react/24/solid/PlusIcon";
 import {
   Box,
   Button,
@@ -13,13 +10,6 @@ import {
   Unstable_Grid2 as Grid,
 } from "@mui/material";
 import { Layout as DashboardLayout } from "src/layouts/dashboard/layout";
-import { CompanyCard } from "src/sections/companies/company-card";
-import { CompaniesSearch } from "src/sections/companies/companies-search";
-import millify from "millify";
-import { OverviewListenerInPeriod } from "src/sections/products/overview-listener-in-period";
-import { OverviewListenerGender } from "src/sections/products/overview-listener-gender";
-import { OverviewListenerAgeGroup } from "src/sections/products/overview-listener-age-group";
-import { ProductTable } from "src/sections/products/product-table";
 import { CategoryTable } from "src/sections/categories/CategoryTable";
 
 const songs = [

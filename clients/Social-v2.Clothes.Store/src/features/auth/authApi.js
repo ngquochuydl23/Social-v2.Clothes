@@ -27,6 +27,8 @@ const authApi = apiSlice.injectEndpoints({
           //const userData = await queryFulfilled;
 
           const userData = {
+            name: "Nguyễn Quốc Huy",
+            email: 'nguyenquochuydl123@gmail.com',
             avatar: "https://avatars.githubusercontent.com/u/36536025?v=4"
           }
 

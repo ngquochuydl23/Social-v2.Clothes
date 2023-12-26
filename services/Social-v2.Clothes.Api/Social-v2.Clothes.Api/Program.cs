@@ -5,6 +5,7 @@ using Social_v2.Clothes.Api.Middlewares;
 using Newtonsoft.Json;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Social_v2.Clothes.Api.Infrastructure;
 
 namespace Social_v2.Clothes.Api
 {
@@ -32,15 +33,16 @@ namespace Social_v2.Clothes.Api
                     .AddEmailSender(builder.Configuration);
 
             builder.Services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
+            builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
             builder.Services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
 
             var app = builder.Build();
 
-            //if (app.Environment.IsDevelopment())
-            //{
+            if (app.Environment.IsDevelopment())
+            {
                 app.UseSwagger();
                 app.UseSwaggerUI();
-            //}
+            }
             app.UseCors(x => x
                 .AllowAnyHeader()
                 .AllowAnyMethod()

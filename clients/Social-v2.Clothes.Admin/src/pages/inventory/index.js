@@ -49,7 +49,7 @@ const inventoryDTOS = [
   {
     id: "5e887ac47eed253091be10cb",
     name: "Jeans Basics dáng Regular Straight",
-    thumbnail:
+    x :
       "https://media2.coolmate.me/cdn-cgi/image/quality=80,format=auto/uploads/November2023/23CMCW.JE003.11_52.jpg",
     variants: ["Small", "White", "Hooded"],
     sku: "ROBE_001",

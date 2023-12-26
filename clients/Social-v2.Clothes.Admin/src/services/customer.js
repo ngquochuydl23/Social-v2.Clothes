@@ -1,0 +1,1 @@
+export const getCustomers = (albumId) => http.get('/Album/' + albumId)

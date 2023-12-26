@@ -83,7 +83,6 @@ namespace Social_v2.Clothes.Api.Controllers
 
 
             _wishlistRepo.Delete(wishlist.Id);
-
             return Ok();
         }
     }

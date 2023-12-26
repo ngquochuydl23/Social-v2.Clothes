@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Social_v2.Clothes.Api.Dtos.Product;
+using Social_v2.Clothes.Api.Infrastructure;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Categories;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Inventories;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Products;
@@ -20,6 +21,7 @@ namespace Social_v2.Clothes.Api.Controllers
         private readonly IRepository<ProductEntity> _productRepo;
         private readonly IRepository<ProductVarientEntity> _productSkuRepo;
         private readonly IRepository<ProductOptionEntity> _productOptionRepo;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
         public ProductController(
@@ -27,9 +29,11 @@ namespace Social_v2.Clothes.Api.Controllers
             IRepository<ProductVarientEntity> productSkuRepo,
             IRepository<ProductOptionEntity> productOptionRepo,
             IHttpContextAccessor httpContextAccessor,
+            IUnitOfWork unitOfWork,
             IMapper mapper) : base(httpContextAccessor)
         {
             _productRepo = productRepo;
+            _unitOfWork = unitOfWork;
             _productSkuRepo = productSkuRepo;
             _productOptionRepo = productOptionRepo;
             _mapper = mapper;
@@ -51,7 +55,7 @@ namespace Social_v2.Clothes.Api.Controllers
         [HttpGet("{id}/withOptionValue")]
         public IActionResult GetProductWithOptionValue([FromQuery] object queryParams)
         {
-            
+
 
             return Ok(HttpContext.Request.Query);
         }
@@ -95,6 +99,8 @@ namespace Social_v2.Clothes.Api.Controllers
         [HttpPut("{id}/sku")]
         public IActionResult CreateProductSku(string id, [FromBody] CreateUpdateProductVarientDto value)
         {
+
+
             var product = _productRepo
                .GetQueryableNoTracking()
                .FirstOrDefault(x => x.Id.Equals(id) && !x.IsDeleted)
@@ -175,64 +181,70 @@ namespace Social_v2.Clothes.Api.Controllers
               value.Thumbnail,
               value.CollectionId);
 
-            if (_productRepo
-                .GetQueryableNoTracking()
-                .FirstOrDefault(x => x.Id.Equals(product.Id)) != null)
-                throw new Exception("Product is already exist.");
 
-            // creating options and option values
-            foreach (var x in value.Options)
+            using (_unitOfWork.Begin())
             {
-                var productOption = new ProductOptionEntity(x.Title, product.Id);
-                foreach (var optionValue in x.OptionValues)
-                    productOption.OptionValues.Add(new ProductOptionValueEntity(optionValue));
+                if (_productRepo
+                    .GetQueryableNoTracking()
+                    .FirstOrDefault(x => x.Id.Equals(product.Id)) != null)
+                    throw new Exception("Product is already exist.");
 
-                product.Options.Add(productOption);
-            }
-            product = _productRepo.Insert(product);
-
-            // add to category
-
-            foreach (var category in value.Categories)
-            {
-                var categoryProduct = new CategoryProductEntity(category.CategoryId, product.Id);
-                product.CategoryProducts.Add(categoryProduct);
-            }
-
-            // create variens
-            foreach (var inVarient in value.ProductVarients)
-            {
-                var productVarient = new ProductVarientEntity(inVarient.Title, inVarient.Price, product.Id);
-
-                // add inventory in relation to sku
-                productVarient.Inventory = new InventoryEntity(productVarient.Id);
-
-                // add medias to each sku
-                foreach (var media in inVarient.ProductVarientMedias)
-                    productVarient.VarientMedias.Add(
-                        new ProductVarientMediaEntity(media.Url,  media.Mime, productVarient.Id));
-
-                // add sku value to each sku
-                foreach (var inVarientValue in inVarient.VarientValues)
+                foreach (var x in value.Options)
                 {
-                    var option = product.Options.FirstOrDefault(x => x.Title.Equals(inVarientValue.Option))
-                        ?? throw new AppException("Option is invalid");
+                    var productOption = new ProductOptionEntity(x.Title, product.Id);
+                    foreach (var optionValue in x.OptionValues)
+                        productOption.OptionValues.Add(new ProductOptionValueEntity(optionValue));
 
-                    var optValue = option.OptionValues.FirstOrDefault(x => x.Value.Equals(inVarientValue.Value))
-                        ?? throw new AppException("Option Value is invalid");
-
-                    productVarient.VarientValues.Add(new VarientValueEntity()
-                    {
-                        ProductId = product.Id,
-                        ProductOptionId = option.Id,
-                        ProductOptionValueId = optValue.Id
-                    });
+                    product.Options.Add(productOption);
                 }
-                product.ProductVarients.Add(productVarient);
+                product = _productRepo.Insert(product);
+
+                foreach (var category in value.Categories)
+                {
+                    product.CategoryProducts.Add(new CategoryProductEntity(
+                        category.CategoryId, 
+                        product.Id));
+                }
+
+                foreach (var inVarient in value.ProductVarients)
+                {
+                    var productVarient = new ProductVarientEntity(inVarient.Title, inVarient.Price, product.Id);
+
+                    //productVarient.Inventory = new InventoryEntity(productVarient.Id);
+
+                    foreach (var media in inVarient.ProductVarientMedias)
+                    {
+                        productVarient.VarientMedias.Add(new ProductVarientMediaEntity(
+                            media.Url,
+                            media.Mime,
+                            productVarient.Id));
+                    }
+                        
+                    foreach (var inVarientValue in inVarient.VarientValues)
+                    {
+                        var option = product
+                            .Options
+                            .FirstOrDefault(x => x.Title.Equals(inVarientValue.Option))
+                                ?? throw new AppException("Option is invalid");
+
+                        var optValue = option
+                            .OptionValues
+                            .FirstOrDefault(x => x.Value.Equals(inVarientValue.Value))
+                                ?? throw new AppException("Option Value is invalid");
+
+                        productVarient.VarientValues.Add(new VarientValueEntity()
+                        {
+                            ProductId = product.Id,
+                            ProductOptionId = option.Id,
+                            ProductOptionValueId = optValue.Id
+                        });
+                    }
+                    product.ProductVarients.Add(productVarient);
+
+                }
+                _productRepo.SaveChanges();
+                _unitOfWork.Complete();
             }
-
-            _productRepo.SaveChanges();
-
             return Ok(_mapper.Map<AdminProductDto>(product));
         }
 

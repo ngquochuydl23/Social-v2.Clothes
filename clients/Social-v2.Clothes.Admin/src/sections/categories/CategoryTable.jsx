@@ -123,23 +123,7 @@ export const CategoryTable = (props) => {
                       </Stack>
                     </TableCell>
                     <TableCell>
-                      <FormControlLabel
-                        fullWidth
-                        sx={{
-                          width: "100%",
-                          justifyContent: "space-between",
-                          marginLeft: 0,
-                          marginTop: "20px",
-                        }}
-                        control={
-                          <Switch
-                            onChange={handleToggle}
-                            checked={category.isActive}
-                            id="isGiftCard"
-                            color="primary"
-                          />
-                        }
-                      />
+                      {category.isActive ? "Active" : "Inactive"}
                     </TableCell>
                     <TableCell>{category.handle}</TableCell>
                     <TableCell>{category.decription}</TableCell>

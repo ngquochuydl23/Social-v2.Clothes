@@ -1,5 +1,6 @@
 ﻿using Social_v2.Clothes.Api.Infrastructure.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Social_v2.Clothes.Api.Infrastructure.Repository
 {
@@ -68,25 +69,6 @@ namespace Social_v2.Clothes.Api.Infrastructure.Repository
             SaveChange(entity);
             return entity;
         }
-        public TEntity[] InsertMany(TEntity[] entities)
-        {
-            entities.Select(x =>
-            {
-                if (x is IHasCreationTime)
-                {
-                    var hasCreationTimeEntity = (IHasCreationTime)x;
-                    hasCreationTimeEntity.CreateAt = DateTime.Now;
-                }
-                _appDbContext.Entry(x).State = EntityState.Added;
-                return x;
-            });
-
-            _entity.AddRange(entities);
-
-            SaveChanges();
-            return entities;
-        }
-
 
         public virtual TEntity Update(long key, TEntity entity)
         {
@@ -112,14 +94,6 @@ namespace Social_v2.Clothes.Api.Infrastructure.Repository
         {
             _appDbContext.SaveChanges();
         }
-
-        public void DeleteRange(TEntity[] entities)
-        {
-            _entity.RemoveRange(entities);
-
-            SaveChanges();
-        }
-
         void IRepository<TEntity>.SaveChanges()
         {
             SaveChanges();
