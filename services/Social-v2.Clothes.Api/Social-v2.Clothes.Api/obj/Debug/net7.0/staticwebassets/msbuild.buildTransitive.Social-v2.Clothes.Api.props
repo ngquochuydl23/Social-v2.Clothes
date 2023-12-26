@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\buildMultiTargeting\Social-v2.Clothes.Api.props" />
-</Project>

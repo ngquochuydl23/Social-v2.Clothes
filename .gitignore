@@ -45,7 +45,7 @@ clients/Social-v2.Clothes.Store/node_modules
 services/ecommerce-service/.env
 services/ecommerce-service/.yarn
 services/Social-v2.Clothes.Api/.vs
-services/Social-v2.Clothes.Api/Social-v2.Clothes.Api/bin
+services/Social-v2.Clothes.Api/Social-v2.Clothes.Api/bin/*
 services/Social-v2.Clothes.Api/Social-v2.Clothes.Api/[Dd]ebug/
 services/Social-v2.Clothes.Api/Social-v2.Clothes.Api/[Dd]ebugPublic/
 services/Social-v2.Clothes.Api/Social-v2.Clothes.Api/[Rr]elease/
@@ -56,8 +56,8 @@ services/Social-v2.Clothes.Api/Social-v2.Clothes.Api/x86/
 services/Social-v2.Clothes.Api/Social-v2.Clothes.Api/build/
 services/Social-v2.Clothes.Api/Social-v2.Clothes.Api/bld/
 
-services/Social-v2.Clothes.Api/Social-v2.Clothes.Api/obj
-services/Social-v2.Clothes.Api/Social-v2.Clothes.Api/obj
+services/Social-v2.Clothes.Api/Social-v2.Clothes.Api/bin/*
+services/Social-v2.Clothes.Api/Social-v2.Clothes.Api/obj/*
 .yarnrc.yml
 .yarnrc
 .yarn
