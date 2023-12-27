@@ -15,7 +15,7 @@ services:
     build:args:
       context: ./clients/Social-v2.Clothes.Store
       dockerfile: Dockerfile
-    ports: 
+    ports:
       - 1611:1611
 
   socialv2clothesapi-debug:
@@ -23,6 +23,6 @@ services:
     container_name: socialv2clothesapi-debug
     build:
       context: ./services/Social-v2.Clothes.Api
-      dockerfile: Dockerfile-debug
+      dockerfile: Social-v2.Clothes.Api/Dockerfile-debug
     ports:
       - 3954:80
