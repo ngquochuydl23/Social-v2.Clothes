@@ -12,7 +12,7 @@ services:
   social-v2.clothes.store-react:
     image: social-v2.clothes.store-react
     container_name: social-v2.clothes.store-react
-    build:args:
+    build:
       context: ./clients/Social-v2.Clothes.Store
       dockerfile: Dockerfile
     ports:
@@ -25,4 +25,6 @@ services:
       context: ./services/Social-v2.Clothes.Api
       dockerfile: Social-v2.Clothes.Api/Dockerfile-debug
     ports:
-      - 3954:80
+      - 3954:3954
+    environment:
+      NODE_ENV: production
