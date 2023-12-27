@@ -2,7 +2,7 @@
 
 namespace Social_v2.Clothes.Api.Dtos.Cart
 {
-    public class AddLineItemDto
+    public class AddUpdateLineItemDto
     {
         [Required]
         public string ProductVarientId { get; set; }

@@ -228,7 +228,7 @@ const ProductDescription = () => {
                         <span>{4.5}</span>
                         <span className="block mx-2">·</span>
                         <span className="text-slate-600 underline">
-                          {142} reviews
+                          {142} đánh giá
                         </span>
                       </div>
                     </a>
@@ -275,7 +275,7 @@ const ProductDescription = () => {
                         fontWeight="600"
                         fontSize="16px"
                         variant="subtitle2">
-                        Black
+                        Đen
                       </Typography>
                     </Stack>
                   </Stack>
@@ -390,7 +390,7 @@ const ProductDescription = () => {
                   {({ open }) => (
                     <>
                       <Disclosure.Button className="flex items-center justify-between w-full px-4 py-2 font-medium text-left bg-slate-100/80 hover:bg-slate-200/60 rounded-lg focus:outline-none focus-visible:ring focus-visible:ring-slate-500 focus-visible:ring-opacity-75 ">
-                        <span>Description</span>
+                        <span>Mô tả sản phẩm</span>
                         <ChevronUpIcon
                           className={`${open ? "rotate-180 transform" : ""
                             } h-5 w-5 text-slate-500`}
@@ -406,7 +406,7 @@ const ProductDescription = () => {
                   {({ open }) => (
                     <>
                       <Disclosure.Button className="flex items-center justify-between w-full px-4 py-2 font-medium text-left bg-slate-100/80 hover:bg-slate-200/60 rounded-lg focus:outline-none focus-visible:ring focus-visible:ring-slate-500 focus-visible:ring-opacity-75 ">
-                        <span>Materials</span>
+                        <span>Chất liệu</span>
                         <ChevronUpIcon className={`${open ? "rotate-180 transform" : ""} h-5 w-5 text-slate-500`} />
                       </Disclosure.Button>
                       <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm text-gray-500">
@@ -419,7 +419,7 @@ const ProductDescription = () => {
                   {({ open }) => (
                     <>
                       <Disclosure.Button className="flex items-center justify-between w-full px-4 py-2 font-medium text-left bg-slate-100/80 hover:bg-slate-200/60 rounded-lg focus:outline-none focus-visible:ring focus-visible:ring-slate-500 focus-visible:ring-opacity-75 ">
-                        <span>Shipping</span>
+                        <span>Giao hàng</span>
                         <ChevronUpIcon
                           className={`${open ? "rotate-180 transform" : ""
                             } h-5 w-5 text-slate-500`}
@@ -458,7 +458,7 @@ const ProductDescription = () => {
                   {({ open }) => (
                     <>
                       <Disclosure.Button className="flex items-center justify-between w-full px-4 py-2 font-medium text-left bg-slate-100/80 hover:bg-slate-200/60 rounded-lg focus:outline-none focus-visible:ring focus-visible:ring-slate-500 focus-visible:ring-opacity-75 ">
-                        <span>Returns</span>
+                        <span>Đổi trả</span>
                         <ChevronUpIcon
                           className={`${open ? "rotate-180 transform" : ""
                             } h-5 w-5 text-slate-500`}
@@ -546,10 +546,10 @@ const ProductDescription = () => {
                   </div>
                   <div className="mt-2.5">
                     <p className="font-semibold text-slate-900">
-                      Free shipping
+                      Giao hàng miễn phí
                     </p>
                     <p className="text-slate-500 mt-0.5 text-sm">
-                      On orders over $50.00
+                      Áp dụng cho đơn hàng trên 100k
                     </p>
                   </div>
                 </div>
@@ -622,10 +622,10 @@ const ProductDescription = () => {
                   </div>
                   <div className="mt-2.5">
                     <p className="font-semibold text-slate-900">
-                      Very easy to return
+                      Dễ dàng đổi trả
                     </p>
                     <p className="text-slate-500 mt-0.5 text-sm">
-                      Just phone number.
+                      Chỉ cần số điện thoại
                     </p>
                   </div>
                 </div>
@@ -732,10 +732,10 @@ const ProductDescription = () => {
                   </div>
                   <div className="mt-2.5">
                     <p className="font-semibold text-slate-900">
-                      Refunds policy
+                      Chính sách đổi trả
                     </p>
                     <p className="text-slate-500 mt-0.5 text-sm">
-                      60 days return for any reason
+                      Đổi trả trong 60 ngày
                     </p>
                   </div>
                 </div>
@@ -761,7 +761,7 @@ const ProductDescription = () => {
                   clipRule="evenodd"
                 ></path>
               </svg>
-              <span className="ml-1.5"> 4,87 · {142} Reviews</span>
+              <span className="ml-1.5"> 4,87 · {142} Đánh giá</span>
             </h2>
             <div className="grid lg:grid-cols-2 md:grid-cols-2 grid-cols-2 gap-8">
               {reviews?.map((rev) => (
@@ -857,8 +857,7 @@ const ProductDescription = () => {
                       <button
                         type="submit"
                         className="w-full btn-primary"
-                        disabled
-                      >
+                        disabled >
                         <svg
                           aria-hidden="true"
                           role="status"

@@ -83,7 +83,7 @@ namespace Social_v2.Clothes.Api.Controllers
         }
 
         [HttpPost("{id}/lineItems")]
-        public IActionResult AddLineItem(long id, [FromBody] AddLineItemDto value)
+        public IActionResult AddLineItem(long id, [FromBody] AddUpdateLineItemDto value)
         {
             var cart = _cartRepo
                 .GetQueryable()
@@ -101,7 +101,6 @@ namespace Social_v2.Clothes.Api.Controllers
                 .FirstOrDefault(x => x.Id.Equals(value.ProductVarientId) && !x.IsDeleted)
                     ?? throw new AppException("Product varient does not exist");
 
-
             cart.CartItems.Add(new CartItemEntity(value.ProductVarientId, value.Quantity));
             cart.LastUpdate = DateTime.Now;
 
@@ -110,23 +109,86 @@ namespace Social_v2.Clothes.Api.Controllers
             return Ok();
         }
 
+        [HttpPut("{id}/lineItems/{lineItemId}")]
+        public IActionResult UpdateLineItem(long id, long lineItemId, [FromBody] AddUpdateLineItemDto value)
+        {
+            var cart = _cartRepo
+                .GetQueryable()
+                .Include(x => x.CartItems)
+                .FirstOrDefault(x => x.Id == id && !x.IsDeleted)
+               ?? throw new AppException("Cart does not exist");
+
+            if (string.IsNullOrEmpty(value.ProductVarientId))
+                throw new AppException("ProductVarientId must not empty");
+
+            if (value.Quantity <= 0)
+                throw new AppException("Quantity must be greater than 0");
+
+            var productVarient = _productVarientRepo
+                .GetQueryableNoTracking()
+                .FirstOrDefault(x => x.Id.Equals(value.ProductVarientId) && !x.IsDeleted)
+                    ?? throw new AppException("Product varient does not exist");
+
+            var lineItem = cart.CartItems.FirstOrDefault(x => x.Id == lineItemId)
+                ?? throw new AppException("Line item does not exist");
+
+            lineItem.Quantity = value.Quantity;
+            lineItem.LastUpdate = DateTime.Now;
+
+            cart.LastUpdate = DateTime.Now;
+            _cartRepo.SaveChanges();
+
+            return Ok();
+        }
+
+        [HttpDelete("{id}/lineItems/{lineItemId}")]
+        public IActionResult DeleteLineItem(long id, long lineItemId, [FromBody] AddUpdateLineItemDto value)
+        {
+            var cart = _cartRepo
+                .GetQueryable()
+                .Include(x => x.CartItems)
+                .FirstOrDefault(x => x.Id == id && !x.IsDeleted)
+               ?? throw new AppException("Cart does not exist");
+
+            if (string.IsNullOrEmpty(value.ProductVarientId))
+                throw new AppException("ProductVarientId must not empty");
+
+            if (value.Quantity <= 0)
+                throw new AppException("Quantity must be greater than 0");
+
+            var productVarient = _productVarientRepo
+                .GetQueryableNoTracking()
+                .FirstOrDefault(x => x.Id.Equals(value.ProductVarientId) && !x.IsDeleted)
+                    ?? throw new AppException("Product varient does not exist");
+
+            var lineItem = cart.CartItems.FirstOrDefault(x => x.Id == lineItemId)
+                ?? throw new AppException("Line item does not exist");
+
+            cart.CartItems.Remove(lineItem);
+            cart.LastUpdate = DateTime.Now;
+            _cartRepo.SaveChanges();
+
+            return Ok();
+        }
 
         [HttpDelete("{id}")]
         public IActionResult RemoveCart(long id)
         {
+            var cart = _cartRepo
+                .GetQueryable()
+                .Include(x => x.CartItems)
+                .FirstOrDefault(x => x.Id == id && !x.IsDeleted)
+               ?? throw new AppException("Cart does not exist");
+
+            _cartRepo.Delete(cart);
             return Ok();
         }
 
-        [HttpPatch("{id}/increaseQuantity")]
-        public IActionResult IncreaseQuantity(long id)
+        [HttpPost("{cartId}")]
+        [Authorize]
+        public IActionResult CompleteCart(long cartId)
         {
-            return Ok();
-        }
-
-        [HttpPatch("{id}/decreaseQuantity")]
-        public IActionResult DecreaseQuantity(long id)
-        {
-            return Ok();
+            return Ok();    
         }
     }
 }

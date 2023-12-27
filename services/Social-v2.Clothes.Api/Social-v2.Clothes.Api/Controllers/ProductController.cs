@@ -211,7 +211,7 @@ namespace Social_v2.Clothes.Api.Controllers
                     var productVarient = new ProductVarientEntity(inVarient.Title, inVarient.Price, product.Id);
 
                     //productVarient.Inventory = new InventoryEntity(productVarient.Id);
-
+                        
                     foreach (var media in inVarient.ProductVarientMedias)
                     {
                         productVarient.VarientMedias.Add(new ProductVarientMediaEntity(

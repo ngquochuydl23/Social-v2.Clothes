@@ -1,10 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
-import { useUpdatePhotoMutation } from "../../features/update/updateApi";
-import { useUpdateUserMutation } from "../../features/auth/authApi";
-import LazyLoadingImage from "../../components/LazyLoadingImage";
-import { Box, Button, Container, Divider, FormControlLabel, Grid, MenuItem, Stack, Switch, TextField, Typography } from '@mui/material';
+import { Box, Button, Divider, Stack, Typography } from '@mui/material';
 import AlertDialog from "../../components/alert-dialog";
 import CreateUpdateShippingAddressDialog from "../../components/shipping-address/createUpdateShippingAddressDialog";
 
@@ -14,20 +9,10 @@ const _addresses = [
         "name": "Nguyễn Quốc Huy",
         "phoneNumber": "0868684962",
         "detailAddress": "59 Xô Viết Nghệ Tĩnh",
-        "provinceOrCity": "Tỉnh Lâm Đồng",
-        "district": "Phường 7",
-        "wardOrCommune": "Thành phố Đà Lạt",
+        "provinceOrCity": "Lâm Đồng",
+        "district": "Đà Lạt",
+        "wardOrCommune": "7",
         "isDefault": true
-    },
-    {
-        "id": 2,
-        "name": "Nguyễn Quốc Huy",
-        "phoneNumber": "0868684962",
-        "detailAddress": "Số 1 Nguyễn Thị Minh Khai",
-        "provinceOrCity": "TP Hồ Chí Minh",
-        "district": "Phường Bến Nghé",
-        "wardOrCommune": "Quận 1",
-        "isDefault": false
     }
 ]
 
@@ -42,7 +27,6 @@ const ShippingAddress = () => {
     useEffect(() => {
         setAddresses(_addresses);
     }, [])
-
 
     const AddressItem = ({
         id,
@@ -87,7 +71,7 @@ const ShippingAddress = () => {
                                         color: 'white'
                                     }}
                                     ml="15px">
-                                    Default
+                                    Mặc định
                                 </Box>
                             }
                         </Stack>
@@ -107,12 +91,12 @@ const ShippingAddress = () => {
                             provinceOrCity,
                             wardOrCommune
                         })}>
-                            Edit
+                            Sửa
                         </Button>
                         <Button
                             onClick={() => setOpenAlert(true)}
                             sx={{ color: 'red' }}>
-                            Delete
+                            Xóa
                         </Button>
                     </Stack>
                 </Stack>
@@ -138,12 +122,12 @@ const ShippingAddress = () => {
                 <Typography
                     mb="20px"
                     fontWeight="800"
-                    variant="h4">{`Shipping Addresses`}</Typography>
+                    variant="h4">Địa chỉ giao hàng</Typography>
                 <Button
                     onClick={() => setOpenCreateUpdateDialog({ address: null, open: true })}
                     sx={{ height: '40px' }}
                     variant="contained">
-                    Add new address
+                    Thêm địa chỉ
                 </Button>
             </Stack>
             {addresses.map((address) => (
@@ -160,6 +144,8 @@ const ShippingAddress = () => {
                     {...address} />
             ))}
             <CreateUpdateShippingAddressDialog
+                onCreated={(newAddress) => { }}
+                onUpdated={(newAddress) => { }}
                 address={openCreateUpdateDialog.address}
                 open={openCreateUpdateDialog.open}
                 handleClose={() => setOpenCreateUpdateDialog({ open: false, address: null })} />

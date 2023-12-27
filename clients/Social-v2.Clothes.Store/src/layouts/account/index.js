@@ -24,19 +24,19 @@ const tabSx = {
 
 const accountRoutes = [
     {
-        label: "Personal Information",
+        label: "Thông tin cá nhân",
         path: "/account/info"
     },
     {
-        label: "Shipping Addresses",
+        label: "Địa chỉ giao hàng",
         path: "/account/shipping-address"
     },
     {
-        label: "My Orders",
+        label: "Đơn hàng của tôi",
         path: "/account/my-order"
     },
     {
-        label: "My Vouchers",
+        label: "Ví Vouchers",
         path: "/account/my-vouchers"
     }
 ]
