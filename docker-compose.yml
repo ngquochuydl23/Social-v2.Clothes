@@ -16,7 +16,7 @@ services:
       context: ./clients/Social-v2.Clothes.Store
       dockerfile: Dockerfile
     ports:
-      - 1611:1611
+      - 1611:80
 
   socialv2clothesapi-debug:
     image: socialv2clothesapi-debug
