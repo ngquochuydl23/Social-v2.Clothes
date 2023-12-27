@@ -1,11 +1,8 @@
 import React, { useState } from "react";
 import { Tab } from "@headlessui/react";
-import { useDisplayStoresQuery } from "../../features/store/storeApi";
-import { useDisplayCategoriesQuery } from "../../features/category/categoryApi";
 import DashboardLoading from "../loading/DashboardLoading";
 import CategoryCards from "./CategoryCards";
 import StoreCards from "./StoreCards";
-import { useDisplayBrandsQuery } from "../../features/brand/brandApi";
 import BrandCards from "./BrandCards";
 
 function classNames(...classes) {
@@ -79,16 +76,10 @@ const StartExploring = () => {
     },
   ];
 
-  const { data: brandsData, isLoading: isBrandsLoading } =
-    useDisplayBrandsQuery({ page: 1, limit: brandLimit });
-  const { data: categoriesData, isLoading: isCategoriesLoading } =
-    useDisplayCategoriesQuery({ page: 1, limit: categoryLimit });
-  const { data: storesData, isLoading: isStoresLoading } =
-    useDisplayStoresQuery({ page: 1, limit: 3 });
 
-  const brands = brandsData?.data || [];
-  const categories = categoriesData?.data || [];
-  const stores = storesData?.data || [];
+  const brands = [];
+  const categories = [];
+  const stores = [];
 
   return (
     <>
@@ -136,13 +127,13 @@ const StartExploring = () => {
                   </ul>
                 </Tab.List>
                 <Tab.Panels className="grid gap-4 md:gap-7 grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
-                  {(isCategoriesLoading ||
+                  {/* {(isCategoriesLoading ||
                     isStoresLoading ||
                     isBrandsLoading) && (
-                    <div className="xl:col-span-3 md:col-span-2 col-span-1 w-full h-full">
-                      <DashboardLoading />
-                    </div>
-                  )}
+                      <div className="xl:col-span-3 md:col-span-2 col-span-1 w-full h-full">
+                        <DashboardLoading />
+                      </div>
+                    )}
 
                   {!isStoresLoading && explore === "Store" && (
                     <StoreCards stores={stores} />
@@ -152,11 +143,11 @@ const StartExploring = () => {
                   )}
                   {!isBrandsLoading && explore === "Brand" && (
                     <BrandCards brands={brands} />
-                  )}
+                  )} */}
                 </Tab.Panels>
                 {(explore === "Store" && !stores?.length) ||
-                (explore === "Category" && !categories?.length) ||
-                (explore === "Brand" && !brands?.length) ? (
+                  (explore === "Category" && !categories?.length) ||
+                  (explore === "Brand" && !brands?.length) ? (
                   <div
                     className="flex p-4 my-4 text-sm text-yellow-800 border border-yellow-300 rounded-lg bg-yellow-50 justify-center"
                     role="alert"
@@ -185,15 +176,15 @@ const StartExploring = () => {
                     <button
                       className="nc-Button relative h-auto inline-flex items-center justify-center rounded-full transition-colors text-sm sm:text-base font-medium py-3 px-4 sm:py-3.5 sm:px-6 disabled:bg-opacity-90 bg-slate-900 hover:bg-slate-800 text-slate-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-6000"
                       onClick={() => {
-                        (explore === "Category" &&
-                          !isCategoriesLoading &&
-                          setCategoryLimit(categoryLimit + 3)) ||
-                          (explore === "Store" &&
-                            !isStoresLoading &&
-                            setStoreLimit(storeLimit + 3)) ||
-                          (explore === "Brand" &&
-                            !isBrandsLoading &&
-                            setBrandLimit(brandLimit + 3));
+                        // (explore === "Category" &&
+                        //   !isCategoriesLoading &&
+                        //   setCategoryLimit(categoryLimit + 3)) ||
+                        //   (explore === "Store" &&
+                        //     !isStoresLoading &&
+                        //     setStoreLimit(storeLimit + 3)) ||
+                        //   (explore === "Brand" &&
+                        //     !isBrandsLoading &&
+                        //     setBrandLimit(brandLimit + 3));
                       }}
                     >
                       <svg

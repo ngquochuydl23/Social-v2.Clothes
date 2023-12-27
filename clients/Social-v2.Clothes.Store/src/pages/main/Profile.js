@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import LazyLoadingImage from "../../components/LazyLoadingImage";
 import { Button, MenuItem, Snackbar, TextField, Typography } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -8,17 +8,20 @@ import { useFormik } from "formik";
 import * as Yup from 'yup';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
+import { useSelector } from "react-redux";
 
 const Profile = () => {
+    const { user } = useSelector((state) => state.user)
     const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
+
     const formik = useFormik({
         enableReinitialize: true,
         initialValues: {
-            fullName: '',
-            phoneNumber: '',
-            email: '',
-            gender: null,
-            birthday: null,
+            fullName: user.fullName,
+            phoneNumber: user.phoneNumber,
+            email: user.email,
+            gender: user.gender,
+            birthday: user.birthday,
         },
         validationSchema: Yup.object().shape({
             fullName: Yup.string()
@@ -36,10 +39,6 @@ const Profile = () => {
             formik.setValues(values)
         },
     });
-
-    const getUserInfo = () => {
-
-    }
 
     return (
         <div className="container mx-auto lg:px-0 px-4">

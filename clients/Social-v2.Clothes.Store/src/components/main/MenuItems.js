@@ -1,7 +1,6 @@
 import React from "react";
 import { Popover } from "@headlessui/react";
 import { Link } from "react-router-dom";
-import { useDisplayCategoriesQuery } from "../../features/category/categoryApi";
 import DashboardLoading from "../loading/DashboardLoading";
 import LazyLoadingImage from "../LazyLoadingImage";
 
@@ -193,18 +192,12 @@ const MenuItems = () => {
   //   },
   // ];
 
-  const { data: categoriesData, isLoading: isCategoriesLoading } =
-    useDisplayCategoriesQuery({
-      page: 0,
-      limit: 0,
-    });
-
-  const categories = categoriesData?.data || [];
+  const categories =  [];
   console.log(categories);
 
   return (
     <>
-      {isCategoriesLoading ? (
+      {false ? (
         <div className="my-8">
           <DashboardLoading />
         </div>

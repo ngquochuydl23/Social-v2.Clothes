@@ -1,16 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-  useDisplayProductQuery,
-  useUpdateProductMutation,
-} from "../../features/product/productApi";
 import SecondaryLoading from "../../components/loading/SecondaryLoading";
 import LazyLoadingImage from "../../components/LazyLoadingImage";
 import { Disclosure } from "@headlessui/react";
 import { ChevronUpIcon } from "@heroicons/react/20/solid";
 import { useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
-import { useUpdateUserMutation } from "../../features/auth/authApi";
 import { toast } from "react-hot-toast";
 import Stack from '@mui/material/Stack';
 import { Typography } from "@mui/material";
@@ -18,11 +13,7 @@ const { format } = require('number-currency-format');
 
 
 const ProductDescription = () => {
-  const { pid } = useParams();
-  const [quantity, setQuantity] = useState(1);
-
-  const { data: productData, isLoading: isProductLoading } =
-    useDisplayProductQuery(pid);
+  const [quantity, setQuantity] = useState(1)
 
   const {
     _id,
@@ -128,22 +119,18 @@ const ProductDescription = () => {
     }]
   };
 
-  const [addProductReview, { isLoading: isReviewLoading }] =
-    useUpdateProductMutation();
-  const [addToCart, { isLoading: isCartLoading, isSuccess: isCartSuccess }] =
-    useUpdateUserMutation();
   const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (isCartSuccess) {
-      toast.success("Product added to cart!");
-      setTimeout(() => {
-        window.location.reload();
-        navigate(0);
-      }, 1000);
-    }
-  }, [isCartSuccess, navigate]);
+  // useEffect(() => {
+  //   if (isCartSuccess) {
+  //     toast.success("Product added to cart!");
+  //     setTimeout(() => {
+  //       window.location.reload();
+  //       navigate(0);
+  //     }, 1000);
+  //   }
+  // }, [isCartSuccess, navigate]);
 
   const {
     register,
@@ -157,13 +144,12 @@ const ProductDescription = () => {
     const reviewData = {
       review: { reviewer: user?._id, description: data?.review },
     };
-    addProductReview({ pid: _id, productData: reviewData });
     reset();
   };
 
   return (
     <>
-      {isProductLoading ? (
+      {false ? (
         <SecondaryLoading />
       ) : (
         <section className="container mx-auto px-4 lg:px-32 flex flex-col gap-y-32 scroll-smooth">
@@ -334,14 +320,14 @@ const ProductDescription = () => {
                 </div>
                 <button
                   className="nc-Button relative h-auto inline-flex items-center justify-center rounded-full transition-colors text-sm sm:text-base font-medium py-3 px-4 sm:py-3.5 sm:px-6 disabled:bg-opacity-90 bg-slate-900  hover:bg-slate-800 text-slate-50 shadow-xl flex-1 flex-shrink-0 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-6000"
-                  onClick={() =>
-                    addToCart({
-                      uid: user?._id,
-                      userData: { cart: { product: _id, quantity: quantity } },
-                    })
-                  }
+                  onClick={() => {
+                    // addToCart({
+                    //   uid: user?._id,
+                    //   userData: { cart: { product: _id, quantity: quantity } },
+                    // })
+                  }}
                 >
-                  {isCartLoading ? (
+                  {false ? (
                     <svg
                       className="animate-spin mb-0.5 h-5 w-5"
                       xmlns="http://www.w3.org/2000/svg"
@@ -853,7 +839,7 @@ const ProductDescription = () => {
                         }`}
                       rows="3"
                     />
-                    {isReviewLoading ? (
+                    {false ? (
                       <button
                         type="submit"
                         className="w-full btn-primary"

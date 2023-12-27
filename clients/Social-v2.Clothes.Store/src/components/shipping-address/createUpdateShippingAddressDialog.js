@@ -5,7 +5,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useFormik } from 'formik';
-import { Grid, MenuItem, Select, Stack, TextField, Typography } from '@mui/material';
+import { Grid, MenuItem, Select, TextField, Typography } from '@mui/material';
 import tree from 'hanhchinhvn/dist/tree.json'
 import tinh_tp from 'hanhchinhvn/dist/tinh_tp.json'
 import * as Yup from 'yup';
@@ -75,11 +75,11 @@ export default function CreateUpdateShippingAddressDialog({
         }
     }, [open])
 
-    React.useEffect(() => {
-        if (open && Boolean(districts)) {
-            setWardOrCommunes(getWardOrCommunesByDistrict(address.district))
-        }
-    }, [districts])
+    // React.useEffect(() => {
+    //     if (open && districts.length > 0) {
+    //         setWardOrCommunes(getWardOrCommunesByDistrict(formik.values.district))
+    //     }
+    // }, [districts])
 
     return (
         <Dialog

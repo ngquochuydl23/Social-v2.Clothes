@@ -2,30 +2,27 @@ import React, { useEffect, useState } from "react";
 import { Box, Button, Divider, Stack, Typography } from '@mui/material';
 import AlertDialog from "../../components/alert-dialog";
 import CreateUpdateShippingAddressDialog from "../../components/shipping-address/createUpdateShippingAddressDialog";
-
-const _addresses = [
-    {
-        "id": 1,
-        "name": "Nguyễn Quốc Huy",
-        "phoneNumber": "0868684962",
-        "detailAddress": "59 Xô Viết Nghệ Tĩnh",
-        "provinceOrCity": "Lâm Đồng",
-        "district": "Đà Lạt",
-        "wardOrCommune": "7",
-        "isDefault": true
-    }
-]
+import { getShippingAddresses, deleteShippingAddress, addShippingAddress } from "../../services/api/shipping-address-api";
+import CircularProgress from '@mui/material/CircularProgress';
+import Backdrop from '@mui/material/Backdrop';
 
 const ShippingAddress = () => {
     const [openCreateUpdateDialog, setOpenCreateUpdateDialog] = useState({
         open: false,
         address: null
     });
-
+    const [loading, setLoading] = useState(false);
     const [addresses, setAddresses] = useState([]);
+    const [openBackdrop, setOpenBackdrop] = useState(false);
 
     useEffect(() => {
-        setAddresses(_addresses);
+        setLoading(true);
+        getShippingAddresses()
+            .then((addresses) => {
+                setAddresses(addresses);
+            })
+            .catch((err) => console.log(err))
+            .finally(() => setLoading(false));
     }, [])
 
     const AddressItem = ({
@@ -130,25 +127,57 @@ const ShippingAddress = () => {
                     Thêm địa chỉ
                 </Button>
             </Stack>
-            {addresses.map((address) => (
-                <AddressItem
-                    onEditAddress={(address) => {
-                        setOpenCreateUpdateDialog({
-                            open: true,
-                            address: address
-                        })
-                    }}
-                    onRemovedAddress={(id) => {
-                        setAddresses(addresses.filter(address => address.id !== id))
-                    }}
-                    {...address} />
-            ))}
+            {loading
+                ?
+                <Stack
+                    justifyContent="center"
+                    alignItems="center"
+                    sx={{
+                        width: '100%',
+                        height: '100%'
+                    }}>
+                    <CircularProgress color="secondary" sx={{ color: 'black' }} />
+                </Stack>
+                : addresses.map((address) => (
+                    <AddressItem
+                        onEditAddress={(address) => {
+                            setOpenCreateUpdateDialog({
+                                open: true,
+                                address: address
+                            })
+                        }}
+                        onRemovedAddress={(id) => {
+                            setOpenBackdrop(true);
+                            deleteShippingAddress(id)
+                                .then(() => setAddresses(addresses.filter(address => address.id !== id)))
+                                .catch((err) => console.log(err))
+                                .finally(() => setOpenBackdrop(false))
+                        }}
+                        {...address} />
+                ))
+            }
             <CreateUpdateShippingAddressDialog
-                onCreated={(newAddress) => { }}
-                onUpdated={(newAddress) => { }}
+                onCreated={(newAddress) => {
+
+                    setOpenBackdrop(true)
+                    addShippingAddress({ ...newAddress })
+                        .then((item) => setAddresses([...addresses, item]))
+                        .catch((err) => console.log(err))
+                        .finally(() => setOpenBackdrop(false))
+                }}
+                onUpdated={(newAddress) => {
+                    console.log(newAddress);
+                    //addShippingAddress()
+                }}
                 address={openCreateUpdateDialog.address}
                 open={openCreateUpdateDialog.open}
                 handleClose={() => setOpenCreateUpdateDialog({ open: false, address: null })} />
+            <Backdrop
+                sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                open={openBackdrop}
+                onClick={() => setOpenBackdrop(false)}>
+                <CircularProgress color="inherit" />
+            </Backdrop>
         </Box>
     );
 };

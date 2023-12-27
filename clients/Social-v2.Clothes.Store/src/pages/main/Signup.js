@@ -1,8 +1,6 @@
 import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { useSignupMutation } from "../../features/auth/authApi";
-import { useUploadPhotoMutation } from "../../features/upload/uploadApi";
 import { toast } from "react-hot-toast";
 import { useSelector } from "react-redux";
 
@@ -22,10 +20,6 @@ const Signup = () => {
   const defaultValue = new Date(date).toISOString().split("T")[0]; // yyyy-mm-dd
 
   // server side credentials
-  const [signup, { isLoading: registering, isSuccess: registered }] =
-    useSignupMutation();
-  const [uploadUserAvatar, { isLoading: uploading, isSuccess: uploaded }] =
-    useUploadPhotoMutation();
 
   // user credentials from state
   const { user } = useSelector((state) => state.auth);
@@ -40,32 +34,32 @@ const Signup = () => {
   // grab avatar credentials from state
   const { photo } = useSelector((state) => state.upload);
 
-  useEffect(() => {
-    if (registering) {
-      toast.loading("Signing up.", { id: "signup_user" });
-    } else if (registered) {
-      toast.success("Signed up.", {
-        id: "signup_user",
-      });
-    } else if (uploading) {
-      toast.loading("Uploading avatar", {
-        id: "user_avatar",
-      });
-    } else if (uploaded) {
-      toast.success("Uploaded avatar.", {
-        id: "user_avatar",
-      });
-    }
-  }, [registering, registered, uploading, uploaded]);
+  // useEffect(() => {
+  //   if (registering) {
+  //     toast.loading("Signing up.", { id: "signup_user" });
+  //   } else if (registered) {
+  //     toast.success("Signed up.", {
+  //       id: "signup_user",
+  //     });
+  //   } else if (uploading) {
+  //     toast.loading("Uploading avatar", {
+  //       id: "user_avatar",
+  //     });
+  //   } else if (uploaded) {
+  //     toast.success("Uploaded avatar.", {
+  //       id: "user_avatar",
+  //     });
+  //   }
+  // }, [registering, registered, uploading, uploaded]);
 
   // submit signup form
   const handleSignupForm = (data) => {
     data["phone"] = "+880" + data["phone"];
     data["avatar"] = { url: photo.url, public_id: photo.public_id };
 
-    signup(data);
+    //signup(data);
     reset();
-    
+
   };
 
   return (
@@ -203,10 +197,9 @@ const Signup = () => {
                     autoComplete="off"
                     placeholder="Enter the password again"
                     {...register("confirmPassword", { required: true })}
-                    className={`w-full form-input rounded-md ${
-                      watch("password") !== watch("confirmPassword") &&
+                    className={`w-full form-input rounded-md ${watch("password") !== watch("confirmPassword") &&
                       "focus:border-red-500 focus:ring-1 focus:ring-red-500"
-                    }`}
+                      }`}
                   />
                 </div>
               </div>
@@ -244,10 +237,10 @@ const Signup = () => {
                       onChange={(event) => {
                         const formData = new FormData();
                         formData.append("avatar", event.target.files[0]);
-                        uploadUserAvatar({
-                          route: "user/avatar",
-                          photo: formData,
-                        });
+                        // uploadUserAvatar({
+                        //   route: "user/avatar",
+                        //   photo: formData,
+                        // });
                       }}
                     />
                   )}
@@ -335,11 +328,10 @@ const Signup = () => {
                     placeholder="i.e.: +8801xxxxxxxxx"
                     maxLength="10"
                     {...register("phone", { required: true })}
-                    className={`w-full form-input rounded-r-md ${
-                      (watch("phone")?.length !== 10 ||
+                    className={`w-full form-input rounded-r-md ${(watch("phone")?.length !== 10 ||
                         watch("phone")[0] !== "1") &&
                       "focus:border-red-500 focus:ring-1 focus:ring-red-500"
-                    }`}
+                      }`}
                   />
                 </div>
               </div>

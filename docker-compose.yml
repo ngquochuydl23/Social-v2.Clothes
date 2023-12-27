@@ -1,8 +1,17 @@
 version: '3.4'
 services:
-  socialv2upload:
-    image: socialv2upload
-    container_name: socialv2upload
+  social-v2.clothes.admin:
+    image: social-v2.clothes.admin
+    container_name: social-v2.clothes.admin
+    build:
+      context: ./services/Social-v2.Clothes.Admin
+      dockerfile: Dockerfile
+    ports:
+      - 3111:3000
+
+  social-v2.clothes.upload:
+    image: social-v2.clothes.upload
+    container_name: social-v2.clothes.upload
     build:
       context: ./services/Social-v2.Clothes.UploadMediaApi
       dockerfile: Dockerfile
@@ -18,9 +27,9 @@ services:
     ports:
       - 1611:80
 
-  socialv2clothesapi-debug:
-    image: socialv2clothesapi-debug
-    container_name: socialv2clothesapi-debug
+  social-v2.clothes.api-debug:
+    image: social-v2.clothes.api-debug
+    container_name: social-v2.clothes.api-debug
     build:
       context: ./services/Social-v2.Clothes.Api
       dockerfile: Social-v2.Clothes.Api/Dockerfile-debug

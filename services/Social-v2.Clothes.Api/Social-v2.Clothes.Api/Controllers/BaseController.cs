@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Products;
 using Social_v2.Clothes.Api.Infrastructure.Repository;
 using System.Security.Claims;
@@ -21,7 +22,14 @@ namespace Social_v2.Clothes.Api.Controllers
         }
 
 
-        
+        public override OkObjectResult Ok([ActionResultObjectValue] object value)
+        {
+            return base.Ok(new
+            {
+                Result = value,
+                StatusCode = StatusCodes.Status200OK
+            });
+        }
 
         protected long Id => long.Parse(_httpContext.User.FindFirstValue("id"));
     }

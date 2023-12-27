@@ -2,7 +2,6 @@ import React from "react";
 import Banner from "../../components/home/Banner";
 import BuyingSteps from "../../components/home/BuyingSteps";
 import NewArrivals from "../../components/home/NewArrivals";
-import { useDisplayProductsQuery } from "../../features/product/productApi";
 import KidsProduct from "../../components/home/KidsProduct";
 import ExpertChoice from "../../components/home/ExpertChoice";
 import StartExploring from "../../components/home/StartExploring";
@@ -10,11 +9,6 @@ import TrendingNow from "../../components/home/TrendingNow";
 import EarnMoney from "../../components/home/EarnMoney";
 
 const Home = () => {
-  const { data: productData, isLoading } = useDisplayProductsQuery({
-    page: 0,
-    limit: 0,
-  });
-
   const products = [
     {
       thumbnail: 'https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/460322/item/goods_31_460322.jpg?width=750',
@@ -40,11 +34,11 @@ const Home = () => {
         <KidsProduct />
         <ExpertChoice
           products={products.slice(-3)}
-          loading={isLoading}
+          loading={true}
           type={"slide"}
         />
         <StartExploring />
-        <TrendingNow products={products.slice(-12)} loading={isLoading} />
+        <TrendingNow products={products.slice(-12)} loading={true} />
         <EarnMoney />
       </div>
     </section>

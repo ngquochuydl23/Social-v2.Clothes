@@ -9,6 +9,7 @@ using Social_v2.Clothes.Api.Infrastructure;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Users;
 using Social_v2.Clothes.Api.Infrastructure.Exceptions;
 using Social_v2.Clothes.Api.Infrastructure.Repository;
+using Social_v2.Clothes.Api.Migrations;
 using System.Runtime.ConstrainedExecution;
 using System.Security.Claims;
 
@@ -37,8 +38,10 @@ namespace Social_v2.Clothes.Api.Controllers
         [HttpGet("persistLogin")]
         public IActionResult PersistLogin()
         {
-
-            return Ok(Id);
+            var user = _userRepo.GetQueryableNoTracking()
+               .FirstOrDefault(x => x.Id == Id)
+               ?? throw new AppException("User does not exist");
+            return Ok(_mapper.Map<UserDto>(user));
         }
 
         [AllowAnonymous]

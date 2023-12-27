@@ -1,17 +1,14 @@
 import React, { useState } from "react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
-import { useDisplayProductsQuery } from "../../features/product/productApi";
 import { useNavigate } from "react-router-dom";
 
 const Searchbar = () => {
   const [input, setInput] = React.useState("");
   const [searchedProducts, setSearchedProducts] = useState([]);
   const [searchProduct, setSearchProduct] = useState({});
-  const { data: productsData, isLoading: isProductsLoading } =
-    useDisplayProductsQuery({ page: 0, limit: 0 });
   const navigate = useNavigate();
 
-  const products = productsData?.data || [];
+  const products =  [];
 
   const handleSearchKeyword = (searchWord) => {
     const filteredProducts = products.filter((product) =>
@@ -52,7 +49,7 @@ const Searchbar = () => {
               className="p-2 md:rounded-xl rounded bg-[#fea285] hover:bg-[#dd89e3] hover:transition-all hover:duration-300 md:h-14 md:w-14 h-9 w-9 grid md:place-items-center content-center justify-center"
               disabled={input.length === 0}
             >
-              {isProductsLoading ? (
+              {/* {isProductsLoading ? (
                 <svg
                   className="animate-spin text-white md:h-8 md:w-8 h-6 w-6"
                   xmlns="http://www.w3.org/2000/svg"
@@ -75,7 +72,7 @@ const Searchbar = () => {
                 </svg>
               ) : (
                 <MagnifyingGlassIcon className="text-white md:h-8 md:w-8 h-6 w-6" />
-              )}
+              )} */}
             </button>
           </form>
           {searchedProducts?.length !== 0 && (

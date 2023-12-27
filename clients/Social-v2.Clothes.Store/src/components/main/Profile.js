@@ -1,14 +1,14 @@
 import { Menu, Transition } from "@headlessui/react";
 import React, { Fragment } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../../features/auth/authSlice";
 import LazyLoadingImage from "../LazyLoadingImage";
+import { logout } from "../../slices/userSlice";
 
 const Profile = () => {
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.auth);
-
+  const navigate = useNavigate();
+  const { user } = useSelector((state) => state.user)
   const items = [
     {
       name: "My Profile",
@@ -76,7 +76,7 @@ const Profile = () => {
                 <LazyLoadingImage
                   className="absolute inset-0 w-full h-full object-cover rounded-full"
                   src={'https://img.freepik.com/premium-psd/3d-male-cute-cartoon-character-avatar-isolated-3d-rendering_235528-1280.jpg'}
-                  alt={user?.name}
+                  //   alt={user?.name}
                   height={"48"}
                   width={"48"}
                 />
@@ -106,23 +106,20 @@ const Profile = () => {
                   )}
                 </Menu.Item>
               ))}
-              <>
-                {Object.keys(user).length !== 0 ? (
-                  <button
-                    className="flex items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-neutral-100 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
-                    onClick={() => dispatch(logout())}
-                  >
-                    <div className="flex items-center justify-center flex-shrink-0 text-neutral-500">
-                      <LogoutIcon />
-                    </div>
-                    <div className="ml-4">
-                      <p className="text-sm font-medium ">Logout</p>
-                    </div>
-                  </button>
-                ) : (
-                  ""
-                )}
-              </>
+              {user.id &&
+                <button
+                  className="flex items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-neutral-100 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
+                  onClick={() => {
+                    dispatch(logout());
+                    navigate('/');
+                  }}>
+                  <div className="flex items-center justify-center flex-shrink-0 text-neutral-500">
+                    <LogoutIcon />
+                  </div>
+                  <div className="ml-4">
+                    <p className="text-sm font-medium ">Logout</p>
+                  </div>
+                </button>}
             </div>
           </div>
         </Menu.Items>

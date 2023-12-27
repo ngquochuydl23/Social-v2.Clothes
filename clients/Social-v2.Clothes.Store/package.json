@@ -16,7 +16,9 @@
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^13.0.0",
     "@testing-library/user-event": "^13.2.1",
+    "axios": "^1.6.3",
     "dayjs": "^1.11.10",
+    "env-cmd": "^10.1.0",
     "formik": "^2.4.5",
     "hanhchinhvn": "^1.6.0",
     "lodash": "^4.17.21",
@@ -34,7 +36,7 @@
     "yup": "^1.3.3"
   },
   "scripts": {
-    "start": "set PORT=1611 &&  react-scripts start",
+    "start": "env-cmd -f .env.staging set PORT=1611 &&  react-scripts start",
     "build": "set PORT=1611 && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
