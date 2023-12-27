@@ -10,7 +10,6 @@ COPY ["Social-v2.Clothes.Api/Social-v2.Clothes.Api.csproj", "Social-v2.Clothes.A
 RUN dotnet restore "Social-v2.Clothes.Api/Social-v2.Clothes.Api.csproj"
 COPY . .
 WORKDIR "/src/Social-v2.Clothes.Api"
-RUN SET ASPNETCORE_ENVIRONMENT="Development"
 RUN dotnet build "Social-v2.Clothes.Api.csproj" -c Debug -o /app/build
 
 FROM build AS publish
