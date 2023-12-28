@@ -34,6 +34,6 @@ services:
       context: ./services/Social-v2.Clothes.Api
       dockerfile: Social-v2.Clothes.Api/Dockerfile-debug
     ports:
-      - 3954:3954
+      - 3954:80
     environment:
       NODE_ENV: production
