@@ -38,7 +38,8 @@ namespace Social_v2.Clothes.Api.Controllers
         {
             var wishlists = _wishlistRepo
                 .GetQueryableNoTracking()
-                .Include(x => x.ProductSku)
+                .Include(x => x.ProductVarient)
+                .ThenInclude(x => x.Product)
                 .Where(x => x.CustomerId == Id && !x.IsDeleted)
                 .ToList();
 
@@ -56,14 +57,14 @@ namespace Social_v2.Clothes.Api.Controllers
 
             var wishlist = _wishlistRepo
                 .GetQueryableNoTracking()
-                .FirstOrDefault(x => x.ProductSkuId.Equals(productVarient.Id) && x.CustomerId == Id && !x.IsDeleted);
+                .FirstOrDefault(x => x.ProductVarientId.Equals(productVarient.Id) && x.CustomerId == Id && !x.IsDeleted);
 
             if (wishlist != null)
                 throw new AppException("Wishlist with varient is already exist");
 
 
             wishlist = _wishlistRepo.Insert(new WishlistEntity(productVarient.Id, Id));
-            wishlist.ProductSku = productVarient;
+            wishlist.ProductVarient = productVarient;
 
             return Ok(_mapper.Map<WishlistDto>(wishlist));
         }
@@ -78,9 +79,8 @@ namespace Social_v2.Clothes.Api.Controllers
 
             var wishlist = _wishlistRepo
                 .GetQueryableNoTracking()
-                .FirstOrDefault(x => x.ProductSkuId.Equals(productVarient.Id) && x.CustomerId == Id && !x.IsDeleted)
+                .FirstOrDefault(x => x.ProductVarientId.Equals(productVarient.Id) && x.CustomerId == Id && !x.IsDeleted)
                 ?? throw new AppException("Wishlist with sku is not exist");
-
 
             _wishlistRepo.Delete(wishlist.Id);
             return Ok();

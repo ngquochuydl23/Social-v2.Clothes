@@ -5,18 +5,18 @@ namespace Social_v2.Clothes.Api.Infrastructure.Entities.Wishlists
 {
     public class WishlistEntity : Entity<long>
     {
-        public string ProductSkuId { get; set; }
+        public string ProductVarientId { get; set; }
 
-        public ProductVarientEntity ProductSku { get; set; }
+        public ProductVarientEntity ProductVarient { get; set; }
 
         public UserEntity Customer { get; set; }
 
         public long CustomerId { get; set; }
 
 
-        public WishlistEntity(string productSkuId, long customerId)
+        public WishlistEntity(string productVarientId, long customerId)
         {
-            ProductSkuId = productSkuId;
+            ProductVarientId = productVarientId;
             CustomerId = customerId;
         }
     }

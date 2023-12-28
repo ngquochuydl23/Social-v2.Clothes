@@ -14,12 +14,11 @@ const CategoryCards = ({ categories }) => {
 
   return (
     <>
-      {categories?.map(({ _id, title, thumbnail, subcategories }) => (
+      {categories?.map(({ id, title, thumbnail, subcategories }) => (
         <div
-          key={_id}
+          key={id}
           className="nc-CardCategory4 relative w-full aspect-w-12 aspect-h-11 h-0 rounded-3xl overflow-hidden bg-white group hover:nc-shadow-lg transition-shadow"
-          data-nc-id="CardCategory4"
-        >
+          data-nc-id="CardCategory4">
           <div>
             <div className="absolute bottom-0 right-0 max-w-[280px] opacity-80">
               <img
@@ -36,8 +35,8 @@ const CategoryCards = ({ categories }) => {
                   <LazyLoadingImage
                     height={"80"}
                     width={"80"}
-                    src={thumbnail?.url}
-                    alt={thumbnail?.public_id}
+                    src={thumbnail}
+                    alt={thumbnail}
                     className={"object-cover w-20 h-20"}
                   />
                 </div>
@@ -47,13 +46,13 @@ const CategoryCards = ({ categories }) => {
               </div>
               <div className="">
                 <span className="block mb-2 text-sm text-slate-500 uppercase">
-                  {_id}
+                  {id}
                 </span>
                 <h2 className="text-2xl sm:text-3xl font-semibold">{title}</h2>
               </div>
               <Link
                 className="flex items-center text-sm font-medium group-hover:text-primary-500 transition-colors"
-                to={`/category/${title}/${_id}`}
+                to={`/category/${title}/${id}`}
               >
                 <span>See Collection</span>
                 <svg
@@ -75,7 +74,7 @@ const CategoryCards = ({ categories }) => {
             </div>
           </div>
           <Link
-            to={`/category/${title?.toLowerCase()}/${_id}`}
+            to={`/category/${title?.toLowerCase()}/${id}`}
             className="absolute inset-0"
           ></Link>
         </div>

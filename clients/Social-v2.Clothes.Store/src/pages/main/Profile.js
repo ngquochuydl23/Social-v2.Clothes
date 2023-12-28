@@ -8,20 +8,25 @@ import { useFormik } from "formik";
 import * as Yup from 'yup';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import moment from 'moment'
+import dayjs from 'dayjs'
+import { editUserInfo } from "../../services/api/user-api";
+import { setUser } from "../../slices/userSlice";
 
 const Profile = () => {
     const { user } = useSelector((state) => state.user)
     const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
+    const dispatch = useDispatch();
 
     const formik = useFormik({
         enableReinitialize: true,
         initialValues: {
-            fullName: user.fullName,
-            phoneNumber: user.phoneNumber,
-            email: user.email,
-            gender: user.gender,
-            birthday: user.birthday,
+            fullName: '',
+            phoneNumber: '',
+            email: '',
+            gender: 0,
+            birthday: undefined,
         },
         validationSchema: Yup.object().shape({
             fullName: Yup.string()
@@ -34,11 +39,22 @@ const Profile = () => {
             gender: Yup.number()
                 .oneOf([0, 1]),
         }),
-        onSubmit: values => {
-            setOpenSuccessAlert(true);
+        onSubmit: async values => {
+            const userInfo = await editUserInfo(values)
+                .catch((err) => console.log(err))
+
             formik.setValues(values)
+
+            setOpenSuccessAlert(true);
+            dispatch(setUser(userInfo));
         },
     });
+
+    useEffect(() => {
+        if (user !== null) {
+            formik.setValues(user);
+        }
+    }, [user])
 
     return (
         <div className="container mx-auto lg:px-0 px-4">
@@ -87,11 +103,13 @@ const Profile = () => {
                                     sx={{ width: '100%' }}
                                     fullWidth
                                     id="birthday"
-                                    onAccept={(value) => formik.setFieldValue('birthday', value)}
+                                    onChange={(value) => {
+                                        formik.setFieldValue('birthday', moment(value[`$d`]).format())
+                                    }}
                                     onBlur={formik.handleBlur}
                                     error={formik.errors.birthday && formik.touched.birthday}
                                     helperText={formik.errors.birthday}
-                                    value={formik.values.birthday}
+                                    value={dayjs(formik.values.birthday)}
                                     format="DD/MM/YYYY"
                                     label="Ngày sinh" />
                             </LocalizationProvider>
@@ -99,7 +117,6 @@ const Profile = () => {
                                 fullWidth
                                 select
                                 onChange={(e) => {
-                                    console.log(e.target.value);
                                     formik.setFieldValue('gender', e.target.value)
                                 }}
                                 onBlur={formik.handleBlur}

@@ -7,6 +7,7 @@ import ExpertChoice from "../../components/home/ExpertChoice";
 import StartExploring from "../../components/home/StartExploring";
 import TrendingNow from "../../components/home/TrendingNow";
 import EarnMoney from "../../components/home/EarnMoney";
+import CategoryCards from "../../components/home/CategoryCards";
 
 const Home = () => {
   const products = [
@@ -21,13 +22,20 @@ const Home = () => {
     }
   ];
 
+  const categories = [
+    {
+      id : 1,
+      title: 'Quần Áo',
+      thumbnail: 'https://ciseco-reactjs.vercel.app/static/media/explore1.3017824afbd558dae323.png'
+    }
+  ]
+
   return (
     <section className="container mx-auto flex flex-col gap-y-32 px-4">
       <Banner />
       <div className="lg:px-32 flex flex-col gap-y-32">
-        {/* <BuyingSteps /> */}
         <NewArrivals
-          products={products.slice(0, 5)}
+          products={products}
           loading={false}
           type={"carousel"}
         />

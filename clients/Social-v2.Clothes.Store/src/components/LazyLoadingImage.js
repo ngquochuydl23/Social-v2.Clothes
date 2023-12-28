@@ -9,7 +9,7 @@ const LazyLoadingImage = ({ src, alt, height, width, className }) => {
         alt={alt}
         height={height}
         width={width}
-        placeholderSrc="/placeholder.svg"
+        //placeholderSrc="/placeholder.svg"
         className={`max-w-full object-cover object-center ${className}`}
       />
     </>

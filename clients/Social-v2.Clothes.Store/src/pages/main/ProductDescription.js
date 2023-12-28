@@ -132,20 +132,7 @@ const ProductDescription = () => {
   //   }
   // }, [isCartSuccess, navigate]);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    watch,
-    reset,
-  } = useForm();
-
-  const handleAddReviewForm = (data) => {
-    const reviewData = {
-      review: { reviewer: user?._id, description: data?.review },
-    };
-    reset();
-  };
+ 
 
   return (
     <>
@@ -813,16 +800,16 @@ const ProductDescription = () => {
                   </div>
                 </div>
                 <div className="mt-4 prose prose-sm sm:prose sm:max-w-2xl">
-                  <form onSubmit={handleSubmit(handleAddReviewForm)}>
+                  <form>
                     <label
                       htmlFor="review"
                       className="block text-sm font-medium text-gray-700 mb-1"
                     >
-                      {errors.review && (
+                      {/* {errors.review && (
                         <span className="text-red-500 font-medium">
                           Product review field is required!
                         </span>
-                      )}
+                      )} */}
                     </label>
                     <textarea
                       id="review"
@@ -830,13 +817,13 @@ const ProductDescription = () => {
                       type="text"
                       autoComplete="off"
                       placeholder="Enter your product review"
-                      {...register("review", {
-                        required: true,
-                        maxLength: 500,
-                      })}
-                      className={`w-full form-textarea rounded-md ${watch("review")?.length > 500 &&
-                        "focus:border-red-500 focus:ring-1 focus:ring-red-500"
-                        }`}
+                      // {...register("review", {
+                      //   required: true,
+                      //   maxLength: 500,
+                      // })}
+                      // className={`w-full form-textarea rounded-md ${watch("review")?.length > 500 &&
+                      //   "focus:border-red-500 focus:ring-1 focus:ring-red-500"
+                      //   }`}
                       rows="3"
                     />
                     {false ? (

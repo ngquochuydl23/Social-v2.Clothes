@@ -103,11 +103,11 @@ const ShippingAddress = () => {
                     handleClose={() => setOpenAlert(false)}
                     onLeftClick={() => setOpenAlert(false)}
                     onRightClick={() => onRemovedAddress(id)}
-                    title={`Remove shipping address`}
-                    rightTxt={'Ok'}
-                    leftTxt={`Cancel`}
+                    title={`Xóa địa chỉ giao hàng`}
+                    rightTxt={'Xóa'}
+                    leftTxt={`Hủy`}
                     sxRightBtn={{ color: 'red' }}
-                    content={`Are you sure to delete this address ?. This will be permanently removed.`}
+                    content={`Bạn có chắc muốn xóa vĩnh viễn địa chỉ giao hàng này?`}
                 />
             </Box>
         )
@@ -158,7 +158,6 @@ const ShippingAddress = () => {
             }
             <CreateUpdateShippingAddressDialog
                 onCreated={(newAddress) => {
-
                     setOpenBackdrop(true)
                     addShippingAddress({ ...newAddress })
                         .then((item) => setAddresses([...addresses, item]))

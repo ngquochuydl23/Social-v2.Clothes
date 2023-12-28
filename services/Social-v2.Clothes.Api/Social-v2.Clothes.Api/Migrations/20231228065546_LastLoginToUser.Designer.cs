@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Social_v2.Clothes.Api.Infrastructure;
@@ -11,9 +12,11 @@ using Social_v2.Clothes.Api.Infrastructure;
 namespace Social_v2.Clothes.Api.Migrations
 {
     [DbContext(typeof(ClothesDbContext))]
-    partial class ClothesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231228065546_LastLoginToUser")]
+    partial class LastLoginToUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -832,7 +835,7 @@ namespace Social_v2.Clothes.Api.Migrations
                     b.Property<DateTime>("LastUpdate")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<string>("ProductVarientId")
+                    b.Property<string>("ProductSkuId")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -840,7 +843,7 @@ namespace Social_v2.Clothes.Api.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.HasIndex("ProductVarientId")
+                    b.HasIndex("ProductSkuId")
                         .IsUnique();
 
                     b.ToTable("Wishlist", (string)null);
@@ -1077,15 +1080,15 @@ namespace Social_v2.Clothes.Api.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Social_v2.Clothes.Api.Infrastructure.Entities.Products.ProductVarientEntity", "ProductVarient")
+                    b.HasOne("Social_v2.Clothes.Api.Infrastructure.Entities.Products.ProductVarientEntity", "ProductSku")
                         .WithOne("Wishlist")
-                        .HasForeignKey("Social_v2.Clothes.Api.Infrastructure.Entities.Wishlists.WishlistEntity", "ProductVarientId")
+                        .HasForeignKey("Social_v2.Clothes.Api.Infrastructure.Entities.Wishlists.WishlistEntity", "ProductSkuId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Customer");
 
-                    b.Navigation("ProductVarient");
+                    b.Navigation("ProductSku");
                 });
 
             modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Cart.CartEntity", b =>

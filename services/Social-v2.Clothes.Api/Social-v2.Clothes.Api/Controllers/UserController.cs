@@ -48,12 +48,16 @@ namespace Social_v2.Clothes.Api.Controllers
         [HttpPost("login")]
         public IActionResult Login([FromBody] LoginRequestDto input)
         {
-            var user = _userRepo.GetQueryableNoTracking()
+            var user = _userRepo
+                .GetQueryable()
                 .FirstOrDefault(x => x.PhoneNumber == input.PhoneNumber)
                 ?? throw new AppException("User does not exist");
 
             if (!BCrypt.Net.BCrypt.Verify(input.Password, user.HashPassword))
                 throw new AppException("Password is incorrect");
+
+            user.LastLogin = DateTime.UtcNow;
+            _userRepo.SaveChanges();
 
             var token = _jwtExtension.GenerateToken(user.Id, user.Role);
             return Ok(new LoginResponseDto(token, _mapper.Map<UserDto>(user)));
@@ -72,6 +76,26 @@ namespace Social_v2.Clothes.Api.Controllers
                 PhoneNumber = input.PhoneNumber,
                 HashPassword = BCrypt.Net.BCrypt.HashPassword(input.Password),
             });
+
+            return Ok(_mapper.Map<UserDto>(user));
+        }
+
+        [HttpPut("updateInfo")]
+        public IActionResult UpdateInfo([FromBody] UpdateInfoDto value)
+        {
+            var user = _userRepo
+               .GetQueryable()
+               .FirstOrDefault(x => x.Id == Id)
+                    ?? throw new AppException("User does not exist");
+
+            user.FullName = value.FullName;
+            user.Email = value.Email;
+            user.PhoneNumber = value.PhoneNumber;
+            user.Gender = value.Gender;
+            user.Birthday = value.Birthday;
+            user.LastUpdate = DateTime.Now;
+
+            _userRepo.SaveChanges();
 
             return Ok(_mapper.Map<UserDto>(user));
         }

@@ -16,6 +16,8 @@
 
         public DateTime LastUpdate { get; set; }
 
+        public DateTime Birthday { get; set; }
+
         public string Role { get; set; }
     }
 }

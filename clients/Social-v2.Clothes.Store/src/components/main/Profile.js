@@ -5,125 +5,143 @@ import { useDispatch, useSelector } from "react-redux";
 import LazyLoadingImage from "../LazyLoadingImage";
 import { logout } from "../../slices/userSlice";
 
+const items = [
+  {
+    name: "Trang cá nhân",
+    icon: ProfileIcon,
+    link: "/account/info",
+  },
+  {
+    name: "Đơn hàng của tôi",
+    icon: OrderIcon,
+    link: "/account/my-order",
+  },
+  {
+    name: "Yêu Thích",
+    icon: OrderIcon,
+    link: "/account/wishlist",
+  },
+  {
+    name: "Contact Us",
+    icon: ContactIcon,
+    link: "/contact-us",
+  },
+  {
+    name: "About Us",
+    icon: AboutIcon,
+    link: "/about-us",
+  },
+];
+
 const Profile = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { user } = useSelector((state) => state.user)
-  const items = [
-    {
-      name: "My Profile",
-      icon: ProfileIcon,
-      link: "/account/info",
-    },
-    {
-      name: "My Order",
-      icon: OrderIcon,
-      link: "/account/my-order",
-    },
-    {
-      name: "Contact Us",
-      icon: ContactIcon,
-      link: "/contact-us",
-    },
-    {
-      name: "About Us",
-      icon: AboutIcon,
-      link: "/about-us",
-    },
-  ];
+  const { user } = useSelector((state) => state.user);
 
   return (
     <Menu as="div" className="relative inline-block text-left z-20">
-      <div>
-        <Menu.Button className="text-gray-600 hover:text-blue-600 flex gap-x-4 items-center">
-          <svg
-            className=" w-6 h-6"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            ></path>
-            <path
-              d="M20.5899 22C20.5899 18.13 16.7399 15 11.9999 15C7.25991 15 3.40991 18.13 3.40991 22"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            ></path>
-          </svg>
-          <span className="block md:hidden">Profile</span>
-        </Menu.Button>
-      </div>
-      <Transition
-        as={Fragment}
-        enter="transition ease-out duration-100"
-        enterFrom="transform opacity-0 scale-95"
-        enterTo="transform opacity-100 scale-100"
-        leave="transition ease-in duration-75"
-        leaveFrom="transform opacity-100 scale-100"
-        leaveTo="transform opacity-0 scale-95"
-      >
-        <Menu.Items className="absolute md:-left-[800%] left-0 mt-2 w-[300px] origin-top-right divide-y divide-gray-100 bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none p-7 rounded-2xl">
-          <div className="flex flex-col gap-y-4">
-            <div className="flex items-center space-x-3">
-              <div className="relative flex-shrink-0 inline-flex items-center justify-center text-neutral-100 uppercase font-semibold shadow-inner rounded-full w-12 h-12 ring-1 ring-white">
-                <LazyLoadingImage
-                  className="absolute inset-0 w-full h-full object-cover rounded-full"
-                  src={'https://img.freepik.com/premium-psd/3d-male-cute-cartoon-character-avatar-isolated-3d-rendering_235528-1280.jpg'}
-                  //   alt={user?.name}
-                  height={"48"}
-                  width={"48"}
-                />
-              </div>
-              <div className="flex-grow">
-                <h4 className="font-semibold">{`Nguyễn Quốc Huy`}</h4>
-                <p className="text-xs mt-0.5">{`0868684961`}</p>
-              </div>
-            </div>
-            <hr />
-            <div className="flex flex-col gap-y-6">
-              {items.map((item, index) => (
-                <Menu.Item key={index}>
-                  {({ active }) => (
-                    <Link
-                      to={item.link}
-                      className={`flex items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50 ${active ? "text-slate-900/50 shadow-sm" : "text-gray-900"
-                        }`}>
-                      <div className="flex items-center justify-center flex-shrink-0 text-neutral-500">
-                        <item.icon />
-                      </div>
-
-                      <div className="ml-4">
-                        <p className="text-sm font-medium ">{item.name}</p>
-                      </div>
-                    </Link>
-                  )}
-                </Menu.Item>
-              ))}
-              {user.id &&
-                <button
-                  className="flex items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-neutral-100 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
-                  onClick={() => {
-                    dispatch(logout());
-                    navigate('/');
-                  }}>
-                  <div className="flex items-center justify-center flex-shrink-0 text-neutral-500">
-                    <LogoutIcon />
-                  </div>
-                  <div className="ml-4">
-                    <p className="text-sm font-medium ">Logout</p>
-                  </div>
-                </button>}
-            </div>
+      {({ open, close }) => (
+        <>
+          <div>
+            <Menu.Button
+              onClick={() => {
+                if (user === null) {
+                  navigate('/sign-in');
+                } else close();
+              }}
+              className="text-gray-600 hover:text-blue-600 flex gap-x-4 items-center">
+              <svg
+                className=" w-6 h-6"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                ></path>
+                <path
+                  d="M20.5899 22C20.5899 18.13 16.7399 15 11.9999 15C7.25991 15 3.40991 18.13 3.40991 22"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                ></path>
+              </svg>
+              <span className="block md:hidden">Profile</span>
+            </Menu.Button>
           </div>
-        </Menu.Items>
-      </Transition>
+          {(open && user !== null) &&
+            <Transition
+              as={Fragment}
+              show={open}
+              enter="transition ease-out duration-100"
+              enterFrom="transform opacity-0 scale-95"
+              enterTo="transform opacity-100 scale-100"
+              leave="transition ease-in duration-75"
+              leaveFrom="transform opacity-100 scale-100"
+              leaveTo="transform opacity-0 scale-95">
+              <Menu.Items className="absolute md:-left-[800%] left-0 mt-2 w-[300px] origin-top-right divide-y divide-gray-100 bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none p-7 rounded-2xl">
+                <div className="flex flex-col gap-y-4">
+                  {user &&
+                    <div className="flex items-center space-x-3">
+                      <div className="relative flex-shrink-0 inline-flex items-center justify-center text-neutral-100 uppercase font-semibold shadow-inner rounded-full w-12 h-12 ring-1 ring-white">
+                        <LazyLoadingImage
+                          className="absolute inset-0 w-full h-full object-cover rounded-full"
+                          src={'https://img.freepik.com/premium-psd/3d-male-cute-cartoon-character-avatar-isolated-3d-rendering_235528-1280.jpg'}
+                          height={"48"}
+                          width={"48"}
+                        />
+                      </div>
+                      <div className="flex-grow">
+                        <h4 className="font-semibold">{user.fullName}</h4>
+                        <p className="text-xs mt-0.5">{user.phoneNumber}</p>
+                      </div>
+                    </div>
+                  }
+                  <hr />
+                  <div className="flex flex-col gap-y-6">
+                    {items.map((item, index) => (
+                      <Menu.Item key={index}>
+                        {({ active }) => (
+                          <Link
+                            to={item.link}
+                            className={`flex items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50 ${active ? "text-slate-900/50 shadow-sm" : "text-gray-900"}`}>
+                            <div className="flex items-center justify-center flex-shrink-0 text-neutral-500">
+                              <item.icon />
+                            </div>
+                            <div className="ml-4">
+                              <p className="text-sm font-medium ">{item.name}</p>
+                            </div>
+                          </Link>
+                        )}
+                      </Menu.Item>
+                    ))}
+                    {user &&
+                      <button
+                        className="flex items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-neutral-100 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
+                        onClick={() => {
+                          dispatch(logout());
+                          navigate('/');
+                          close();
+                        }}>
+                        <div className="flex items-center justify-center flex-shrink-0 text-neutral-500">
+                          <LogoutIcon />
+                        </div>
+                        <div className="ml-4">
+                          <p className="text-sm font-medium ">Đăng xuât</p>
+                        </div>
+                      </button>
+                    }
+                  </div>
+                </div>
+              </Menu.Items>
+            </Transition>
+          }
+        </>
+      )}
     </Menu>
   );
 };

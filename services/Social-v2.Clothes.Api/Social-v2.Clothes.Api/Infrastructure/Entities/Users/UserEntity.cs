@@ -6,7 +6,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Social_v2.Clothes.Api.Infrastructure.Entities.Users
 {
-    public class UserEntity: Entity<long>
+    public class UserEntity : Entity<long>
     {
         [NotNull]
         [MaxLength(UserConstants.UserFullNameMaxLength)]
@@ -25,6 +25,8 @@ namespace Social_v2.Clothes.Api.Infrastructure.Entities.Users
         public string HashPassword { get; set; }
 
         public DateTime Birthday { get; set; }
+
+        public DateTime LastLogin { get; set; }
 
         public int? Gender { get; set; }
 

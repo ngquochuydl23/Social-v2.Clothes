@@ -15,9 +15,9 @@ namespace Social_v2.Clothes.Api.Infrastructure.Entities.Wishlists
                 entity.ToTable("Wishlist");
                 entity.HasKey(x => x.Id);
                 entity
-                    .HasOne(x => x.ProductSku)
-                    .WithOne(proSku => proSku.Wishlist)
-                    .HasForeignKey<WishlistEntity>(x => x.ProductSkuId);
+                    .HasOne(x => x.ProductVarient)
+                    .WithOne(proVarient => proVarient.Wishlist)
+                    .HasForeignKey<WishlistEntity>(x => x.ProductVarientId);
 
                 entity
                    .HasOne(x => x.Customer)

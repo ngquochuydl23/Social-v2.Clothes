@@ -1,8 +1,9 @@
 import axios from "axios"
 import _ from "lodash";
-console.log(process.env.REACT_APP_API_END_POINT);
+
 export const http = axios.create({
   baseURL: 'https://localhost:7183/api/'
+  //baseURL: 'https://clothes-dev.social-v2.com/dev-api/'
 })
 
 export const saveAccessToken = (accessToken) =>

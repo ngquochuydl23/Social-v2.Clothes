@@ -13,6 +13,8 @@ import Profile from "../pages/main/Profile";
 import Order from "../pages/main/Order";
 import ComingSoon from "../components/main/ComingSoon";
 import ShippingAddress from "../pages/main/ShippingAddress";
+import Wishlist from "../pages/main/Wishlist";
+import MyVoucher from "../pages/main/MyVoucher";
 const Home = lazy(() => import("../pages/main/Home"));
 
 const mainRoutes = {
@@ -92,6 +94,22 @@ const mainRoutes = {
           element: (
             <SplitRouter>
               <Order />
+            </SplitRouter>
+          ),
+        },
+        {
+          path: "wishlist",
+          element: (
+            <SplitRouter>
+              <Wishlist />
+            </SplitRouter>
+          ),
+        },
+        {
+          path: "my-vouchers",
+          element: (
+            <SplitRouter>
+              <MyVoucher />
             </SplitRouter>
           ),
         },

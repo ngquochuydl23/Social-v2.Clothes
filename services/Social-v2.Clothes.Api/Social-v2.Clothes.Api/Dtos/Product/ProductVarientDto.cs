@@ -1,4 +1,5 @@
-﻿using Social_v2.Clothes.Api.Dtos.Product.SkuValue;
+﻿using Newtonsoft.Json;
+using Social_v2.Clothes.Api.Dtos.Product.SkuValue;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Products;
 
 namespace Social_v2.Clothes.Api.Dtos.Product
@@ -13,6 +14,6 @@ namespace Social_v2.Clothes.Api.Dtos.Product
 
         public double Price { get; set; }
 
-        public ICollection<SkuValueDto> SkuValues { get; set; } = new List<SkuValueDto>();
+        public AdminProductDto Product { get; set; }
     }
 }

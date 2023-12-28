@@ -1,4 +1,4 @@
-import { Box, Container, Stack, Typography } from "@mui/material";
+import { Container, Stack } from "@mui/material";
 import React, { useState } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import Tabs from '@mui/material/Tabs';
@@ -21,7 +21,6 @@ const tabSx = {
     },
 }
 
-
 const accountRoutes = [
     {
         label: "Thông tin cá nhân",
@@ -36,8 +35,16 @@ const accountRoutes = [
         path: "/account/my-order"
     },
     {
+        label: "Yêu thích",
+        path: "/account/wishlist"
+    },
+    {
         label: "Ví Vouchers",
         path: "/account/my-vouchers"
+    },
+    {
+        label: "Đánh giá và phản hồi",
+        path: "/account/ratings"
     }
 ]
 const AccountLayout = () => {

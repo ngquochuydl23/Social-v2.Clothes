@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    user: {},
+    user: null,
     isLoading: true,
     isError: false,
     error: "",
@@ -18,7 +18,7 @@ const userSlice = createSlice({
             state.isLoading = false;
         },
         logout: (state) => {
-            state.user = {};
+            state.user = null;
             localStorage.removeItem("accessToken");
         },
     },

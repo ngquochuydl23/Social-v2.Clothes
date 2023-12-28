@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { TextField } from "@mui/material";
+import { Alert, AlertTitle, Snackbar, TextField } from "@mui/material";
 import { useFormik } from "formik";
 import * as Yup from 'yup';
 import { signIn } from "../../services/api/user-api";
@@ -10,10 +10,11 @@ import { setUser } from '../../slices/userSlice';
 const Signin = () => {
 	const navigate = useNavigate();
 	const { user } = useSelector((state) => state.user)
-	const dispatch = useDispatch()
+	const dispatch = useDispatch();
+	const [openErrorAlert, setOpenErrorAlert] = useState(false);
 
 	useEffect(() => {
-		if (user.id) {
+		if (user !== null) {
 			navigate("/account/info");
 		}
 	}, [user])
@@ -31,9 +32,10 @@ const Signin = () => {
 				.required('Vui lòng nhập mật khẩu')
 		}),
 		onSubmit: async values => {
-			const response = await signIn(values.phoneNumber, values.password);
-			localStorage.setItem("accessToken", response.token);
+			const response = await signIn(values.phoneNumber, values.password)
+				.catch((err) => setOpenErrorAlert(true));
 
+			localStorage.setItem("accessToken", response.token);
 			dispatch(setUser(response.user));
 		},
 	});
@@ -80,8 +82,20 @@ const Signin = () => {
 							value={formik.values.password}
 						/>
 						<div>
-							<button className="w-full btn-primary">Sign in</button>
+							<button className="w-full btn-primary">Đăng nhập</button>
 						</div>
+						<Snackbar
+							anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+							open={openErrorAlert}
+							autoHideDuration={6000}
+							onClose={() => setOpenErrorAlert(false)}>
+							<Alert
+								severity="error"
+								variant="filled">
+								<AlertTitle>Đăng nhập không thành công</AlertTitle>
+								Số điện thoại hay mật khẩu không hợp đúng — <strong>Thử lại!</strong>
+							</Alert>
+						</Snackbar>
 					</form>
 				</div>
 			</div>
