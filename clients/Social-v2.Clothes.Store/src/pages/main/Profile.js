@@ -13,9 +13,10 @@ import moment from 'moment'
 import dayjs from 'dayjs'
 import { editUserInfo } from "../../services/api/user-api";
 import { setUser } from "../../slices/userSlice";
+import { uploadFile } from "../../services/api/upload-api";
 
 const Profile = () => {
-    const { user } = useSelector((state) => state.user)
+    const { user } = useSelector((state) => state.user);
     const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
     const dispatch = useDispatch();
 
@@ -27,6 +28,7 @@ const Profile = () => {
             email: '',
             gender: 0,
             birthday: undefined,
+            avatar: undefined
         },
         validationSchema: Yup.object().shape({
             fullName: Yup.string()
@@ -38,6 +40,7 @@ const Profile = () => {
                 .required('Vui lòng nhập địa chỉ chi tiết'),
             gender: Yup.number()
                 .oneOf([0, 1]),
+            avatar: Yup.string()
         }),
         onSubmit: async values => {
             const userInfo = await editUserInfo(values)
@@ -68,11 +71,28 @@ const Profile = () => {
                         <div className="flex-shrink-0 flex items-start">
                             <div className="relative rounded-full overflow-hidden flex">
                                 <LazyLoadingImage
-                                    src={"https://img.freepik.com/premium-psd/3d-male-cute-cartoon-character-avatar-isolated-3d-rendering_235528-1280.jpg"}
+                                    onClick={() => document.getElementById('pick-image').click()}
+                                    placeholderSrc='https://img.freepik.com/premium-psd/3d-male-cute-cartoon-character-avatar-isolated-3d-rendering_235528-1280.jpg'
+                                    src={"https://clothes-dev.social-v2.com" + formik.values.avatar}
                                     className="w-32 h-32 rounded-full object-cover object-center z-0"
                                     height={"128"}
                                     width={"128"}
                                 />
+                                <input
+                                    onChange={(event) => {
+                                        var file = event.target.files[0];
+                                        uploadFile(file)
+                                            .then((res) => {
+                                                console.log("Uploaded");
+                                                var avatar = res.medias[0].url;
+                                                formik.setFieldValue('avatar', '/media' + avatar);
+                                            })
+                                            .catch((err) => console.log(err))
+                                    }}
+                                    style={{ display: 'none' }}
+                                    type="file"
+                                    accept="image/*"
+                                    id="pick-image" />
                             </div>
                         </div>
                         <form

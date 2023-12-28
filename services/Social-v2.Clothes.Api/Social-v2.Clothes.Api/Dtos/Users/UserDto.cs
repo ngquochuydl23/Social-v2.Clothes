@@ -19,5 +19,7 @@
         public DateTime Birthday { get; set; }
 
         public string Role { get; set; }
+
+        public string Avatar { get; set; }
     }
 }

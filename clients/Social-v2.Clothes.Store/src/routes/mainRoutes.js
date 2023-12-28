@@ -15,6 +15,8 @@ import ComingSoon from "../components/main/ComingSoon";
 import ShippingAddress from "../pages/main/ShippingAddress";
 import Wishlist from "../pages/main/Wishlist";
 import MyVoucher from "../pages/main/MyVoucher";
+import ProtectedRoute from "../components/ProtectedRoute";
+
 const Home = lazy(() => import("../pages/main/Home"));
 
 const mainRoutes = {
@@ -71,7 +73,11 @@ const mainRoutes = {
     },
     {
       path: "/account",
-      element: <AccountLayout />,
+      element: (
+        <ProtectedRoute>
+          <AccountLayout />
+        </ProtectedRoute>
+      ),
       children: [
         {
           path: "info",

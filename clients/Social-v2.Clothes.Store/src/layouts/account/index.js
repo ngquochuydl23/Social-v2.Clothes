@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
+import { Link } from "react-router-dom";
 
 const tabSx = {
     fontWeight: '500',
@@ -49,7 +50,8 @@ const accountRoutes = [
 ]
 const AccountLayout = () => {
     const [value, setValue] = useState(0);
-    const { pathname } = useLocation()
+    const { pathname } = useLocation();
+
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
@@ -70,7 +72,8 @@ const AccountLayout = () => {
                     }}>
                     {accountRoutes.map((route) => (
                         <Tab
-                            href={route.path}
+                            to={route.path}
+                            LinkComponent={Link}
                             label={route.label}
                             sx={tabSx} />
                     ))}

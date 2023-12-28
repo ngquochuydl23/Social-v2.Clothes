@@ -12,6 +12,7 @@ function App() {
     const isLoading = false
 
     useEffect(() => {
+        console.log("Fetch user api");
         const token = localStorage.getItem("accessToken");
         if (token?.length) {
             persistLogin()

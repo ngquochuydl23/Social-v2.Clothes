@@ -89,8 +89,9 @@ const Profile = () => {
                     <div className="flex items-center space-x-3">
                       <div className="relative flex-shrink-0 inline-flex items-center justify-center text-neutral-100 uppercase font-semibold shadow-inner rounded-full w-12 h-12 ring-1 ring-white">
                         <LazyLoadingImage
+                          placeholderSrc='https://img.freepik.com/premium-psd/3d-male-cute-cartoon-character-avatar-isolated-3d-rendering_235528-1280.jpg'
                           className="absolute inset-0 w-full h-full object-cover rounded-full"
-                          src={'https://img.freepik.com/premium-psd/3d-male-cute-cartoon-character-avatar-isolated-3d-rendering_235528-1280.jpg'}
+                          src={"https://clothes-dev.social-v2.com" + user.avatar}
                           height={"48"}
                           width={"48"}
                         />

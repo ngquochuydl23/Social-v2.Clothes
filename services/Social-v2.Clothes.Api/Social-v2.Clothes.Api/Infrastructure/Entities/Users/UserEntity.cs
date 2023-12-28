@@ -30,6 +30,8 @@ namespace Social_v2.Clothes.Api.Infrastructure.Entities.Users
 
         public int? Gender { get; set; }
 
+        public string Avatar { get; set; }
+
         public string Role { get; set; } = UserConstants.CustomerRole;
 
         public virtual CartEntity? Cart { get; set; }
