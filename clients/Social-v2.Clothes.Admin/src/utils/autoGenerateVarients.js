@@ -1,6 +1,6 @@
 import generateDashByText from "./generate-dash-by-text";
 
-export default function autoGenerateSkus(options) {
+export default function autoGenerateVarients(options) {
     let sets = [[]];
     const id_obj = {};
     options.forEach(option => {
@@ -12,12 +12,12 @@ export default function autoGenerateSkus(options) {
         sets = new_sets.flatMap(set => set);
     });
 
-    return sets.map((skuValues) => ({
-        title: skuValues.join(' '),
+    return sets.map((varientValues) => ({
+        title: varientValues.join(' '),
         price: 0,
-        skuValues: skuValues.map((skuVal, index) => ({
+        varientValues: varientValues.map((varientVal, index) => ({
             option: options[index].title,
-            value: skuVal
+            value: varientVal
         }))
     }))
 }

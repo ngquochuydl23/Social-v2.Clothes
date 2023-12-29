@@ -6,36 +6,41 @@ import AlertDialog from "src/components/alert-dialog";
 import _ from "lodash";
 import ClearIcon from '@mui/icons-material/Clear';
 import FormHelperText from '@mui/material/FormHelperText';
+import { uploadFile, uploadFiles } from "src/services/api/upload-api";
 
 var currencyFormatter = require('currency-formatter');
 
 
 
-const AddSkuMedia = ({ onUploaded, skuMedias, onDropAllMedia }) => {
-    const [proSkuMedias, setProSkuMedias] = useState(skuMedias || []);
+const AddProductVarientMedia = ({ onUploaded, varientMedias, onDropAllMedia }) => {
+    const [proVarientMedias, setProVarientMedias] = useState(varientMedias || []);
     const [hasUploaded, setHasUploaded] = useState(false);
 
+    const uploadMedias = async (unUploadedImages) => {
+        console.log(unUploadedImages);
 
+        if (unUploadedImages.length > 0) {
+            var files = _.map(unUploadedImages, (image) => image.localFile);
 
-    const uploadMedias = async (skuImages) => {
-        const uploadedMedias = _.map(skuImages, (skuImages) => ({
-            ...skuImages,
-            url: 'abc'
-        }));
+            const { medias } = await uploadFiles(files)
+                .catch((err) => console.log(err))
 
+            const uploadedImages = unUploadedImages.map((image, idx) => ({
+                ...image,
+                url: medias[idx].url
+            }))
 
-        onUploaded(proSkuMedias);
+            onUploaded([...uploadedImages, proVarientMedias]);
+        }
     }
 
     useEffect(() => {
-        setProSkuMedias(skuMedias);
+        setProVarientMedias(varientMedias);
     }, [])
 
     useEffect(() => {
-
-        uploadMedias(_.filter(proSkuMedias, (skuMedia) => !skuMedia.url))
-
-    }, [proSkuMedias])
+        uploadMedias(_.filter(proVarientMedias, (varientMedia) => !varientMedia.url))
+    }, [proVarientMedias])
 
     return (
         <Box sx={{ width: '100%' }}>
@@ -48,7 +53,7 @@ const AddSkuMedia = ({ onUploaded, skuMedias, onDropAllMedia }) => {
                 }}>
                 <Grid container
                     spacing={{ lg: '5px' }}>
-                    {_.map(proSkuMedias, (skuMedia, idx) => (
+                    {_.map(proVarientMedias, (varientMedia, idx) => (
                         <Grid
                             item
                             lg={4}>
@@ -60,9 +65,9 @@ const AddSkuMedia = ({ onUploaded, skuMedias, onDropAllMedia }) => {
                                         objectFit: 'cover'
                                     }}
                                     width="100%"
-                                    src={Boolean(skuMedia.url) ? skuMedia.url : URL.createObjectURL(skuMedia.localFile)} />
+                                    src={Boolean(varientMedia.url) ? varientMedia.url : URL.createObjectURL(varientMedia.localFile)} />
                                 <div
-                                    onClick={() => setProSkuMedias(proSkuMedias.filter((item, index) => index !== idx))}
+                                    onClick={() => setProSkuMedias(proVarientMedias.filter((item, index) => index !== idx))}
                                     style={{
                                         display: 'flex',
                                         position: 'absolute',
@@ -86,9 +91,9 @@ const AddSkuMedia = ({ onUploaded, skuMedias, onDropAllMedia }) => {
                     setHasUploaded(false);
 
                     if (files.length > 0) {
-                        setProSkuMedias([...proSkuMedias, ..._.map(files, (file, idx) => {
+                        setProVarientMedias([...proVarientMedias, ..._.map(files, (file, idx) => {
                             return {
-                                idx: proSkuMedias.length + idx,
+                                idx: proVarientMedias.length + idx,
                                 url: undefined,
                                 localFile: file,
                                 width: file.width || 1200,
@@ -120,9 +125,9 @@ const AddSkuMedia = ({ onUploaded, skuMedias, onDropAllMedia }) => {
     )
 }
 
-const EditProductSkuDialog = ({
+const EditProductVarientDialog = ({
     open,
-    productSku,
+    productVarient,
     handleClose,
     onProductEdited }) => {
 
@@ -138,10 +143,10 @@ const EditProductSkuDialog = ({
     const formik = useFormik({
         enableReinitialize: true,
         initialValues: {
-            title: productSku.title,
-            price: productSku.price,
-            proSkuMedias: productSku.proSkuMedias,
-            stock: productSku.stock
+            title: productVarient.title,
+            price: productVarient.price,
+            proVarientMedias: productVarient.proVarientMedias,
+            stock: productVarient.stock
         },
         onSubmit: value => {
             onProductEdited(value);
@@ -157,7 +162,7 @@ const EditProductSkuDialog = ({
             price: Yup.number()
                 .required("Please enter price")
                 .min(0, "Price must be positive number"),
-            proSkuMedias: Yup.array()
+            proVarientMedias: Yup.array()
                 .min(0, "Please upload at least one media")
                 // .of(
                 //     Yup.object().shape({
@@ -184,7 +189,7 @@ const EditProductSkuDialog = ({
         if (!open) {
             formik.resetForm();
         } else {
-            formik.setFieldValue(productSku);
+            formik.setFieldValue(productVarient);
         }
     }, [open])
 
@@ -195,7 +200,7 @@ const EditProductSkuDialog = ({
             disableBackdropClick
             onClose={onClose}>
             <form onSubmit={formik.handleSubmit}>
-                <DialogTitle>Edit product sku</DialogTitle>
+                <DialogTitle>Edit product varient</DialogTitle>
                 <DialogContent>
                     <Stack
                         marginTop={"10px"}
@@ -283,17 +288,16 @@ const EditProductSkuDialog = ({
                             variant="subtitle2">
                             Product Images*
                         </Typography>
-                        <AddSkuMedia
-                            skuMedias={productSku.proSkuMedias}
+                        <AddProductVarientMedia
+                            varientMedias={productVarient.proVarientMedias}
                             onDropAllMedia={() => {
 
-                                formik.setFieldValue('proSkuMedias', [])
-                                formik.setFieldTouched('proSkuMedias', true)
+                                formik.setFieldValue('proVarientMedias', [])
+                                formik.setFieldTouched('proVarientMedias', true)
                             }}
-                            onUploaded={(proSkuMedias) => {
-                                
-                                formik.setFieldValue('proSkuMedias', proSkuMedias)
-                              //  formik.setFieldTouched('proSkuMedias', true)
+                            onUploaded={(proVarientMedias) => {
+                                formik.setFieldValue('proVarientMedias', proVarientMedias)
+                                //  formik.setFieldTouched('proSkuMedias', true)
                             }} />
 
                     </Stack>
@@ -317,7 +321,7 @@ const EditProductSkuDialog = ({
                     </Button>
                     <Button
                         disabled={
-                            (formik.errors.title || formik.errors.price || formik.errors.stock || formik.errors.proSkuMedias)
+                            (formik.errors.title || formik.errors.price || formik.errors.stock || formik.errors.proVarientMedias)
                             || (formik.initialValues === formik.values)
                         }
                         type="submit">Change</Button>
@@ -339,4 +343,4 @@ const EditProductSkuDialog = ({
     )
 }
 
-export default EditProductSkuDialog;
+export default EditProductVarientDialog;

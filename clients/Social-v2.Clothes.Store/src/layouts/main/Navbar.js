@@ -11,10 +11,10 @@ export default function NavBar() {
 
   return (
     <nav className="w-full bg-white">
-      <div className="justify-between mx-auto lg:max-w-7xl md:items-center md:flex">
+      <div className="justify-between lg:max-w-7xl md:items-center md:flex">
         <div>
           <div className="flex items-center justify-between py-4 md:py-5 md:block">
-            <div className="flex items-center gap-x-4">
+            <div className="flex items-center">
               <Link to="/">
                 <LazyLoadingImage
                   src="/logo.png"

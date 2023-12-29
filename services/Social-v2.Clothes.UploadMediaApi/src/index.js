@@ -43,38 +43,48 @@ app.post("/api/upload", upload.any(), async function (req, res) {
     })
   }
 
-  var medias = await Promise.all(_.map(files, async (file) => {
+  try {
+    var medias = await Promise.all(_.map(files, async (file) => {
 
-    var buffer;
+      var buffer;
 
-    if (prefixMime(file.mimetype) === mediaType.IMAGE) {
-      buffer = await sharp(file.buffer)
-        .resize(undefined, undefined)
-        .jpeg({ quality: 50 })
-        .toBuffer();
-    } else {
-      buffer = file.buffer
-    }
+      if (prefixMime(file.mimetype) === mediaType.IMAGE) {
+        buffer = await sharp(file.buffer)
+          .resize(undefined, undefined)
+          .jpeg({ quality: 50 })
+          .toBuffer();
+      } else {
+        buffer = file.buffer
+      }
 
-    const newDoc = await MediaSchema.create({
-      fileName: generateFileName(file),
-      buffer: buffer,
-      mime: file.mimetype,
-      size: Buffer.byteLength(buffer)
-    });
+      const newDoc = await MediaSchema.create({
+        fileName: generateFileName(file),
+        buffer: buffer,
+        mime: file.mimetype,
+        size: Buffer.byteLength(buffer)
+      });
 
-    return {
-      url: config.serverUrl + createEncodeFileName(newDoc.fileName),
-      mime: newDoc.mime,
-    }
-  }));
+      return {
+        url: config.serverUrl + createEncodeFileName(newDoc.fileName),
+        mime: newDoc.mime,
+      }
+    }));
 
-  return res.send({
-    statusCode: res.statusCode,
-    result: {
-      medias
-    }
-  })
+    return res.send({
+      statusCode: res.statusCode,
+      result: {
+        medias
+      }
+    })
+  } catch (error) {
+    res.status(500)
+    return res.send({
+      statusCode: 400,
+      error: {
+        message: error.message
+      }
+    })
+  }
 });
 
 app.get("/:fileName", async function (req, res) {

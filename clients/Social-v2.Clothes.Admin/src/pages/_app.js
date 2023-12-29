@@ -11,6 +11,8 @@ import { createEmotionCache } from 'src/utils/create-emotion-cache';
 import 'simplebar-react/dist/simplebar.min.css';
 import { PrimeReactProvider, PrimeReactContext } from 'primereact/api';
 import "primereact/resources/themes/lara-light-cyan/theme.css";
+import { useEffect } from 'react';
+import { useAuth } from 'src/hooks/use-auth';
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -18,18 +20,16 @@ const SplashScreen = () => null;
 
 const App = (props) => {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
-
   useNProgress();
 
   const getLayout = Component.getLayout ?? ((page) => page);
-
   const theme = createTheme();
 
   return (
     <CacheProvider value={emotionCache}>
       <Head>
         <title>
-          Devias Kit
+          Admin
         </title>
         <meta
           name="viewport"

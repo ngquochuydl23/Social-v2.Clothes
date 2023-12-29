@@ -1,35 +1,35 @@
 import { Box, Button, Typography, Stack, Divider } from "@mui/material"
 import EditIcon from '@mui/icons-material/Edit';
-import EditProductSkuDialog from './edit-product-sku-dialog';
+import EditProductVarientDialog from './edit-product-varient-dialog';
 import { useEffect, useState } from 'react';
 var currencyFormatter = require('currency-formatter');
 
-const ProductSkuItem = ({
+const ProductVarientItem = ({
     title,
     price,
     stock,
-    skuValues,
-    proSkuMedias,
+    varientValues,
+    proVarientMedias,
     onEdited
 }) => {
-    const [productSku, setProductSku] = useState({
+    const [productVarient, setProductVarient] = useState({
         title: title,
         price: price,
-        skuValues: skuValues,
-        proSkuMedias: proSkuMedias || [],
+        varientValues: varientValues,
+        proVarientMedias: proVarientMedias || [],
         stock: stock
     })
     const [open, setOpen] = useState(false);
 
     useEffect(() => {
-        setProductSku({
+        setProductVarient({
             title: title,
             price: price,
-            skuValues: skuValues,
-            proSkuMedias: proSkuMedias || [],
+            varientValues: varientValues,
+            proVarientMedias: proVarientMedias || [],
             stock: stock
         })
-    }, [title, price, stock, skuValues, proSkuMedias])
+    }, [title, price, stock, varientValues, proVarientMedias])
 
     return (
         <Box my={'10px'}>
@@ -57,21 +57,21 @@ const ProductSkuItem = ({
                         fontSize="16px"
                         marginRight="20px"
                         variant="subtitle2">
-                        {productSku.title}
+                        {productVarient.title}
                     </Typography>
                     <Typography
                         sx={{ color: '#696969', fontWeight: 400, width: '100%' }}
                         fontSize="14px"
                         marginRight="20px"
                         variant="caption">
-                        {productSku.skuValues.map(item => item.value).join('/')}
+                        {productVarient.varientValues.map(item => item.value).join('/')}
                     </Typography>
                 </Stack>
                 <Typography
                     fontSize="14px"
                     marginRight="20px"
                     variant="subtitle2">
-                    {currencyFormatter.format(productSku.price, {
+                    {currencyFormatter.format(productVarient.price, {
                         code: 'VND',
                         thousand: ',',
                     })}
@@ -80,7 +80,7 @@ const ProductSkuItem = ({
                     fontSize="14px"
                     marginRight="20px"
                     variant="subtitle2">
-                    {productSku.stock || 0} available
+                    {productVarient.stock || 0} available
                 </Typography>
                 <Button
                     onClick={() => setOpen(true)}
@@ -97,22 +97,24 @@ const ProductSkuItem = ({
                     Edit
                 </Button>
             </Stack>
-            <EditProductSkuDialog
+            <EditProductVarientDialog
                 open={open}
-                onProductEdited={(newSku) => {
-                    onEdited({
-                        ...productSku,
-                        ...newSku
-                    })
-                    setProductSku({
-                        ...productSku,
-                        ...newSku
-                    })
+                onProductEdited={(varientItem) => {
+                    // onEdited({
+                    //     ...productVarient,
+                    //     ...newSku
+                    // })
+                    // setProductVarient({
+                    //     ...productVarient,
+                    //     ...newSku
+                    // })
+
+                    console.log(varientItem);
                 }}
-                productSku={productSku}
+                productVarient={productVarient}
                 handleClose={() => setOpen(false)}
             />
-            {productSku.proSkuMedias.length > 0 &&
+            {productVarient.proVarientMedias.length > 0 &&
                 <Stack
                     spacing="10px"
                     direction="row"
@@ -120,7 +122,7 @@ const ProductSkuItem = ({
                         marginLeft: '60px',
                         marginTop: '20px'
                     }}>
-                    {_.map(proSkuMedias, (productSkuMedia) => {
+                    {_.map(proVarientMedias, (proVarientMedia) => {
                         return (
                             <Box
                                 overflow="hidden"
@@ -128,7 +130,7 @@ const ProductSkuItem = ({
                                 width="100px"
                                 height="100px">
                                 <img
-                                    src={URL.createObjectURL(productSkuMedia.localFile)}
+                                    src={URL.createObjectURL(proVarientMedia.localFile)}
                                     width="100%"
                                     height="100%" />
                             </Box>
@@ -143,4 +145,4 @@ const ProductSkuItem = ({
     )
 }
 
-export default ProductSkuItem;
+export default ProductVarientItem;

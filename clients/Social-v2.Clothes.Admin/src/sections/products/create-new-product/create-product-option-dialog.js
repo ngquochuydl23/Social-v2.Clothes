@@ -29,7 +29,7 @@ const CreateProductOptionDialog = ({ open, handleClose, onCreateOption }) => {
                 .required("Please enter option title!"),
             optionValues: Yup.array()
                 .of(Yup.string())
-                .min(2, "Enter at least two option values")
+                .min(1, "Enter at least one option values")
                 .required("Please enter option values!")
         })
     });
@@ -100,14 +100,15 @@ const CreateProductOptionDialog = ({ open, handleClose, onCreateOption }) => {
                     </Stack>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={() => {
-                        if (formik.values.title || formik.values.optionValues.length > 0) {
-                            setOpenAlert(true);
-                            return;
-                        }
-                        handleClose()
-                        formik.resetForm()
-                    }}>
+                    <Button
+                        onClick={() => {
+                            if (formik.values.title || formik.values.optionValues.length > 0) {
+                                setOpenAlert(true);
+                                return;
+                            }
+                            handleClose()
+                            formik.resetForm()
+                        }}>
                         Close
                     </Button>
                     <Button
@@ -115,7 +116,9 @@ const CreateProductOptionDialog = ({ open, handleClose, onCreateOption }) => {
                             (formik.errors.optionValues || formik.errors.title)
                             || (formik.initialValues === formik.values)
                         }
-                        type="submit">Add</Button>
+                        type="submit">
+                        Add
+                    </Button>
                 </DialogActions>
             </form>
             <AlertDialog

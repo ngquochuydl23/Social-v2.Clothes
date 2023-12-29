@@ -1,183 +1,152 @@
 import { createContext, useContext, useEffect, useReducer, useRef } from 'react';
 import PropTypes from 'prop-types';
+import { login, persistLogin } from 'src/services/api/user-api';
+import { useRouter } from 'next/router';
+import { Token } from '@mui/icons-material';
 
 const HANDLERS = {
-  INITIALIZE: 'INITIALIZE',
-  SIGN_IN: 'SIGN_IN',
-  SIGN_OUT: 'SIGN_OUT'
+    INITIALIZE: 'INITIALIZE',
+    SIGN_IN: 'SIGN_IN',
+    SIGN_OUT: 'SIGN_OUT'
 };
 
 const initialState = {
-  isAuthenticated: false,
-  isLoading: true,
-  user: null
+    isAuthenticated: false,
+    isLoading: true,
+    user: null
 };
 
 const handlers = {
-  [HANDLERS.INITIALIZE]: (state, action) => {
-    const user = action.payload;
-
-    return {
-      ...state,
-      ...(
-        // if payload (user) is provided, then is authenticated
-        user
-          ? ({
+    [HANDLERS.INITIALIZE]: (state, action) => {
+        const user = action.payload;
+        return {
+            ...state,
+            ...(
+                user
+                    ? ({
+                        isAuthenticated: true,
+                        isLoading: false,
+                        user
+                    })
+                    : ({
+                        isLoading: false
+                    })
+            )
+        };
+    },
+    [HANDLERS.SIGN_IN]: (state, action) => {
+        const user = action.payload;
+        return {
+            ...state,
             isAuthenticated: true,
-            isLoading: false,
             user
-          })
-          : ({
-            isLoading: false
-          })
-      )
-    };
-  },
-  [HANDLERS.SIGN_IN]: (state, action) => {
-    const user = action.payload;
-
-    return {
-      ...state,
-      isAuthenticated: true,
-      user
-    };
-  },
-  [HANDLERS.SIGN_OUT]: (state) => {
-    return {
-      ...state,
-      isAuthenticated: false,
-      user: null
-    };
-  }
+        };
+    },
+    [HANDLERS.SIGN_OUT]: (state) => {
+        return {
+            ...state,
+            isAuthenticated: false,
+            user: null
+        };
+    }
 };
 
 const reducer = (state, action) => (
-  handlers[action.type] ? handlers[action.type](state, action) : state
+    handlers[action.type] ? handlers[action.type](state, action) : state
 );
 
-// The role of this context is to propagate authentication state through the App tree.
 
 export const AuthContext = createContext({ undefined });
-
 export const AuthProvider = (props) => {
-  const { children } = props;
-  const [state, dispatch] = useReducer(reducer, initialState);
-  const initialized = useRef(false);
 
-  const initialize = async () => {
-    // Prevent from calling twice in development mode with React.StrictMode enabled
-    if (initialized.current) {
-      return;
-    }
+    const { children } = props;
+    const [state, dispatch] = useReducer(reducer, initialState);
+    const initialized = useRef(false);
+    const router = useRouter();
 
-    initialized.current = true;
+    const initialize = async () => {
+        if (initialized.current) {
+            return;
+        }
 
-    let isAuthenticated = false;
+        initialized.current = true;
 
-    try {
-      isAuthenticated = window.sessionStorage.getItem('authenticated') === 'true';
-    } catch (err) {
-      console.error(err);
-    }
+        let isAuthenticated = false;
+        try {
+            isAuthenticated = Boolean(localStorage.getItem('accessToken'));
 
-    if (isAuthenticated) {
-      const user = {
-        id: '5e86809283e28b96d2d38537',
-        avatar: '/assets/avatars/avatar-anika-visser.png',
-        name: 'Nguyễn Quốc Huy',
-        email: 'nguyenquochuydl123@gmail.com'
-      };
+            console.log(localStorage.getItem('accessToken'));
+        } catch (err) {
+            console.error(err);
+        }
 
-      dispatch({
-        type: HANDLERS.INITIALIZE,
-        payload: user
-      });
-    } else {
-      dispatch({
-        type: HANDLERS.INITIALIZE
-      });
-    }
-  };
-
-  useEffect(
-    () => {
-      initialize();
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  );
-
-  const skip = () => {
-    try {
-      window.sessionStorage.setItem('authenticated', 'true');
-    } catch (err) {
-      console.error(err);
-    }
-
-    const user = {
-      id: '5e86809283e28b96d2d38537',
-      avatar: '/assets/avatars/avatar-anika-visser.png',
-      name: 'Anika Visser',
-      email: 'anika.visser@devias.io'
+        if (isAuthenticated) {
+            const user = await persistLogin();
+            dispatch({
+                type: HANDLERS.INITIALIZE,
+                payload: user
+            });
+        } else {
+            dispatch({
+                type: HANDLERS.INITIALIZE
+            });
+        }
     };
 
-    dispatch({
-      type: HANDLERS.SIGN_IN,
-      payload: user
-    });
-  };
+    useEffect(() => {
+        console.log("Alu")
+        initialize();
+    }, []);
 
-  const signIn = async (phoneNumber, password) => {
-    if (phoneNumber !== '0868684961' || password !== '123!@#') {
-      throw new Error('Please check your email and password');
-    }
+    const persistSignIn = async () => {
+        const { user } = await persistLogin();
 
-    try {
-      window.sessionStorage.setItem('authenticated', 'true');
-    } catch (err) {
-      console.error(err);
-    }
-
-    const user = {
-      id: '5e86809283e28b96d2d38537',
-      avatar: '/assets/avatars/avatar-anika-visser.png',
-      name: 'Anika Visser',
-      email: 'anika.visser@devias.io'
+        dispatch({
+            type: HANDLERS.SIGN_IN,
+            payload: user
+        });
     };
 
-    dispatch({
-      type: HANDLERS.SIGN_IN,
-      payload: user
-    });
-  };
+    const signIn = async (phoneNumber, password) => {
+        const { user, token } = await login(phoneNumber, password);
+        if (user && user.role === "Administrator") {
+            router.push('/');
+        }
 
-  const signUp = async (email, name, password) => {
-    throw new Error('Sign up is not implemented');
-  };
+        try {
+            localStorage.setItem('accessToken', token);
+        } catch (err) {
+            console.error(err);
+        }
 
-  const signOut = () => {
-    dispatch({
-      type: HANDLERS.SIGN_OUT
-    });
-  };
+        dispatch({
+            type: HANDLERS.SIGN_IN,
+            payload: user
+        });
+    };
 
-  return (
-    <AuthContext.Provider
-      value={{
-        ...state,
-        skip,
-        signIn,
-        signUp,
-        signOut
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
-  );
+    const signOut = () => {
+        dispatch({
+            type: HANDLERS.SIGN_OUT
+        });
+    };
+
+    return (
+        <AuthContext.Provider
+            value={{
+                ...state,
+                persistSignIn,
+                signIn,
+                signOut,
+            }}
+        >
+            {children}
+        </AuthContext.Provider>
+    );
 };
 
 AuthProvider.propTypes = {
-  children: PropTypes.node
+    children: PropTypes.node
 };
 
 export const AuthConsumer = AuthContext.Consumer;
