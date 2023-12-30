@@ -148,7 +148,6 @@ export const ProductTable = (props) => {
                             {products.map((product, index) => {
                                 const isSelected = selected.includes(product.id);
                                 return (
-
                                     <TableRow
                                         hover
                                         component={Link}
@@ -165,18 +164,18 @@ export const ProductTable = (props) => {
                                                 direction="row"
                                                 spacing={2}>
                                                 <img
-                                                    alt={product.name}
-                                                    src={product.thumbnail}
+                                                    alt={product.title}
+                                                    src={"https://clothes-dev.social-v2.com" + product.thumbnail}
                                                     style={{ height: '45px', width: '45px' }} />
                                                 <Typography
                                                     sx={{ fontWeight: '600' }}
                                                     variant="subtitle2">
-                                                    {product.name}
+                                                    {product.title}
                                                 </Typography>
                                             </Stack>
                                         </TableCell>
                                         <TableCell>
-                                            {product.collection ? product.collection : `-`}
+                                            {product.collection ? product.collection.title : `-`}
                                         </TableCell>
                                         <TableCell>
                                             {product.collection ? product.status : `-`}

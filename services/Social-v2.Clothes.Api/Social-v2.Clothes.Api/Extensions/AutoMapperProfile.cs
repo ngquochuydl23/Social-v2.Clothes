@@ -31,7 +31,14 @@ namespace Social_v2.Clothes.Api.Extensions
             CreateMap<CreateUpdateAddressDto, DeliveryAddressEntity>();
             CreateMap<DeliveryAddressEntity, DeliveryAddressDto>();
 
-            CreateMap<ProductEntity, AdminProductDto>();
+            CreateMap<ProductEntity, ProductDto>();
+
+            CreateMap<ProductEntity, DetailProductDto>()
+                .ForMember(des => des.Categories, // Property của DTO
+                    act => act.MapFrom(src => src.CategoryProducts.Select(x => x.Category)));
+
+            CreateMap<ProductVarientMediaEntity, ProductVarientMediaDto>();
+
             CreateMap<ProductOptionEntity, ProductOptionDto>();
             CreateMap<ProductOptionValueEntity, ProductOptionValueDto>();
             CreateMap<ProductVarientEntity, ProductVarientDto>();

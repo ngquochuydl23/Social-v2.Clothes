@@ -145,12 +145,12 @@ const SalesInformation = ({ onChangeSaleInfo }) => {
                                 return (
                                     <ProductVarientItem
                                         {...productVarient}
-                                        onEdited={(newProductSku) => {
+                                        onEdited={(newPVarient) => {
 
-                                            let copySkus = [...productVarients];
-                                            copySkus[index] = newProductSku
-                                            console.log(copySkus[index]);
-                                            setProductVarients(copySkus);
+                                            let copyNewPVarient = [...productVarients];
+                                            copyNewPVarient[index] = newPVarient
+                                            console.log(copyNewPVarient[index]);
+                                            setProductVarients(copyNewPVarient);
                                         }}
                                     />
                                 )

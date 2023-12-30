@@ -34,7 +34,7 @@ namespace Social_v2.Clothes.Api.Infrastructure.Entities.Products
 
         public ProductVarientEntity(string title, double price, string productId)
         {
-            Id = GenerateStringId(title);
+            Id = productId + "_" + GenerateStringId(title);
             Title = title;
             ProductId = productId;
             Price = price;

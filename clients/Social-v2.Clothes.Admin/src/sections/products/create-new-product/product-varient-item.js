@@ -9,14 +9,14 @@ const ProductVarientItem = ({
     price,
     stock,
     varientValues,
-    proVarientMedias,
+    productVarientMedias,
     onEdited
 }) => {
     const [productVarient, setProductVarient] = useState({
         title: title,
         price: price,
         varientValues: varientValues,
-        proVarientMedias: proVarientMedias || [],
+        productVarientMedias: productVarientMedias || [],
         stock: stock
     })
     const [open, setOpen] = useState(false);
@@ -26,10 +26,10 @@ const ProductVarientItem = ({
             title: title,
             price: price,
             varientValues: varientValues,
-            proVarientMedias: proVarientMedias || [],
+            productVarientMedias: productVarientMedias || [],
             stock: stock
         })
-    }, [title, price, stock, varientValues, proVarientMedias])
+    }, [title, price, stock, varientValues, productVarientMedias])
 
     return (
         <Box my={'10px'}>
@@ -99,22 +99,22 @@ const ProductVarientItem = ({
             </Stack>
             <EditProductVarientDialog
                 open={open}
-                onProductEdited={(varientItem) => {
-                    // onEdited({
-                    //     ...productVarient,
-                    //     ...newSku
-                    // })
-                    // setProductVarient({
-                    //     ...productVarient,
-                    //     ...newSku
-                    // })
-
+                productVarientMedias={productVarient.productVarientMedias}
+                onVarientEdited={(varientItem) => {
+                    onEdited({
+                        ...productVarient,
+                        ...varientItem
+                    })
+                    setProductVarient({
+                        ...productVarient,
+                        ...varientItem
+                    })
                     console.log(varientItem);
                 }}
                 productVarient={productVarient}
                 handleClose={() => setOpen(false)}
             />
-            {productVarient.proVarientMedias.length > 0 &&
+            {productVarient.productVarientMedias.length > 0 &&
                 <Stack
                     spacing="10px"
                     direction="row"
@@ -122,7 +122,7 @@ const ProductVarientItem = ({
                         marginLeft: '60px',
                         marginTop: '20px'
                     }}>
-                    {_.map(proVarientMedias, (proVarientMedia) => {
+                    {_.map(productVarient.productVarientMedias, (proVarientMedia) => {
                         return (
                             <Box
                                 overflow="hidden"

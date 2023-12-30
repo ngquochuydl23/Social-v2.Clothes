@@ -1,24 +1,21 @@
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, Grid, InputAdornment, Stack, TextField, Typography } from "@mui/material";
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, FormHelperText, Grid, InputAdornment, Stack, TextField, Typography } from "@mui/material";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useEffect, useState } from "react";
 import AlertDialog from "src/components/alert-dialog";
 import _ from "lodash";
 import ClearIcon from '@mui/icons-material/Clear';
-import FormHelperText from '@mui/material/FormHelperText';
-import { uploadFile, uploadFiles } from "src/services/api/upload-api";
+import { uploadFiles } from "src/services/api/upload-api";
 
 var currencyFormatter = require('currency-formatter');
 
 
 
-const AddProductVarientMedia = ({ onUploaded, varientMedias, onDropAllMedia }) => {
-    const [proVarientMedias, setProVarientMedias] = useState(varientMedias || []);
+const AddProductVarientMedia = ({ onUploaded, productVarientMedias, onDropAllMedia, error, hasError }) => {
+    const [_productVarientMedias, setProductVarientMedias] = useState([]);
     const [hasUploaded, setHasUploaded] = useState(false);
 
     const uploadMedias = async (unUploadedImages) => {
-        console.log(unUploadedImages);
-
         if (unUploadedImages.length > 0) {
             var files = _.map(unUploadedImages, (image) => image.localFile);
 
@@ -30,17 +27,17 @@ const AddProductVarientMedia = ({ onUploaded, varientMedias, onDropAllMedia }) =
                 url: medias[idx].url
             }))
 
-            onUploaded([...uploadedImages, proVarientMedias]);
+            onUploaded([...uploadedImages, ..._.filter(_productVarientMedias, (varientMedia) => varientMedia.url)]);
         }
     }
 
     useEffect(() => {
-        setProVarientMedias(varientMedias);
+        setProductVarientMedias(productVarientMedias);
     }, [])
 
     useEffect(() => {
-        uploadMedias(_.filter(proVarientMedias, (varientMedia) => !varientMedia.url))
-    }, [proVarientMedias])
+        uploadMedias(_.filter(_productVarientMedias, (varientMedia) => !varientMedia.url))
+    }, [_productVarientMedias])
 
     return (
         <Box sx={{ width: '100%' }}>
@@ -53,7 +50,7 @@ const AddProductVarientMedia = ({ onUploaded, varientMedias, onDropAllMedia }) =
                 }}>
                 <Grid container
                     spacing={{ lg: '5px' }}>
-                    {_.map(proVarientMedias, (varientMedia, idx) => (
+                    {_.map(_productVarientMedias, (varientMedia, idx) => (
                         <Grid
                             item
                             lg={4}>
@@ -67,7 +64,7 @@ const AddProductVarientMedia = ({ onUploaded, varientMedias, onDropAllMedia }) =
                                     width="100%"
                                     src={Boolean(varientMedia.url) ? varientMedia.url : URL.createObjectURL(varientMedia.localFile)} />
                                 <div
-                                    onClick={() => setProSkuMedias(proVarientMedias.filter((item, index) => index !== idx))}
+                                    onClick={() => setProductVarientMedias(_productVarientMedias.filter((item, index) => index !== idx))}
                                     style={{
                                         display: 'flex',
                                         position: 'absolute',
@@ -91,9 +88,9 @@ const AddProductVarientMedia = ({ onUploaded, varientMedias, onDropAllMedia }) =
                     setHasUploaded(false);
 
                     if (files.length > 0) {
-                        setProVarientMedias([...proVarientMedias, ..._.map(files, (file, idx) => {
+                        setProductVarientMedias([..._productVarientMedias, ..._.map(files, (file, idx) => {
                             return {
-                                idx: proVarientMedias.length + idx,
+                                idx: _productVarientMedias.length + idx,
                                 url: undefined,
                                 localFile: file,
                                 width: file.width || 1200,
@@ -107,11 +104,14 @@ const AddProductVarientMedia = ({ onUploaded, varientMedias, onDropAllMedia }) =
                 type="file"
                 accept="image/*"
                 id="pickSkuImage" />
+            {(hasError) &&
+                <FormHelperText sx={{ ml: '15px', color: "red" }}>
+                    {error}
+                </FormHelperText>
+            }
             <Button
                 fullWidth
-                onClick={() => {
-                    document.getElementById("pickSkuImage").click()
-                }}
+                onClick={() => document.getElementById("pickSkuImage").click()}
                 sx={{
                     my: '20px',
                     borderRadius: '4px',
@@ -129,7 +129,7 @@ const EditProductVarientDialog = ({
     open,
     productVarient,
     handleClose,
-    onProductEdited }) => {
+    onVarientEdited }) => {
 
     const [openAlert, setOpenAlert] = useState(false);
     const onClose = (event, reason) => {
@@ -145,11 +145,11 @@ const EditProductVarientDialog = ({
         initialValues: {
             title: productVarient.title,
             price: productVarient.price,
-            proVarientMedias: productVarient.proVarientMedias,
+            productVarientMedias: productVarient.productVarientMedias,
             stock: productVarient.stock
         },
         onSubmit: value => {
-            onProductEdited(value);
+            onVarientEdited(value);
             handleClose();
             formik.resetForm();
         },
@@ -162,25 +162,8 @@ const EditProductVarientDialog = ({
             price: Yup.number()
                 .required("Please enter price")
                 .min(0, "Price must be positive number"),
-            proVarientMedias: Yup.array()
-                .min(0, "Please upload at least one media")
-                // .of(
-                //     Yup.object().shape({
-                //         url: Yup
-                //             .string()
-                //             .required(),
-                //         mime: Yup
-                //             .string()
-                //             .required(),
-                //         width: Yup
-                //             .number()
-                //             .required(),
-                //         height: Yup
-                //             .number()
-                //             .required(),
-                //     })
-                // )
-                .required('Please upload images for this sku'),
+            productVarientMedias: Yup.array()
+                .min(1, "Media at least one"),
         })
     });
 
@@ -189,7 +172,7 @@ const EditProductVarientDialog = ({
         if (!open) {
             formik.resetForm();
         } else {
-            formik.setFieldValue(productVarient);
+            formik.setValues(productVarient);
         }
     }, [open])
 
@@ -289,23 +272,18 @@ const EditProductVarientDialog = ({
                             Product Images*
                         </Typography>
                         <AddProductVarientMedia
-                            varientMedias={productVarient.proVarientMedias}
+                            hasError={formik.errors.productVarientMedias && formik.touched.productVarientMedias}
+                            error={formik.errors.productVarientMedias}
+                            productVarientMedias={productVarient.productVarientMedias}
                             onDropAllMedia={() => {
-
-                                formik.setFieldValue('proVarientMedias', [])
-                                formik.setFieldTouched('proVarientMedias', true)
+                                formik.setFieldValue('productVarientMedias', [])
+                                formik.setFieldTouched('productVarientMedias', true)
                             }}
-                            onUploaded={(proVarientMedias) => {
-                                formik.setFieldValue('proVarientMedias', proVarientMedias)
-                                //  formik.setFieldTouched('proSkuMedias', true)
+                            onUploaded={(productVarientMedias) => {
+                                formik.setFieldValue('productVarientMedias', productVarientMedias)
+                                formik.setFieldTouched('productVarientMedias', true)
                             }} />
-
                     </Stack>
-                    {(formik.errors.proSkuMedias && formik.touched.proSkuMedias) &&
-                        <Typography>
-                            {formik.errors.proSkuMedias}
-                        </Typography>
-                    }
                 </DialogContent>
                 <DialogActions>
                     <Button
@@ -321,7 +299,7 @@ const EditProductVarientDialog = ({
                     </Button>
                     <Button
                         disabled={
-                            (formik.errors.title || formik.errors.price || formik.errors.stock || formik.errors.proVarientMedias)
+                            (formik.errors.title || formik.errors.price || formik.errors.stock || formik.errors.productVarientMedias)
                             || (formik.initialValues === formik.values)
                         }
                         type="submit">Change</Button>

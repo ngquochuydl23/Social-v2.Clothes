@@ -45,19 +45,11 @@ namespace Social_v2.Clothes.Api.Controllers
         {
             var products = _productRepo
               .GetQueryableNoTracking()
+              .Include(x => x.Collection)
               .Where(x => !x.IsDeleted)
               .ToList();
 
-            return Ok(_mapper.Map<ICollection<AdminProductDto>>(products));
-        }
-
-        [AllowAnonymous]
-        [HttpGet("{id}/withOptionValue")]
-        public IActionResult GetProductWithOptionValue([FromQuery] object queryParams)
-        {
-
-
-            return Ok(HttpContext.Request.Query);
+            return Ok(_mapper.Map<ICollection<ProductDto>>(products));
         }
 
         [HttpGet("{id}")]
@@ -65,10 +57,14 @@ namespace Social_v2.Clothes.Api.Controllers
         {
             var product = _productRepo
                 .GetQueryableNoTracking()
+                .Include(x => x.Collection)
+                .Include(x => x.CategoryProducts)
+                .Include(x => x.Options)
+                .ThenInclude(opt => opt.OptionValues)
                 .FirstOrDefault(x => x.Id.Equals(id) && !x.IsDeleted)
                     ?? throw new AppException("Product is null");
 
-            return Ok(_mapper.Map<AdminProductDto>(product));
+            return Ok(_mapper.Map<ProductDto>(product));
         }
 
         [HttpPost("{id}/option")]
@@ -162,6 +158,7 @@ namespace Social_v2.Clothes.Api.Controllers
         {
             var productVarients = _productSkuRepo
                 .GetQueryableNoTracking()
+                .Include(x => x.VarientMedias)
                 .Where(x => x.ProductId.Equals(id))
                 .ToList();
 
@@ -245,7 +242,7 @@ namespace Social_v2.Clothes.Api.Controllers
                 _productRepo.SaveChanges();
                 _unitOfWork.Complete();
             }
-            return Ok(_mapper.Map<AdminProductDto>(product));
+            return Ok(_mapper.Map<ProductDto>(product));
         }
 
         [HttpPut("{id}")]

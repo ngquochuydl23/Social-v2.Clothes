@@ -6,7 +6,7 @@ import AddIcon from '@mui/icons-material/Add';
 const ProductDetailOptionItem = ({ index, title, optionValues }) => {
     const getOptionValuesAsString = () => {
         var nOtherElements = optionValues.length - 3
-        return optionValues.slice(0, 3).join(', ') + (nOtherElements > 0 ? ' + ' + nOtherElements + ' more' : '');
+        return optionValues.map((optVal) => optVal.value).slice(0, 3).join(', ') + (nOtherElements > 0 ? ' + ' + nOtherElements + ' more' : '');
     }
     return (
         <Box my={'10px'}>

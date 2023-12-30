@@ -4,30 +4,28 @@ import { useEffect, useState } from 'react';
 var currencyFormatter = require('currency-formatter');
 
 const ProductDetailVarientItem = ({
+    productTitle,
     title,
     price,
     stock,
-    skuValues,
-    proSkuMedias,
+    varientMedias,
 }) => {
-    const [productSku, setProductSku] = useState({
+    const [productVarient, setProductVarient] = useState({
         title: title,
         price: price,
-        skuValues: skuValues,
-        proSkuMedias: proSkuMedias || [],
+        varientMedias: varientMedias || [],
         stock: stock
     })
     const [open, setOpen] = useState(false);
 
     useEffect(() => {
-        setProductSku({
+        setProductVarient({
             title: title,
             price: price,
-            skuValues: skuValues,
-            proSkuMedias: proSkuMedias || [],
+            varientMedias: varientMedias || [],
             stock: stock
         })
-    }, [title, price, stock, skuValues, proSkuMedias])
+    }, [title, price, stock, varientMedias])
 
     return (
         <Box my={'10px'}>
@@ -40,21 +38,21 @@ const ProductDetailVarientItem = ({
                         fontSize="16px"
                         marginRight="20px"
                         variant="subtitle2">
-                        {productSku.title}
+                        {productTitle}
                     </Typography>
                     <Typography
                         sx={{ color: '#696969', fontWeight: 400, width: '100%' }}
                         fontSize="14px"
                         marginRight="20px"
                         variant="caption">
-                        {productSku.skuValues.map(item => item.value).join('/')}
+                        {productVarient.title}
                     </Typography>
                 </Stack>
                 <Typography
                     fontSize="14px"
                     marginRight="20px"
                     variant="subtitle2">
-                    {currencyFormatter.format(productSku.price, {
+                    {currencyFormatter.format(productVarient.price, {
                         code: 'VND',
                         thousand: ',',
                     })}
@@ -63,7 +61,7 @@ const ProductDetailVarientItem = ({
                     fontSize="14px"
                     marginRight="20px"
                     variant="subtitle2">
-                    {productSku.stock || 0} available
+                    {productVarient.stock || 0} available
                 </Typography>
             </Stack>
             <Divider sx={{

@@ -14,6 +14,6 @@ namespace Social_v2.Clothes.Api.Dtos.Product
 
         public double Price { get; set; }
 
-        public AdminProductDto Product { get; set; }
+        public ICollection<ProductVarientMediaDto> VarientMedias { get; set; } = new List<ProductVarientMediaDto>();
     }
 }

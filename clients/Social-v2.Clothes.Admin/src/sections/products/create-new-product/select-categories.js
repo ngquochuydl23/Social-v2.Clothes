@@ -3,26 +3,20 @@ import { Box, Stack } from "@mui/system";
 import _ from "lodash";
 import { useEffect, useState } from "react";
 import Select from 'react-select';
+import { getCategories } from "src/services/api/category-api";
 
-const data = [
-  {
-    id: 'quan-jeans',
-    name: 'Quần Jeans',
-    productCount: 200
-  },
-  {
-    id: 'quan-nam',
-    name: 'Quần Nam',
-    productCount: 20
-  }
-]
 
 const SelectCategories = ({ onReturnCategories }) => {
   const [originCategories, setOriginCategories] = useState([]);
 
   useEffect(() => {
-    setOriginCategories(data);
+    getCategories({ hierarchy: false })
+      .then((res) => {
+        setOriginCategories(res);
+      })
+      .catch((err) => console.log(err))
   }, [])
+
 
   return (
     <Box>
@@ -35,6 +29,7 @@ const SelectCategories = ({ onReturnCategories }) => {
               categoryId: item.value
             })));
           }}
+          isSearchable
           isMulti
           options={_.map(originCategories, (category) => ({
             label: category.name,

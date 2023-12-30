@@ -1,8 +1,10 @@
 import { useState } from "react";
+import { uploadFile } from "src/services/api/upload-api";
 
 const { Stack, Box, Typography, Button } = require("@mui/material")
 
 const PickProductThumbnail = ({ onReceiveThumbnail }) => {
+    const [hasUploaded, setHasUploaded] = useState(false);
     const [thumbnail, setThumbnail] = useState(null);
     return (
         <Stack
@@ -11,8 +13,16 @@ const PickProductThumbnail = ({ onReceiveThumbnail }) => {
             <input
                 onChange={(event) => {
                     var file = event.target.files[0];
-                    setThumbnail(file)
-                    onReceiveThumbnail(file ? URL.createObjectURL(file) : null)
+                    setThumbnail(file);
+
+                    uploadFile(file)
+                        .then(({ medias }) => {
+                            setHasUploaded(true);
+                            setThumbnail(medias[0].url);
+                            onReceiveThumbnail(medias[0].url);
+                        })
+                        .catch((err) => console.log(err))
+                    
                 }}
                 style={{ display: 'none' }}
                 type="file"
@@ -25,7 +35,7 @@ const PickProductThumbnail = ({ onReceiveThumbnail }) => {
                         width: '150px',
                         borderRadius: '10px'
                     }}
-                    src={URL.createObjectURL(thumbnail)} />)
+                    src={hasUploaded ? `https://clothes-dev.social-v2.com${thumbnail}` : URL.createObjectURL(thumbnail)} />)
                 : (<div
                     onClick={() => document.getElementById('pick-image').click()}
                     style={{

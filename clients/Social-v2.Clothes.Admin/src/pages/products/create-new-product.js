@@ -5,10 +5,12 @@ import _ from 'lodash';
 import { useFormik } from 'formik';
 import { Scrollbar } from 'src/components/scrollbar';
 import SelectCategories from 'src/sections/products/create-new-product/select-categories';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import PickProductThumbnail from 'src/sections/products/create-new-product/pick-product-thumbnail';
 import SalesInformation from 'src/sections/products/create-new-product/sales-information';
 import generateDashByText from 'src/utils/generate-dash-by-text';
+import { useRouter } from 'next/router'
+import { addProduct } from 'src/services/api/product-api';
 
 const collections = [
     {
@@ -23,25 +25,31 @@ const collections = [
 
 const Page = () => {
     const [handle, setHandle] = useState('');
+    const router = useRouter();
     const formik = useFormik({
         initialValues: {
-            title: 'Jeans Basics dáng Regular Straight',
-            subtitle: 'Regular Straight',
-            description: 'Regular Straight Regular Straight Regular Straight',
+            title: '',
+            subtitle: '',
+            description: '',
             handle: '',
             isGiftCard: false,
             isDiscountable: true,
             collectionId: null,
             categories: [],
-            thumbnail: 'https://media2.coolmate.me/cdn-cgi/image/quality=80,format=auto/uploads/November2023/23CMCW.JE003.11_52.jpg',
+            thumbnail: '',
             options: [],
             productVarients: [],
-            collectionId: 'winter-2023'
+            collectionId: 'winter-2023',
+            material: 'Cotton',
+            originalCountry: 'Vietnam'
         },
-        onSubmit: values => {
-            console.log(JSON.stringify(values, null));
+        onSubmit: async values => {
+            const res = await addProduct(values);
+            router.back();
         },
     });
+
+
     return (
         (<>
             <Head>
@@ -199,11 +207,8 @@ const Page = () => {
                                     onChangeSaleInfo={(value) => {
 
                                         if (value.hasOptions) {
-
-                                            console.log(value);
-
-                                            // formik.setFieldValue('options', value.options)
-                                            // formik.setFieldValue('productVarients', value.productVarients);
+                                            formik.setFieldValue('options', value.options)
+                                            formik.setFieldValue('productVarients', value.productVarients);
                                         }
                                     }} />
                                 <Button
