@@ -7,6 +7,7 @@ using Social_v2.Clothes.Api.Infrastructure.Entities.DeliveryAddresses;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Discounts;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Inventories;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Invites;
+using Social_v2.Clothes.Api.Infrastructure.Entities.Orders;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Products;
 using Social_v2.Clothes.Api.Infrastructure.Entities.ProductTypes;
 using Social_v2.Clothes.Api.Infrastructure.Entities.StockLocations;
@@ -36,6 +37,7 @@ namespace Social_v2.Clothes.Api.Infrastructure
             modelBuilder.AddInviteEntities();
             modelBuilder.AddCartEntities();
             modelBuilder.AddDiscountEntities();
+            modelBuilder.AddOrderTypeEntities();
         }
     }
 }

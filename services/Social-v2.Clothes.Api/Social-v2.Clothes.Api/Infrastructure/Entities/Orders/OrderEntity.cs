@@ -3,7 +3,7 @@ using Social_v2.Clothes.Api.Infrastructure.Entities.Users;
 
 namespace Social_v2.Clothes.Api.Infrastructure.Entities.Orders
 {
-    public class OrderEntity : Entity
+    public class OrderEntity: Entity
     {
         public string Id { get; set; }
 
@@ -21,7 +21,11 @@ namespace Social_v2.Clothes.Api.Infrastructure.Entities.Orders
 
         public int GiftCardTotal { get; set; }
 
+        public long Subtotal { get; set; }
+
         public long Total { get; set; }
+
+        public double TaxRate { get; set; }
 
         public virtual UserEntity Customer { get; set; }
 

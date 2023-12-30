@@ -7,7 +7,6 @@ using Social_v2.Clothes.Api.Dtos.Customer;
 using Social_v2.Clothes.Api.Dtos.DeliveryAddress;
 using Social_v2.Clothes.Api.Dtos.Invites;
 using Social_v2.Clothes.Api.Dtos.Product;
-using Social_v2.Clothes.Api.Dtos.Product.SkuValue;
 using Social_v2.Clothes.Api.Dtos.ProductType;
 using Social_v2.Clothes.Api.Dtos.Users;
 using Social_v2.Clothes.Api.Dtos.Wishlist;
@@ -34,7 +33,7 @@ namespace Social_v2.Clothes.Api.Extensions
             CreateMap<ProductEntity, ProductDto>();
 
             CreateMap<ProductEntity, DetailProductDto>()
-                .ForMember(des => des.Categories, // Property của DTO
+                .ForMember(des => des.Categories,
                     act => act.MapFrom(src => src.CategoryProducts.Select(x => x.Category)));
 
             CreateMap<ProductVarientMediaEntity, ProductVarientMediaDto>();
@@ -42,7 +41,6 @@ namespace Social_v2.Clothes.Api.Extensions
             CreateMap<ProductOptionEntity, ProductOptionDto>();
             CreateMap<ProductOptionValueEntity, ProductOptionValueDto>();
             CreateMap<ProductVarientEntity, ProductVarientDto>();
-            CreateMap<VarientValueEntity, SkuValueDto>();
 
             CreateMap<WishlistEntity, WishlistDto>();
             CreateMap<CategoryEntity, CategoryDto>();

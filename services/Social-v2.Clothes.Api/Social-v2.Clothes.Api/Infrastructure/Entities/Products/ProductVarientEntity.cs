@@ -5,6 +5,7 @@ using Social_v2.Clothes.Api.Infrastructure.Entities.Wishlists;
 using System.Diagnostics.CodeAnalysis;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Inventories;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Cart;
+using Social_v2.Clothes.Api.Infrastructure.Entities.Orders;
 
 namespace Social_v2.Clothes.Api.Infrastructure.Entities.Products
 {
@@ -31,6 +32,9 @@ namespace Social_v2.Clothes.Api.Infrastructure.Entities.Products
         public ICollection<VarientValueEntity> VarientValues { get; set; } = new List<VarientValueEntity>();
 
         public virtual InventoryEntity Inventory { get; set; }
+
+
+        public virtual OrderDetailEntity? OrderDetail { get; set; }
 
         public ProductVarientEntity(string title, double price, string productId)
         {

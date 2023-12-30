@@ -32,7 +32,6 @@
 
   <ItemGroup>
     <Folder Include="Infrastructure\Entities\Shippings\" />
-    <Folder Include="Infrastructure\Entities\Payments\" />
   </ItemGroup>
 
 </Project>

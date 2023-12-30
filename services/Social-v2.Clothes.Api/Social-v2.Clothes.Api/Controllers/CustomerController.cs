@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Social_v2.Clothes.Api.Dtos.Customer;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Discounts;
@@ -9,6 +10,7 @@ using Social_v2.Clothes.Api.Infrastructure.Repository;
 
 namespace Social_v2.Clothes.Api.Controllers
 {
+    [Authorize(Roles = UserConstants.AdministratorRole)]
     [Route("api/[controller]")]
     [ApiController]
     public class CustomerController : BaseController
@@ -25,11 +27,12 @@ namespace Social_v2.Clothes.Api.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetCustomers()
+        public IActionResult GetCustomers([FromQuery] int? gender)
         {
             var customers = _userRepo
                 .GetQueryableNoTracking()
                 .Where(x => x.Role.Equals(UserConstants.CustomerRole) && !x.IsDeleted)
+                .Where(x => gender.HasValue ? x.Gender == gender : true)
                 .ToList();
 
             return Ok(_mapper.Map<ICollection<CustomerDto>>(customers));
@@ -52,13 +55,13 @@ namespace Social_v2.Clothes.Api.Controllers
             return Ok();
         }
 
-    
+
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
         }
 
- 
+
         [HttpDelete("{id}")]
         public void Delete(int id)
         {

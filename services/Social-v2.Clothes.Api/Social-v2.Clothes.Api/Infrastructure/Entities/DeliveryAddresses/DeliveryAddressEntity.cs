@@ -1,10 +1,11 @@
-﻿using Social_v2.Clothes.Api.Infrastructure.Entities.Users;
+﻿using Social_v2.Clothes.Api.Infrastructure.Entities.Orders;
+using Social_v2.Clothes.Api.Infrastructure.Entities.Users;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Social_v2.Clothes.Api.Infrastructure.Entities.DeliveryAddresses
 {
-    public class DeliveryAddressEntity: Entity<long>
+    public class DeliveryAddressEntity : Entity<long>
     {
         [NotNull]
         [MaxLength(DeliverAddressConstants.NameMaxLength)]
@@ -35,6 +36,9 @@ namespace Social_v2.Clothes.Api.Infrastructure.Entities.DeliveryAddresses
         public long UserId { get; set; }
 
         public virtual UserEntity User { get; set; }
+
+
+        public virtual OrderEntity? Order { get; set; }
     }
 }
 

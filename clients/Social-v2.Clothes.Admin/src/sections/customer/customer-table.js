@@ -13,12 +13,7 @@ import {
   Typography
 } from '@mui/material';
 import { Scrollbar } from 'src/components/scrollbar';
-import millify from "millify";
-import format from 'format-duration';
 import moment from 'moment/moment';
-import { Filter } from '@mui/icons-material';
-import TuneIcon from '@mui/icons-material/Tune';
-import AddIcon from '@mui/icons-material/Add';
 import Link from 'next/link';
 
 export const CustomerTable = (props) => {
@@ -80,8 +75,9 @@ export const CustomerTable = (props) => {
                         direction="row"
                         spacing={2}>
                         <img
-                          alt={customer.name}
-                          src={customer.avatar || ""}
+                          placeholder='https://img.freepik.com/premium-psd/3d-male-cute-cartoon-character-avatar-isolated-3d-rendering_235528-1280.jpg'
+                          alt={customer.fullName}
+                          src={customer.avatar !== "" ? ("https://clothes-dev.social-v2.com" + customer.avatar) : 'https://img.freepik.com/premium-psd/3d-male-cute-cartoon-character-avatar-isolated-3d-rendering_235528-1280.jpg'}
                           style={{
                             borderRadius: '100px',
                             height: '45px',
@@ -90,7 +86,7 @@ export const CustomerTable = (props) => {
                         <Typography
                           sx={{ fontWeight: '600' }}
                           variant="subtitle2">
-                          {customer.name}
+                          {customer.fullName}
                         </Typography>
                       </Stack>
                     </TableCell>
@@ -98,10 +94,10 @@ export const CustomerTable = (props) => {
                       {customer.email}
                     </TableCell>
                     <TableCell>
-                      {customer.orders}
+                      {customer.ordersCount}
                     </TableCell>
                     <TableCell>
-                      {moment(customer.createdAt).format("MMM Do YY")}
+                      {moment(customer.createAt).format("MMM Do YY")}
                     </TableCell>
                   </TableRow>
                 );
