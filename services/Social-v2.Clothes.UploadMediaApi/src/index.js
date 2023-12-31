@@ -28,7 +28,7 @@ var upload = multer({
     }
 })
 
-app.post("/api/upload", upload.any(), async function (req, res) {
+app.post("/api/upload", cors(), upload.any(), async function (req, res) {
     const files = req.files;
 
     if (!req.files) {
