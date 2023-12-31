@@ -4,7 +4,7 @@ services:
     image: social-v2.clothes.admin
     container_name: social-v2.clothes.admin
     build:
-      context: ./services/Social-v2.Clothes.Admin
+      context: ./clients/Social-v2.Clothes.Admin
       dockerfile: Dockerfile
     ports:
       - 3111:3000
