@@ -44,7 +44,7 @@ app.post("/api/upload", upload.any(), async function (req, res) {
   }
 
   try {
-    var medias = await Promise.all(_.map(files, async (file) => {
+    var medias = await Promise.all(_.map(files, async (file, index) => {
 
       var buffer;
 
@@ -58,7 +58,7 @@ app.post("/api/upload", upload.any(), async function (req, res) {
       }
 
       const newDoc = await MediaSchema.create({
-        fileName: generateFileName(file),
+        fileName: generateFileName(file, index),
         buffer: buffer,
         mime: file.mimetype,
         size: Buffer.byteLength(buffer)

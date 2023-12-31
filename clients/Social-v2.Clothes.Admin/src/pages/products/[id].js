@@ -33,22 +33,20 @@ const ProductDetailPage = () => {
     const open = Boolean(anchorEl);
     const idPopover = open ? 'simple-popover' : undefined;
 
-
     const [product, setProduct] = useState();
     const [loading, setLoading] = useState(true);
-
     const router = useRouter()
     const { id } = router.query
-    // Route -> /shop/[tag]/[item]
-    // URL -> /shop/shoes/nike-air-max-97
-    // `params` -> { tag: 'shoes', item: 'nike-air-max-97' }
 
     const getProductDetail = async () => {
         const productResponse = await getProduct(id);
-
         const productVarients = await getProductVarients(id);
 
         setProduct({ ...productResponse, productVarients })
+    }
+
+    const onDeleteProduct = () => {
+        router.back();
     }
 
     useEffect(() => {
@@ -285,6 +283,7 @@ const ProductDetailPage = () => {
                 open={openAlert}
                 onRightClick={() => {
                     setOpenAlert(false);
+                    onDeleteProduct();
                 }}
                 onLeftClick={() => setOpenAlert(false)}
                 handleClose={() => setOpenAlert(false)} />

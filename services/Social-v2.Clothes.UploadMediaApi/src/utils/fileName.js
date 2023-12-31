@@ -6,8 +6,8 @@ function decodeFileParam(fileParam) {
   return Buffer.from(fileParam, 'base64').toString('ascii')
 }
 
-function generateFileName(file) {
-  return "social-v2.clothes" + '-' + Date.now()
+function generateFileName(file, index = 0) {
+  return "social-v2.clothes" + index + '-' + Date.now()
 }
 
 module.exports = {
