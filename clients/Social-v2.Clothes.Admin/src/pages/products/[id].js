@@ -1,5 +1,3 @@
-'use client'
-
 import Head from 'next/head';
 import {
     Box,
@@ -9,7 +7,10 @@ import {
     Typography,
     Unstable_Grid2 as Grid,
     Popover,
-    Drawer
+    Drawer,
+    Snackbar,
+    Alert,
+    AlertTitle
 } from '@mui/material';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
 import ProductDetailOptionItem from 'src/sections/products/product-detail/product-detail-option-item';
@@ -23,10 +24,16 @@ import AlertDialog from 'src/components/alert-dialog';
 import EditGeneralInfo from 'src/sections/products/edit-product/edit-general-info';
 import CloseIcon from '@mui/icons-material/Close';
 import { useRouter } from 'next/router';
-import { getProduct, getProductVarients } from 'src/services/api/product-api';
-import { useParams } from 'next/navigation'
+import {
+    deleteProduct,
+    getProduct,
+    getProductVarients
+} from 'src/services/api/product-api';
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const ProductDetailPage = () => {
+
     const [openEditGeneralDrawer, setOpenEditGeneralDrawer] = useState(false);
     const [openAlert, setOpenAlert] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
@@ -35,7 +42,9 @@ const ProductDetailPage = () => {
 
     const [product, setProduct] = useState();
     const [loading, setLoading] = useState(true);
-    const router = useRouter()
+    const [showDeleteSuccess, setShowDeleteSuccess] = useState(false);
+
+    const router = useRouter();
     const { id } = router.query
 
     const getProductDetail = async () => {
@@ -46,7 +55,16 @@ const ProductDetailPage = () => {
     }
 
     const onDeleteProduct = () => {
-        router.back();
+
+
+        if (id) {
+            deleteProduct(id)
+                .then(() => {
+                    setShowDeleteSuccess(true);
+                    router.back();
+                })
+                .catch((err) => console.log(err))
+        }
     }
 
     useEffect(() => {
@@ -310,6 +328,17 @@ const ProductDetailPage = () => {
                 </Stack>
                 <EditGeneralInfo product={product} />
             </Drawer>
+            <Snackbar
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                open={showDeleteSuccess}
+                autoHideDuration={6000}
+                onClose={() => setShowDeleteSuccess(false)}>
+                <Alert
+                    severity="success"
+                    variant="filled">
+                    Xóa thành công
+                </Alert>
+            </Snackbar>
         </>
     )
 }

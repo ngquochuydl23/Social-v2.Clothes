@@ -213,7 +213,6 @@ namespace Social_v2.Clothes.Api.Controllers
         {
             return new CategoryProductEntity(cateInput.CategoryId, product.Id);
         }
-
         private ProductTagEntity CreateProductTag(string tagName, ProductEntity product)
         {
             var tag = _tagRepo
@@ -236,11 +235,6 @@ namespace Social_v2.Clothes.Api.Controllers
 
         private ProductOptionEntity CreateProductOption(CreateOptionDto pOption, ProductEntity product)
         {
-            if (_productOptionRepo.GetQueryableNoTracking()
-                .FirstOrDefault(x => x.Title.Equals(pOption.Title)) != null)
-            {
-                throw new AppException($"Option with title {pOption} is already created");
-            }
 
             var productOption = new ProductOptionEntity(pOption.Title, product.Id);
             foreach (var optionValue in pOption.OptionValues)

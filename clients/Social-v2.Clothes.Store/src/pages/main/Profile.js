@@ -85,7 +85,7 @@ const Profile = () => {
                                             .then((res) => {
                                                 console.log("Uploaded");
                                                 var avatar = res.medias[0].url;
-                                                formik.setFieldValue('avatar', '/media' + avatar);
+                                                formik.setFieldValue('avatar', avatar);
                                             })
                                             .catch((err) => console.log(err))
                                     }}
