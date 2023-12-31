@@ -26,10 +26,23 @@ namespace Social_v2.Clothes.Api.Controllers
         {
             return base.Ok(new
             {
+
                 Result = value,
                 StatusCode = StatusCodes.Status200OK
             });
         }
+
+        //public OkObjectResult OkAsCollection([ActionResultObjectValue] object value, int offset = 0, int limit = 0, int total = 0)
+        //{
+        //    return base.Ok(new
+        //    {
+        //        Result = value,
+        //        Offset = offset,
+        //        Limit = limit,
+        //        Total = total,
+        //        StatusCode = StatusCodes.Status200OK
+        //    });
+        //}
 
         protected long Id => long.Parse(_httpContext.User.FindFirstValue("id"));
     }

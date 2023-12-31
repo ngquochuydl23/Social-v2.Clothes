@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Social_v2.Clothes.Api.Infrastructure;
@@ -11,9 +12,11 @@ using Social_v2.Clothes.Api.Infrastructure;
 namespace Social_v2.Clothes.Api.Migrations
 {
     [DbContext(typeof(ClothesDbContext))]
-    partial class ClothesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231231020655_ProductTag")]
+    partial class ProductTag
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -503,7 +506,7 @@ namespace Social_v2.Clothes.Api.Migrations
 
             modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Orders.OrderEntity", b =>
                 {
-                    b.Property<string>("OrderNo")
+                    b.Property<string>("Id")
                         .HasColumnType("text");
 
                     b.Property<DateTime>("CanceledAt")
@@ -554,9 +557,10 @@ namespace Social_v2.Clothes.Api.Migrations
                     b.Property<long>("Total")
                         .HasColumnType("bigint");
 
-                    b.HasKey("OrderNo");
+                    b.HasKey("Id");
 
-                    b.HasIndex("CustomerId");
+                    b.HasIndex("CustomerId")
+                        .IsUnique();
 
                     b.HasIndex("DeliveryAddressId")
                         .IsUnique();
@@ -1164,8 +1168,8 @@ namespace Social_v2.Clothes.Api.Migrations
             modelBuilder.Entity("Social_v2.Clothes.Api.Infrastructure.Entities.Orders.OrderEntity", b =>
                 {
                     b.HasOne("Social_v2.Clothes.Api.Infrastructure.Entities.Users.UserEntity", "Customer")
-                        .WithMany("Orders")
-                        .HasForeignKey("CustomerId")
+                        .WithOne("Order")
+                        .HasForeignKey("Social_v2.Clothes.Api.Infrastructure.Entities.Orders.OrderEntity", "CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1434,7 +1438,7 @@ namespace Social_v2.Clothes.Api.Migrations
 
                     b.Navigation("DeliveryAddresses");
 
-                    b.Navigation("Orders");
+                    b.Navigation("Order");
 
                     b.Navigation("Wishlists");
                 });

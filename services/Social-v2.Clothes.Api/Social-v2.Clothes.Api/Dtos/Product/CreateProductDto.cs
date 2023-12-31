@@ -28,6 +28,9 @@
 
         public string? CollectionId { get; set; }
 
+
+        public ICollection<string>? Tags { get; set; } = new List<string>();
+
         public ICollection<CreateOptionDto> Options { get; set; } = new List<CreateOptionDto>();
 
         public ICollection<CreateUpdateProductVarientDto> ProductVarients { get; set; } = new List<CreateUpdateProductVarientDto>();

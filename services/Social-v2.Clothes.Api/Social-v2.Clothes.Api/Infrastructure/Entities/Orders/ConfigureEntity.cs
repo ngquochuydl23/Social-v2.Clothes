@@ -11,12 +11,12 @@ namespace Social_v2.Clothes.Api.Infrastructure.Entities.Orders
             modelBuilder.Entity<OrderEntity>(entity =>
             {
                 entity.ToTable("Order");
-                entity.HasKey(x => x.Id);
+                entity.HasKey(x => x.OrderNo);
 
                 entity
                     .HasOne(x => x.Customer)
-                    .WithOne(customer => customer.Order)
-                    .HasForeignKey<OrderEntity>(x => x.CustomerId);
+                    .WithMany(customer => customer.Orders)
+                    .HasForeignKey(x => x.CustomerId);
 
                 entity
                     .HasOne(orderDetail => orderDetail.DeliveryAddress)

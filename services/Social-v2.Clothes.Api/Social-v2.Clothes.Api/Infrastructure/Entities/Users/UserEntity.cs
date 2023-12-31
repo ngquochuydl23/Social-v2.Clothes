@@ -37,7 +37,7 @@ namespace Social_v2.Clothes.Api.Infrastructure.Entities.Users
 
         public virtual CartEntity? Cart { get; set; }
 
-        public virtual OrderEntity? Order { get; set; }
+        public virtual ICollection<OrderEntity> Orders { get; set; } = new List<OrderEntity>();
 
         public virtual IEnumerable<DeliveryAddressEntity> DeliveryAddresses { get; set; } = new List<DeliveryAddressEntity>();
 

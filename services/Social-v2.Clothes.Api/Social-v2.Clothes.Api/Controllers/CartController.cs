@@ -3,7 +3,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Social_v2.Clothes.Api.Dtos.Cart;
+using Social_v2.Clothes.Api.Infrastructure;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Cart;
+using Social_v2.Clothes.Api.Infrastructure.Entities.DeliveryAddresses;
+using Social_v2.Clothes.Api.Infrastructure.Entities.Orders;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Products;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Users;
 using Social_v2.Clothes.Api.Infrastructure.Exceptions;
@@ -17,20 +20,29 @@ namespace Social_v2.Clothes.Api.Controllers
     public class CartController : BaseController
     {
         private readonly IMapper _mapper;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IRepository<CartEntity> _cartRepo;
         private readonly IRepository<UserEntity> _userRepo;
         private readonly IRepository<ProductVarientEntity> _productVarientRepo;
+        private readonly IRepository<OrderEntity> _orderRepo;
+        private readonly IRepository<DeliveryAddressEntity> _deliveryAddressRepo;
         public CartController(
             IMapper mapper,
+            IUnitOfWork unitOfWork,
             IRepository<CartEntity> cartRepo,
             IRepository<UserEntity> userRepo,
+            IRepository<OrderEntity> orderRepo,
             IRepository<ProductVarientEntity> productVarientRepo,
+            IRepository<DeliveryAddressEntity> deliveryAddressRepo,
             IHttpContextAccessor httpContextAccessor) : base(httpContextAccessor)
         {
             _mapper = mapper;
             _cartRepo = cartRepo;
             _userRepo = userRepo;
             _productVarientRepo = productVarientRepo;
+            _deliveryAddressRepo = deliveryAddressRepo;
+            _orderRepo = orderRepo;
+            _unitOfWork = unitOfWork;
         }
 
         [HttpGet("{id}")]
@@ -80,6 +92,21 @@ namespace Social_v2.Clothes.Api.Controllers
             }
             cart = _cartRepo.Update(id, cart);
             return Ok(_mapper.Map<CartDto>(cart));
+        }
+
+
+        [HttpGet("{id}/lineItems")]
+        public IActionResult GetLineItems(long id)
+        {
+            var cart = _cartRepo
+               .GetQueryableNoTracking()
+               .Include(x => x.CartItems)
+               .FirstOrDefault(x => x.Id == id && !x.IsDeleted)
+               .CartItems
+               .ToList()
+                 ?? throw new AppException("Cart does not exist");
+
+            return Ok(cart);
         }
 
         [HttpPost("{id}/lineItems")]
@@ -184,11 +211,56 @@ namespace Social_v2.Clothes.Api.Controllers
             return Ok();
         }
 
-        [HttpPost("{cartId}")]
+        [HttpPost("{cartId}/CompleteCart")]
         [Authorize]
-        public IActionResult CompleteCart(long cartId)
+        public IActionResult CompleteCart(long cartId, [FromBody] CompleteCartDto value)
         {
-            return Ok();    
+            var cart = _cartRepo
+               .GetQueryable()
+               .Include(x => x.CartItems)
+               .FirstOrDefault(x => x.Id == cartId && !x.IsDeleted)
+              ?? throw new AppException("Cart does not exist");
+
+            var customer = _userRepo
+                .GetQueryableNoTracking()
+                .FirstOrDefault(x => x.Id == Id)
+                    ?? throw new AppException("User does not exist");
+
+            var deliveryAddress = _deliveryAddressRepo
+                .GetQueryableNoTracking()
+                .FirstOrDefault(x => x.Id == value.DeliveryAddressId)
+                    ?? throw new AppException("Delivery address does not exist");
+
+            var order = new OrderEntity(customer.Id, deliveryAddress.Id);
+
+            using (_unitOfWork.Begin())
+            {
+
+                //  add line items  from cart line items
+                foreach (var lineItem in cart.CartItems)
+                {
+                    var orderDetail = new OrderDetailEntity()
+                    {
+
+                    };
+
+                    order.OrderDetails.Add(orderDetail);
+                }
+
+
+                //  adjust inventoy
+
+
+
+
+                // payment
+
+
+
+                _orderRepo.Insert(order);
+                //_unitOfWork.Complete();
+            }
+            return Ok(order);
         }
     }
 }

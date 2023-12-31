@@ -3,7 +3,7 @@ using Social_v2.Clothes.Api.Infrastructure.Entities.Users;
 
 namespace Social_v2.Clothes.Api.Infrastructure.Entities.Feedbacks
 {
-    public class FeecbackEntity : Entity<long>
+    public class FeedbackEntity : Entity<long>
     {
         public virtual UserEntity Customer { get; set; }
 

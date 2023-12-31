@@ -31,10 +31,11 @@ namespace Social_v2.Clothes.Api.Extensions
             CreateMap<DeliveryAddressEntity, DeliveryAddressDto>();
 
             CreateMap<ProductEntity, ProductDto>();
-
             CreateMap<ProductEntity, DetailProductDto>()
                 .ForMember(des => des.Categories,
                     act => act.MapFrom(src => src.CategoryProducts.Select(x => x.Category)));
+
+            CreateMap<TagEntity, TagDto>();
 
             CreateMap<ProductVarientMediaEntity, ProductVarientMediaDto>();
 

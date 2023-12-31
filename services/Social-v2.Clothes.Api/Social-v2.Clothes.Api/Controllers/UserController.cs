@@ -94,7 +94,7 @@ namespace Social_v2.Clothes.Api.Controllers
             user.Gender = value.Gender;
             user.Birthday = value.Birthday;
             user.LastUpdate = DateTime.Now;
-            user.Avatar = value.Avatar;
+            user.Avatar = !string.IsNullOrEmpty(value.Avatar) ? value.Avatar : null;
             _userRepo.SaveChanges();
 
             return Ok(_mapper.Map<UserDto>(user));

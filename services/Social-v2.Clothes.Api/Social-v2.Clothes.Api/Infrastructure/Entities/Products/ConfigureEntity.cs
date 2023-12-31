@@ -88,6 +88,28 @@ namespace Social_v2.Clothes.Api.Infrastructure.Entities.Products
                     .WithMany(optValue => optValue.VarientValues)
                     .HasForeignKey(x => x.ProductOptionValueId);
             });
+
+            modelBuilder.Entity<TagEntity>(entity =>
+            {
+                entity.ToTable("Tag");
+                entity.HasKey(x => x.Id);
+            });
+
+            modelBuilder.Entity<ProductTagEntity>(entity =>
+            {
+                entity.ToTable("ProductTag");
+                entity.HasKey(x => new { x.ProductId, x.TagId });
+
+                entity
+                    .HasOne(x => x.Product)
+                    .WithMany(pTag => pTag.ProductTags)
+                    .HasForeignKey(x => x.ProductId);
+
+                entity
+                    .HasOne(x => x.Tag)
+                    .WithMany(tag => tag.ProductTags)
+                    .HasForeignKey(x => x.TagId);
+            });
         }
     }
 }

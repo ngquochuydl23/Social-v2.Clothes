@@ -40,6 +40,8 @@ namespace Social_v2.Clothes.Api.Infrastructure.Entities.Products
 
         public virtual CollectionEntity? Collection { get; set; }
 
+        public ICollection<ProductTagEntity> ProductTags { get; set; } = new List<ProductTagEntity>();
+
         public ProductEntity(
                 string title,
                 string subtitle,
