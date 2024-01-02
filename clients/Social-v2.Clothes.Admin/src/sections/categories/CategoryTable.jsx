@@ -122,9 +122,7 @@ export const CategoryTable = (props) => {
                         </Typography>
                       </Stack>
                     </TableCell>
-                    <TableCell>
-                      {category.isActive ? "Active" : "Inactive"}
-                    </TableCell>
+                    <TableCell>{category.isActive ? "Active" : "Inactive"}</TableCell>
                     <TableCell>{category.handle}</TableCell>
                     <TableCell>{category.decription}</TableCell>
                   </TableRow>

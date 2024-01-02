@@ -11,66 +11,36 @@ import {
 } from "@mui/material";
 import { Layout as DashboardLayout } from "src/layouts/dashboard/layout";
 import { CategoryTable } from "src/sections/categories/CategoryTable";
+import React, { useState, useEffect } from "react";
+import { getCategories } from "src/services/api/category-api";
 
-const songs = [
-  {
-    id: "ao",
-    name: "Áo",
-    decription: "",
-    isActive: true,
-    handle: "/ao",
-    createdAt: "2019-04-11T10:20:30Z",
-  },
-  {
-    id: "ao-polo",
-    name: "Áo Polo",
-    decription: "",
-    isActive: true,
-    handle: "/ao-polo",
-    parentCategoryID: "ao",
-    createdAt: "2019-04-11T10:20:30Z",
-  },
-  {
-    id: "ao-polo",
-    name: "Áo Polo",
-    decription: "",
-    isActive: false,
-    handle: "/ao-polo",
-    createdAt: "2019-04-11T10:20:30Z",
-  },
-  {
-    id: "ao-polo",
-    name: "Áo Polo",
-    decription: "",
-    isActive: false,
-    handle: "/ao-polo",
-    createdAt: "2019-04-11T10:20:30Z",
-  },
-  {
-    id: "ao-polo",
-    name: "Áo Polo",
-    decription: "",
-    isActive: true,
-    handle: "/ao-polo",
-    createdAt: "2019-04-11T10:20:30Z",
-  },
-];
+const Page = () => {
+  const [categories, setCategory] = useState([]);
+  const [hierarchy, setHierarchy] = useState(Boolean(false));
+  const [gender, setGender] = useState(0);
 
-const Page = () => (
-  <>
-    <Head>
-      <title>Category | Devias Kit</title>
-    </Head>
-    <Box component="main" sx={{ flexGrow: 1 }}>
-      <Container maxWidth="lg">
-        <Stack spacing={3}>
-          <Typography variant="h4">Category</Typography>
-          <CategoryTable categories={songs} />
-        </Stack>
-      </Container>
-    </Box>
-  </>
-);
+  useEffect(() => {
+    getCategories(hierarchy, gender)
+      .then((res) => setCategory(res))
+      .catch((error) => console.log(error));
+  }, []);
+
+  return (
+    <>
+      <Head>
+        <title>Category | Devias Kit</title>
+      </Head>
+      <Box component="main" sx={{ flexGrow: 1 }}>
+        <Container maxWidth="lg">
+          <Stack spacing={3}>
+            <Typography variant="h4">Category</Typography>
+            <CategoryTable categories={categories} />
+          </Stack>
+        </Container>
+      </Box>
+    </>
+  );
+};
 
 Page.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
 

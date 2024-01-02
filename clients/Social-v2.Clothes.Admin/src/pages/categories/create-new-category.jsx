@@ -21,6 +21,9 @@ import { useFormik } from "formik";
 import { Scrollbar } from "src/components/scrollbar";
 import { useState } from "react";
 import generateDashByText from "src/utils/generate-dash-by-text";
+import { useEffect } from "react";
+import { addCategories } from "src/services/api/category-api";
+import { getProductTypes } from "src/services/api/productType-api";
 
 const categories = [
   {
@@ -35,6 +38,7 @@ const categories = [
 
 const CreateNewProduct = () => {
   const [handle, setHandle] = useState("");
+  const [productType, setProductType] = useState([]);
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -42,12 +46,22 @@ const CreateNewProduct = () => {
       isActive: true,
       handle: "",
       parentCategoryId: "",
+      productTypeId: "",
     },
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       alert(JSON.stringify(values, null, 2));
+      const res = await addCategories(values);
       window.history.back();
     },
   });
+
+  useEffect(() => {
+    getProductTypes()
+      .then((res) => setProductType(res))
+      .catch((error) => console.log(error));
+  }, []);
+
+  console.log(productType);
   return (
     <>
       <Head>
@@ -58,6 +72,7 @@ const CreateNewProduct = () => {
           <Container maxWidth="lg">
             <Stack spacing={3}>
               <Typography variant="h4">Create new category</Typography>
+
               <form onSubmit={formik.handleSubmit}>
                 <Stack marginTop={"20px"} direction="row" spacing="15px">
                   <TextField
@@ -158,6 +173,34 @@ const CreateNewProduct = () => {
                   </Typography>
                 </FormControl>
                 <Divider sx={{ marginY: "20px" }} />
+
+                <FormControl
+                  fullWidth
+                  sx={{
+                    width: "100%",
+                    justifyContent: "space-between",
+                    marginLeft: 0,
+                    marginTop: "20px",
+                  }}
+                >
+                  <InputLabel id="demo-simple-select-label">Product Type</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={formik.values.productType}
+                    label="Product Type"
+                    onChange={(e) => formik.setFieldValue("productTypeId", e.target.value)}
+                  >
+                    {productType.map((option) => (
+                      <MenuItem key={option.id} value={option.id}>
+                        {option.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                  <Typography variant="caption">
+                    Select product type for one if available
+                  </Typography>
+                </FormControl>
                 <Button
                   sx={{
                     borderRadius: "10px",
