@@ -96,7 +96,7 @@ namespace Social_v2.Clothes.Api.Controllers
             var invitation = _employeeInvitationRepo
                 .GetQueryable()
                 .Include(x => x.Employee)
-                .FirstOrDefault(x => x.Employee.Email.Equals(email) && !x.IsDeleted && !x.Accepted)
+                .FirstOrDefault(x => x.Employee.Email.Equals(value.Email) && !x.IsDeleted && !x.Accepted)
                     ?? throw new AppException("Invitation does not exist");
 
 
