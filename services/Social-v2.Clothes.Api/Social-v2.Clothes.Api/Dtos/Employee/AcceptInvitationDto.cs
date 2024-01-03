@@ -4,6 +4,6 @@
     {
         public string Token { get; set; }
 
-        public CreateUserFromInviteDto User { get; set; }
+        public string Password { get; set; }
     }
 }

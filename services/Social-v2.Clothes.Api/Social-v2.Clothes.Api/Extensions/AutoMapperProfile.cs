@@ -50,11 +50,11 @@ namespace Social_v2.Clothes.Api.Extensions
             CreateMap<UserEntity, CustomerDetailDto>();
 
             CreateMap<ProductTypeEntity, ProductTypeDto>();
-            CreateMap<InviteEntity, InviteDto>();
+         
 
             CreateMap<CartEntity, CartDto>();
             CreateMap<UserEntity, CartCustomerDto>();
-
+            CreateMap<UserEntity, EmployeeDto>();
         }
     }
 }

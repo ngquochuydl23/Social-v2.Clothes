@@ -1,5 +1,6 @@
 ﻿using Social_v2.Clothes.Api.Infrastructure.Entities.Cart;
 using Social_v2.Clothes.Api.Infrastructure.Entities.DeliveryAddresses;
+using Social_v2.Clothes.Api.Infrastructure.Entities.EmployeeInvitations;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Orders;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Wishlists;
 using System.ComponentModel.DataAnnotations;
@@ -36,6 +37,10 @@ namespace Social_v2.Clothes.Api.Infrastructure.Entities.Users
         public string Role { get; set; } = UserConstants.CustomerRole;
 
         public virtual CartEntity? Cart { get; set; }
+
+        public virtual EmployeeInvitationEntity? EmployeeInvitation { get; set; }
+
+        public string? EmployeeStatus { get; set; }
 
         public virtual ICollection<OrderEntity> Orders { get; set; } = new List<OrderEntity>();
 

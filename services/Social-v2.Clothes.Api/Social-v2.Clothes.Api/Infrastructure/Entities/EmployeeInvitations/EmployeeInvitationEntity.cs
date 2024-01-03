@@ -1,12 +1,15 @@
-﻿using Social_v2.Clothes.Api.Infrastructure.Entities.Users;
+﻿using Social_v2.Clothes.Api.Infrastructure.Entities.Invites;
+using Social_v2.Clothes.Api.Infrastructure.Entities.Users;
 using System.ComponentModel.DataAnnotations;
 
-namespace Social_v2.Clothes.Api.Infrastructure.Entities.Invites
+namespace Social_v2.Clothes.Api.Infrastructure.Entities.EmployeeInvitations
 {
-    public class InviteEntity : Entity<long>
+    public class EmployeeInvitationEntity : Entity<long>
     {
-        [MaxLength(InviteConstants.EmailMaxLength)]
-        public string Email { get; set; }
+
+        public long? EmployeeId { get; set; }
+
+        public UserEntity? Employee { get; set; }
 
         public string Role { get; set; } = UserConstants.AdministratorRole;
 

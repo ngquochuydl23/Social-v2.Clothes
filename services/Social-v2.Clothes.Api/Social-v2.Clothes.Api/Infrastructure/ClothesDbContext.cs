@@ -34,7 +34,7 @@ namespace Social_v2.Clothes.Api.Infrastructure
             modelBuilder.AddWishlistEntities();
             modelBuilder.AddCollectionEntities();
             modelBuilder.AddProductTypeEntities();
-            modelBuilder.AddInviteEntities();
+            modelBuilder.AddEmployeeInvitationEntities();
             modelBuilder.AddCartEntities();
             modelBuilder.AddDiscountEntities();
             modelBuilder.AddOrderTypeEntities();
