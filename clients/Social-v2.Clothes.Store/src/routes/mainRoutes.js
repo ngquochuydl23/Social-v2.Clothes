@@ -122,7 +122,7 @@ const mainRoutes = {
       ]
     },
     {
-      path: "/product/:title",
+      path: "/product/:id",
       element: (
         <SplitRouter>
           <ProductDescription />

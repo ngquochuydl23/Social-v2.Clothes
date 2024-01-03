@@ -27,6 +27,8 @@ namespace Social_v2.Clothes.Api.Infrastructure.Entities.Products
 
         public virtual CartItemEntity CartItem { get; set; }
 
+        public string? QueryString { get; set; }
+
         public ICollection<ProductVarientMediaEntity> VarientMedias { get; set; } = new List<ProductVarientMediaEntity>();
 
         public ICollection<VarientValueEntity> VarientValues { get; set; } = new List<VarientValueEntity>();

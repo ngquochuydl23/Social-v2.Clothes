@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using Social_v2.Clothes.Api.Dtos.Product;
 using Social_v2.Clothes.Api.Infrastructure;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Categories;
-using Social_v2.Clothes.Api.Infrastructure.Entities.Inventories;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Products;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Users;
 using Social_v2.Clothes.Api.Infrastructure.Exceptions;
@@ -20,6 +19,7 @@ namespace Social_v2.Clothes.Api.Controllers
     {
         private readonly IRepository<ProductEntity> _productRepo;
         private readonly IRepository<ProductVarientEntity> _productVarientRepo;
+        private readonly IRepository<VarientValueEntity> _varientValueRepo;
         private readonly IRepository<ProductOptionEntity> _productOptionRepo;
         private readonly IRepository<TagEntity> _tagRepo;
         private readonly IRepository<ProductTagEntity> _productTagRepo;
@@ -30,7 +30,8 @@ namespace Social_v2.Clothes.Api.Controllers
             IRepository<ProductEntity> productRepo,
             IRepository<ProductVarientEntity> productVarientRepo,
             IRepository<ProductOptionEntity> productOptionRepo,
-            IRepository<ProductTagEntity>  productTagRepo,
+            IRepository<ProductTagEntity> productTagRepo,
+            IRepository<VarientValueEntity> varientValueRepo,
             IRepository<TagEntity> tagRepo,
             IHttpContextAccessor httpContextAccessor,
             IUnitOfWork unitOfWork,
@@ -41,6 +42,7 @@ namespace Social_v2.Clothes.Api.Controllers
             _productTagRepo = productTagRepo;
             _productVarientRepo = productVarientRepo;
             _productOptionRepo = productOptionRepo;
+            _varientValueRepo = varientValueRepo;
             _tagRepo = tagRepo;
             _mapper = mapper;
         }
@@ -59,6 +61,7 @@ namespace Social_v2.Clothes.Api.Controllers
         }
 
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public IActionResult GetProduct(string id)
         {
             var product = _productRepo
@@ -68,7 +71,7 @@ namespace Social_v2.Clothes.Api.Controllers
                 .Include(x => x.Options)
                 .ThenInclude(opt => opt.OptionValues)
                 .FirstOrDefault(x => x.Id.Equals(id) && !x.IsDeleted)
-                    ?? throw new AppException("Product is null");
+                    ?? throw new AppException("Product does not exist");
 
             return Ok(_mapper.Map<ProductDto>(product));
         }
@@ -80,11 +83,48 @@ namespace Social_v2.Clothes.Api.Controllers
             var product = _productRepo
                 .GetQueryableNoTracking()
                 .FirstOrDefault(x => x.Id.Equals(id) && !x.IsDeleted)
-                    ?? throw new AppException("Product is null");
+                    ?? throw new AppException("Product does not exist");
 
             var productOption = _productOptionRepo.Insert(CreateProductOption(pOption, product));
             return Ok(_mapper.Map<ProductOptionDto>(productOption));
         }
+
+        [HttpGet("{id}/varient/withParams")]
+        [AllowAnonymous]
+        public IActionResult GetProductVarientWithParams(string id)
+        {
+            var queryParams = HttpContext.Request.Query;
+
+            var product = _productRepo
+                .GetQueryableNoTracking()
+                .Include(x => x.VarientValues)
+                .FirstOrDefault(x => x.Id.Equals(id) && !x.IsDeleted)
+                    ?? throw new AppException("Product does not exist");
+
+            var productVarients = _productVarientRepo
+                .GetQueryableNoTracking()
+                .Include(x => x.VarientMedias)
+                .Where(x => x.ProductId.Equals(id) && !x.IsDeleted)
+                .ToArray();
+
+            if (!queryParams.Any())
+            {
+                Ok(_mapper.Map<ProductVarientDto>(productVarients.FirstOrDefault()));
+            }
+
+            foreach (var query in queryParams)
+            {
+                productVarients = productVarients
+                    .Where(x => x.QueryString.Contains($"{query.Key}={query.Value}"))
+                    .ToArray();
+            }
+
+            if (!productVarients.Any())
+                throw new AppException("Product Varient not found");
+
+            return Ok(_mapper.Map<ProductVarientDto>(productVarients.FirstOrDefault()));
+        }
+
 
         [AllowAnonymous]
         [HttpGet("{id}/varients")]
@@ -203,7 +243,7 @@ namespace Social_v2.Clothes.Api.Controllers
             var product = _productRepo
                .GetQueryableNoTracking()
                .FirstOrDefault(x => x.Id.Equals(id) && !x.IsDeleted)
-                   ?? throw new AppException("Product is null");
+                   ?? throw new AppException("Product does not exist");
 
             _productRepo.Delete(product);
             return Ok();
@@ -257,7 +297,7 @@ namespace Social_v2.Clothes.Api.Controllers
                     media.Mime,
                     productVarient.Id));
             }
-
+            ICollection<string> queryOptions = new List<string>();
             foreach (var varientValue in pVarientInput.VarientValues)
             {
                 var option = product
@@ -276,9 +316,14 @@ namespace Social_v2.Clothes.Api.Controllers
                     ProductOptionId = option.Id,
                     ProductOptionValueId = optValue.Id
                 });
+
+                queryOptions.Add($"{option.Title}={optValue.Value}");
             }
 
+            productVarient.QueryString = "?" + string.Join("&", queryOptions);
             return productVarient;
         }
+
+       
     }
 }
