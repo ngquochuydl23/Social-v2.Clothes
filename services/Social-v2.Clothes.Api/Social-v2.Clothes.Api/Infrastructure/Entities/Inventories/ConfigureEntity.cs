@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Categories;
-using Social_v2.Clothes.Api.Infrastructure.Entities.StockLocations;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Users;
 
 namespace Social_v2.Clothes.Api.Infrastructure.Entities.Inventories
@@ -12,11 +11,11 @@ namespace Social_v2.Clothes.Api.Infrastructure.Entities.Inventories
             modelBuilder.Entity<InventoryEntity>(entity =>
             {
                 entity.ToTable("Inventory");
-                entity.HasKey(x => x.ProductSkuId);
+                entity.HasKey(x => x.ProductVarientId);
                 entity
-                    .HasOne(x => x.ProductSku)
+                    .HasOne(x => x.ProductVarient)
                     .WithOne(pro => pro.Inventory)
-                    .HasForeignKey<InventoryEntity>(x => x.ProductSkuId);
+                    .HasForeignKey<InventoryEntity>(x => x.ProductVarientId);
             });
         }
     }

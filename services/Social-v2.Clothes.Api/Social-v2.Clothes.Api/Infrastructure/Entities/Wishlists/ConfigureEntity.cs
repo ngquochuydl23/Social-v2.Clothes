@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Categories;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Inventories;
-using Social_v2.Clothes.Api.Infrastructure.Entities.StockLocations;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Users;
 
 namespace Social_v2.Clothes.Api.Infrastructure.Entities.Wishlists

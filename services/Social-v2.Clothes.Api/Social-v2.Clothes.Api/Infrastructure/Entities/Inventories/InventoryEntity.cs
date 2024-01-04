@@ -1,29 +1,22 @@
 ﻿using Social_v2.Clothes.Api.Infrastructure.Entities.Products;
-using Social_v2.Clothes.Api.Infrastructure.Entities.StockLocations;
 
 namespace Social_v2.Clothes.Api.Infrastructure.Entities.Inventories
 {
     public class InventoryEntity : Entity
     {
-        public string ProductSkuId { get; set; }
+        public string ProductVarientId { get; set; }
 
-        public virtual ProductVarientEntity ProductSku { get; set; }
+        public virtual ProductVarientEntity ProductVarient { get; set; }
 
-        public int Ean { get; set; } = 0;
+        public long StockedQuantity { get; set; }
 
-        public int Upc { get; set; } = 0;
+        public long ReservedQuantity { get; set; }
 
-        public int Quantity { get; set; } = 0;
-
-        public bool AllowBackOrder { get; set; } = true;
-
-        public string? StockLocationId { get; set; }
-
-        public ICollection<StockLocationInventoryEntity> StockLocationInventories { get; set; } = new List<StockLocationInventoryEntity>();
-
-        public InventoryEntity(string productSkuId)
+        public InventoryEntity(string productVarientId)
         {
-            ProductSkuId = productSkuId;
+            ProductVarientId = productVarientId;
+            StockedQuantity = 0;
+            ReservedQuantity = 0;
         }
     }
 }

@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Social_v2.Clothes.Api.Dtos.Inventory;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Inventories;
-using Social_v2.Clothes.Api.Infrastructure.Entities.StockLocations;
+using Social_v2.Clothes.Api.Infrastructure.Entities.Products;
 using Social_v2.Clothes.Api.Infrastructure.Exceptions;
 using Social_v2.Clothes.Api.Infrastructure.Repository;
 
@@ -16,49 +17,33 @@ namespace Social_v2.Clothes.Api.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IRepository<InventoryEntity> _inventoryRepo;
-        private readonly IRepository<StockLocationInventoryEntity> _stockLocationInventoryRepo;
+        private readonly IRepository<ProductVarientEntity> _productVarientRepo;
+
         public InventoryController(
             IMapper mapper,
             IRepository<InventoryEntity> inventoryRepo,
+            IRepository<ProductVarientEntity> productVarientRepo,
             IHttpContextAccessor httpContextAccessor) : base(httpContextAccessor)
         {
             _mapper = mapper;
             _inventoryRepo = inventoryRepo;
+            _productVarientRepo = productVarientRepo;
         }
 
         [HttpGet]
-        public IActionResult GetInventorySkus([FromQuery] string stockLocationId)
+        [AllowAnonymous]
+        public IActionResult GetInventories()
         {
-            var inventories = _stockLocationInventoryRepo
+            var inventories = _inventoryRepo
                 .GetQueryableNoTracking()
-                .Include(x => x.Inventory)
-                .Where(x => x.StockLocationId.Equals(stockLocationId))
+                .Include(x =>  x.ProductVarient)
+                .ThenInclude(pVar => pVar.Product)
+                .Include(x => x.ProductVarient)
+                .ThenInclude(pVar => pVar.VarientMedias)
+                .Where(x => !x.ProductVarient.Product.IsDeleted)
                 .ToList();
 
-            return Ok();
-        }
-
-        [HttpGet("{id}")]
-        public IActionResult GetInventorySku(string id)
-        {
-            var inventory = _inventoryRepo
-                .GetQueryableNoTracking()
-                .FirstOrDefault(x => x.ProductSkuId.Equals(id))
-                    ?? throw new AppException("");
-            return Ok();
-        }
-
-        [HttpPatch("{id}")]
-        public IActionResult UpdateQuantity(string id, [FromBody] UpdateQuantityDto value)
-        {
-            return Ok();
-        }
-
-
-        [HttpPut("{id}")]
-        public IActionResult UpdateInventory(string id, [FromBody] UpdateInventoryDto value)
-        {
-            return Ok();
+            return Ok(_mapper.Map<ICollection<InventoryDto>>(inventories));
         }
     }
 }

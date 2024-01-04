@@ -10,7 +10,6 @@ using Social_v2.Clothes.Api.Infrastructure.Entities.Invites;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Orders;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Products;
 using Social_v2.Clothes.Api.Infrastructure.Entities.ProductTypes;
-using Social_v2.Clothes.Api.Infrastructure.Entities.StockLocations;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Users;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Wishlists;
 using System.Reflection.Emit;
@@ -30,7 +29,6 @@ namespace Social_v2.Clothes.Api.Infrastructure
             modelBuilder.AddProductEntities();
             modelBuilder.AddCategoryEntities();
             modelBuilder.AddInventoryEntities();
-            modelBuilder.AddStockLocationEntities();
             modelBuilder.AddWishlistEntities();
             modelBuilder.AddCollectionEntities();
             modelBuilder.AddProductTypeEntities();
