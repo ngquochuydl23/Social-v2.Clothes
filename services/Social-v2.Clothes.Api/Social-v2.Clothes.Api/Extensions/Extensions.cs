@@ -51,19 +51,6 @@ namespace Social_v2.Clothes.Api.Extensions
                     Description = document.GetRequiredValue("Description")
                 });
 
-                var identitySection = configuration.GetSection("Identity");
-
-                if (!identitySection.Exists())
-                {
-                    // No identity section, so no authentication open api definition
-                    return;
-                }
-
-                var identityUrlExternal = identitySection["ExternalUrl"] ?? identitySection.GetRequiredValue("Url");
-                var scopes = identitySection
-                  .GetRequiredSection("Scopes")
-                  .GetChildren()
-                  .ToDictionary(p => p.Key, p => p.Value);
 
                 options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {

@@ -35,5 +35,12 @@ services:
       dockerfile: Social-v2.Clothes.Api/Dockerfile-debug
     ports:
       - 3954:80
-    environment:
-      NODE_ENV: production
+  
+  social-v2.clothes.api-production:
+    image: social-v2.clothes.api-production
+    container_name: social-v2.clothes.api-production
+    build:
+      context: ./services/Social-v2.Clothes.Api
+      dockerfile: Social-v2.Clothes.Api/Dockerfile
+    ports:
+      - 3954:80

@@ -33,16 +33,7 @@ namespace Social_v2.Clothes.Api.Extensions
                 Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "oauth2" }
             };
 
-            var identitySection = _configuration.GetSection("Identity");
-            var scopes = identitySection.GetRequiredSection("Scopes").GetChildren().Select(r => r.Key).ToArray();
-
-            operation.Security = new List<OpenApiSecurityRequirement>
-            {
-                new()
-                {
-                    [ oAuthScheme ] = scopes
-                }
-            };
+            
         }
     }
 }
