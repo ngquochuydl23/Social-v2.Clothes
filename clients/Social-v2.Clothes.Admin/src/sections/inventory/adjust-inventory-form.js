@@ -32,7 +32,7 @@ const AdjustInventoryForm = ({ inventory, onSave }) => {
                                 style={{ borderRadius: '4px' }}
                                 height="50px"
                                 width="50px"
-                                src={inventory.thumbnail} />
+                                src={"https://clothes-dev.social-v2.com/" + inventory.productVarient.thumbnail} />
                             <Stack sx={{ display: 'flex', flex: 1, marginLeft: '10px' }}>
                                 <Typography
                                     sx={{ width: '100%' }}
@@ -47,7 +47,7 @@ const AdjustInventoryForm = ({ inventory, onSave }) => {
                                     fontSize="14px"
                                     marginRight="20px"
                                     variant="caption">
-                                    {inventory.variants.join('-')}
+                                    {inventory.productVarient.title}
                                 </Typography>
                             </Stack>
                         </Stack>

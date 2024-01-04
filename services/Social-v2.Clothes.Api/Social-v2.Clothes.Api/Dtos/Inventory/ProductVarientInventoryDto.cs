@@ -11,6 +11,8 @@
         public double Price { get; set; }
 
 
+        public string ProductTitle { get; set; }
+
         public string Thumbnail { get; set;  }
     }
 }

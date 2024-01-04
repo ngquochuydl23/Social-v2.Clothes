@@ -40,7 +40,7 @@ namespace Social_v2.Clothes.Api.Infrastructure.Entities.Products
 
         public ProductVarientEntity(string title, double price, string productId)
         {
-            Id = productId + "_" + GenerateStringId(title);
+            Id = productId + "-" + GenerateStringId(title);
             Title = title;
             ProductId = productId;
             Price = price;

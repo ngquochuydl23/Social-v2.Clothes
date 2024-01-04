@@ -38,8 +38,6 @@ namespace Social_v2.Clothes.Api.Controllers
                 .GetQueryableNoTracking()
                 .Include(x =>  x.ProductVarient)
                 .ThenInclude(pVar => pVar.Product)
-                .Include(x => x.ProductVarient)
-                .ThenInclude(pVar => pVar.VarientMedias)
                 .Where(x => !x.ProductVarient.Product.IsDeleted)
                 .ToList();
 

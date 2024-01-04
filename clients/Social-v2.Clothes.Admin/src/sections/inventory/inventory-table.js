@@ -56,8 +56,7 @@ export const InventoryTable = (props) => {
           marginTop: "15px",
           marginBottom: "15px",
           justifyContent: "space-between",
-        }}
-      >
+        }}>
         {" "}
       </div>
       <Scrollbar>
@@ -67,38 +66,7 @@ export const InventoryTable = (props) => {
             display: 'flex',
             flexDirection: 'column'
           }}>
-          <Stack
-            mb="20px"
-            height="50px"
-            alignItems="center"
-            justifyContent="space-between"
-            direction="row">
-            <Typography variant="h5">Inventory list</Typography>
-            <Stack direction="row">
-              <FormControl>
-                <Select
-                  sx={{
-                    mx: '10px',
-                    height: '40px',
-                    width: '200px',
-                    borderRadius: '4px'
-                  }}
-                  startAdornment={
-                    <Box mr="20px" justifyContent="center" alignItems="center">
-                      <LocationCityIcon />
-                    </Box>
-                  }
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={age}
-                  onChange={handleChange}>
-                  <MenuItem value={10}>Phú Nhuận</MenuItem>
-                  <MenuItem value={20}>Quận 1</MenuItem>
-                  <MenuItem value={30}>Gò Vấp</MenuItem>
-                </Select>
-              </FormControl>
-            </Stack>
-          </Stack>
+
           <Table>
             <TableHead>
               <TableRow>
@@ -107,13 +75,13 @@ export const InventoryTable = (props) => {
                 <TableCell>Variants</TableCell>
                 <TableCell>Sku</TableCell>
                 <TableCell>Incoming</TableCell>
-                <TableCell>Committed</TableCell>
-                <TableCell>Available</TableCell>
+                <TableCell>Reserved</TableCell>
+                <TableCell>Stock</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {inventories.map((inventory, index) => {
-                const isSelected = selected.includes(inventory.id);
+                const isSelected = selected.includes(inventory.productVarient.id);
                 return (
                   <TableRow
                     onClick={() => setInventoryDrawer(inventory)}
@@ -124,23 +92,23 @@ export const InventoryTable = (props) => {
                     <TableCell>
                       <Stack alignItems="center" direction="row" spacing={2}>
                         <img
-                          alt={inventory.name}
-                          src={inventory.thumbnail}
+                          alt={inventory.productVarient.productTitle}
+                          src={"https://clothes-dev.social-v2.com/" + inventory.productVarient.thumbnail}
                           style={{ height: "45px", width: "45px" }}
                         />
                         <Typography sx={{ fontWeight: "600" }} variant="subtitle2">
-                          {inventory.name}
+                          {inventory.productVarient.title}
                         </Typography>
                       </Stack>
                     </TableCell>
-                    <TableCell>{inventory.variants ? inventory.variants : `-`}</TableCell>
-                    <TableCell>{inventory.sku ? millify(inventory.sku) : `-`}</TableCell>
-                    <TableCell>{inventory.incoming ? millify(inventory.incoming) : `-`}</TableCell>
+                    <TableCell>{inventory.productVarient.productTitle}</TableCell>
+                    <TableCell>{inventory.productVarient.id}</TableCell>
+                    <TableCell>{0}</TableCell>
                     <TableCell>
-                      {inventory.committed ? millify(inventory.committed) : `-`}
+                      {inventory.reservedQuantity}
                     </TableCell>
                     <TableCell>
-                      {inventory.available ? millify(inventory.available) : `-`}
+                      {inventory.stockedQuantity}
                     </TableCell>
                   </TableRow>
                 );

@@ -61,7 +61,9 @@ namespace Social_v2.Clothes.Api.Extensions
 
             CreateMap<ProductVarientEntity, ProductVarientInventoryDto>()
                 .ForMember(des => des.Thumbnail,
-                    act => act.MapFrom(src => src.VarientMedias.FirstOrDefault().Url));
+                    act => act.MapFrom(src => src.Product.Thumbnail))
+                .ForMember(des => des.ProductTitle,
+                    act => act.MapFrom(src => src.Product.Title));
         }
     }
 }

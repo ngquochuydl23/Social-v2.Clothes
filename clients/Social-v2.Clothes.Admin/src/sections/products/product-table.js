@@ -9,6 +9,7 @@ import {
     TableBody,
     TableCell,
     TableHead,
+    TablePagination,
     TableRow,
     Typography
 } from '@mui/material';
@@ -35,7 +36,21 @@ export const ProductTable = (props) => {
     } = props;
 
 
-
+    const handleChangePage = (event, newPage) => {
+      setPage(newPage);
+    };
+  
+    const handleChangeRowsPerPage = (event) => {
+      
+    };
+  
+    const handleChange = (event, newValue) => {
+      
+    };
+  
+    const handleChangeIndex = (index) => {
+      
+    };
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const id = open ? 'simple-popover' : undefined;
@@ -192,6 +207,14 @@ export const ProductTable = (props) => {
                     </Table>
                 </Box>
             </Scrollbar>
+            <TablePagination
+              component="div"
+              count={100}
+              page={page}
+              onPageChange={handleChangePage}
+              rowsPerPage={rowsPerPage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
         </Stack >
     );
 };
