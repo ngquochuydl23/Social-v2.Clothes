@@ -147,10 +147,10 @@ namespace Social_v2.Clothes.Api.Controllers
 
             invitation.Accepted = true;
             invitation.AcceptedAt = DateTime.Now;
-            _employeeInvitationRepo.SaveChanges();
-
             invitation.Employee.HashPassword = BCrypt.Net.BCrypt.HashPassword(value.Password);
             invitation.Employee.EmployeeStatus = EmployeeInvitationConstants.Active;
+
+            _employeeInvitationRepo.SaveChanges();
             return Ok();
         }
 
