@@ -43,7 +43,7 @@ namespace Social_v2.Clothes.Api.Extensions
             {
                 var document = openApi.GetRequiredSection("Document");
                 var version = document.GetRequiredValue("Version") ?? "v1";
-
+              //  options.OperationFilter<AddAuthHeaderOperationFilter>();
                 options.SwaggerDoc(version, new OpenApiInfo
                 {
                     Title = document.GetRequiredValue("Title"),
@@ -56,10 +56,10 @@ namespace Social_v2.Clothes.Api.Extensions
                 {
                     Description = "Insira o token JWT desta maneira: Bearer {seu token}",
                     Name = "Authorization",
-                    Scheme = "Bearer",
+                    Scheme = "bearer",
                     BearerFormat = "JWT",
                     In = ParameterLocation.Header,
-                    Type = SecuritySchemeType.ApiKey
+                    Type = SecuritySchemeType.Http
                 });
                 options.AddSecurityRequirement(new OpenApiSecurityRequirement
                     {

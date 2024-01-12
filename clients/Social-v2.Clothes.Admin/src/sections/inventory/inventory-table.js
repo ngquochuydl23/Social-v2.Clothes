@@ -81,13 +81,11 @@ export const InventoryTable = (props) => {
             </TableHead>
             <TableBody>
               {inventories.map((inventory, index) => {
-                const isSelected = selected.includes(inventory.productVarient.id);
                 return (
                   <TableRow
                     onClick={() => setInventoryDrawer(inventory)}
                     hover
-                    key={inventory.id}
-                    selected={isSelected}>
+                    key={inventory.id}>
                     <TableCell padding="checkbox">{index + 1}</TableCell>
                     <TableCell>
                       <Stack alignItems="center" direction="row" spacing={2}>

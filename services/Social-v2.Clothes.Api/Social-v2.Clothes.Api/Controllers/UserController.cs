@@ -1,17 +1,12 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Social_v2.Clothes.Api.Dtos;
 using Social_v2.Clothes.Api.Dtos.Users;
 using Social_v2.Clothes.Api.Extensions.JwtHelpers;
-using Social_v2.Clothes.Api.Infrastructure;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Users;
 using Social_v2.Clothes.Api.Infrastructure.Exceptions;
 using Social_v2.Clothes.Api.Infrastructure.Repository;
-using Social_v2.Clothes.Api.Migrations;
-using System.Runtime.ConstrainedExecution;
-using System.Security.Claims;
 
 namespace Social_v2.Clothes.Api.Controllers
 {
@@ -95,6 +90,21 @@ namespace Social_v2.Clothes.Api.Controllers
             user.Birthday = value.Birthday;
             user.LastUpdate = DateTime.Now;
             user.Avatar = !string.IsNullOrEmpty(value.Avatar) ? value.Avatar : null;
+            _userRepo.SaveChanges();
+
+            return Ok(_mapper.Map<UserDto>(user));
+        }
+
+        [AllowAnonymous]
+        [HttpPut("resetPassword")]
+        public IActionResult ResetPassword([FromBody] ResetPasswordDto value)
+        {
+            var user = _userRepo
+               .GetQueryable()
+               .FirstOrDefault(x => x.Id == 1)
+                    ?? throw new AppException("User does not exist");
+
+            user.HashPassword = BCrypt.Net.BCrypt.HashPassword(value.Password);
             _userRepo.SaveChanges();
 
             return Ok(_mapper.Map<UserDto>(user));

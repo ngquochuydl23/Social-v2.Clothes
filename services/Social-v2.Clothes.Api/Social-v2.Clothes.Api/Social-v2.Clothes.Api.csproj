@@ -31,7 +31,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Infrastructure\Entities\Reservations\" />
     <Folder Include="Infrastructure\Entities\Shippings\" />
   </ItemGroup>
 

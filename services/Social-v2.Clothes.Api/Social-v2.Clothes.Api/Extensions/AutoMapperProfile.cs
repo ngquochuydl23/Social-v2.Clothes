@@ -7,6 +7,7 @@ using Social_v2.Clothes.Api.Dtos.Customer;
 using Social_v2.Clothes.Api.Dtos.DeliveryAddress;
 using Social_v2.Clothes.Api.Dtos.Inventory;
 using Social_v2.Clothes.Api.Dtos.Invites;
+using Social_v2.Clothes.Api.Dtos.Order;
 using Social_v2.Clothes.Api.Dtos.Product;
 using Social_v2.Clothes.Api.Dtos.ProductType;
 using Social_v2.Clothes.Api.Dtos.Users;
@@ -17,6 +18,7 @@ using Social_v2.Clothes.Api.Infrastructure.Entities.Collections;
 using Social_v2.Clothes.Api.Infrastructure.Entities.DeliveryAddresses;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Inventories;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Invites;
+using Social_v2.Clothes.Api.Infrastructure.Entities.Orders;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Products;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Users;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Wishlists;
@@ -55,6 +57,8 @@ namespace Social_v2.Clothes.Api.Extensions
          
 
             CreateMap<CartEntity, CartDto>();
+            CreateMap<CartItemEntity, CartItemDto>();
+
             CreateMap<UserEntity, CartCustomerDto>();
             CreateMap<UserEntity, EmployeeDto>(); 
             CreateMap<InventoryEntity, InventoryDto>();
@@ -64,6 +68,9 @@ namespace Social_v2.Clothes.Api.Extensions
                     act => act.MapFrom(src => src.Product.Thumbnail))
                 .ForMember(des => des.ProductTitle,
                     act => act.MapFrom(src => src.Product.Title));
+
+
+            CreateMap<OrderEntity, OrderDto>();
         }
     }
 }

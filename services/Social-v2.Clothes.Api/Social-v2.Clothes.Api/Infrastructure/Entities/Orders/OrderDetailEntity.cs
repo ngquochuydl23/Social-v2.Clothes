@@ -21,15 +21,7 @@ namespace Social_v2.Clothes.Api.Infrastructure.Entities.Orders
 
         public long Total { get; set; }
 
-        public string Thumbnail { get; set;  }
-        
-        public string Title { get; set; }
-
-
-        public string Description { get; set; }
-
         public long TaxTotal { get; set; }
-
 
         public string ProductId { get; set; }
     }

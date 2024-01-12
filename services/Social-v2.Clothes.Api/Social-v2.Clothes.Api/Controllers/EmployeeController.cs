@@ -66,13 +66,26 @@ namespace Social_v2.Clothes.Api.Controllers
                 .FirstOrDefault(x => x.Employee.Email.Equals(value.Email)) != null)
                 throw new AppException("Invitation is sent to this email");
 
+            var user = _userRepo
+                .GetQueryable()
+                .FirstOrDefault(x => x.Email.Equals(value.Email) && !x.IsDeleted);
 
             var invitation = new EmployeeInvitationEntity()
             {
                 ExpiresAt = DateTime.Now.AddDays(10),
                 Accepted = false,
                 Token = _jwtExtension.GenerateTokenForInvitation(value.Email, value.Role),
-                Employee = new UserEntity()
+            };
+
+            if (user != null)
+            {
+                user.Role = value.Role;
+                user.LastUpdate = DateTime.Now;
+                invitation.EmployeeId =  user.Id;
+            }
+            else
+            {
+                invitation.Employee = new UserEntity()
                 {
                     Email = value.Email,
                     Role = value.Role,
@@ -82,9 +95,8 @@ namespace Social_v2.Clothes.Api.Controllers
                     PhoneNumber = value.PhoneNumber,
                     CreateAt = DateTime.Now,
                     HashPassword = BCrypt.Net.BCrypt.HashPassword("123!@#"),
-                }
-            };
-
+                };
+            }
             _employeeInvitationRepo.Insert(invitation);
 
             return Ok(_mapper.Map<EmployeeDto>(invitation.Employee));

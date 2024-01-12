@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Linq;
 using Social_v2.Clothes.Api.Dtos.Cart;
 using Social_v2.Clothes.Api.Infrastructure;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Cart;
@@ -26,6 +27,7 @@ namespace Social_v2.Clothes.Api.Controllers
         private readonly IRepository<ProductVarientEntity> _productVarientRepo;
         private readonly IRepository<OrderEntity> _orderRepo;
         private readonly IRepository<DeliveryAddressEntity> _deliveryAddressRepo;
+
         public CartController(
             IMapper mapper,
             IUnitOfWork unitOfWork,
@@ -51,8 +53,10 @@ namespace Social_v2.Clothes.Api.Controllers
             var cart = _cartRepo
                 .GetQueryableNoTracking()
                 .Include(x => x.Customer)
+                .Include(x => x.CartItems)
+                .ThenInclude(item => item.ProductVarient)
                 .FirstOrDefault(x => x.Id == id && !x.IsDeleted)
-               ?? throw new AppException("Cart does not exist");
+                    ?? throw new AppException("Cart does not exist");
 
             return Ok(_mapper.Map<CartDto>(cart));
         }
@@ -60,6 +64,14 @@ namespace Social_v2.Clothes.Api.Controllers
         [HttpPost]
         public IActionResult CreateCart([FromBody] CreateCartDto value)
         {
+
+            if (_cartRepo
+                .GetQueryableNoTracking()
+                .FirstOrDefault(x => x.CustomerId == value.CustomerId) != null)
+            {
+                throw new AppException("This customer already had a cart");
+            }
+
             if (value.CustomerId.HasValue)
             {
                 var customerId = value.CustomerId.Value;
@@ -94,26 +106,12 @@ namespace Social_v2.Clothes.Api.Controllers
             return Ok(_mapper.Map<CartDto>(cart));
         }
 
-
-        [HttpGet("{id}/lineItems")]
-        public IActionResult GetLineItems(long id)
-        {
-            var cart = _cartRepo
-               .GetQueryableNoTracking()
-               .Include(x => x.CartItems)
-               .FirstOrDefault(x => x.Id == id && !x.IsDeleted)
-               .CartItems
-               .ToList()
-                 ?? throw new AppException("Cart does not exist");
-
-            return Ok(cart);
-        }
-
-        [HttpPost("{id}/lineItems")]
-        public IActionResult AddLineItem(long id, [FromBody] AddUpdateLineItemDto value)
+        [HttpPost("{id}/AddCartItem")]
+        public IActionResult AddCartItem(long id, [FromBody] AddUpdateLineItemDto value)
         {
             var cart = _cartRepo
                 .GetQueryable()
+                .Include(x => x.CartItems)
                 .FirstOrDefault(x => x.Id == id && !x.IsDeleted)
                ?? throw new AppException("Cart does not exist");
 
@@ -128,12 +126,26 @@ namespace Social_v2.Clothes.Api.Controllers
                 .FirstOrDefault(x => x.Id.Equals(value.ProductVarientId) && !x.IsDeleted)
                     ?? throw new AppException("Product varient does not exist");
 
-            cart.CartItems.Add(new CartItemEntity(value.ProductVarientId, value.Quantity));
+            var cartItem = cart.CartItems.FirstOrDefault(x => x.ProductVarientId.Equals(productVarient.Id));
+
+            if (cartItem == null)
+            {
+                cartItem = new CartItemEntity(value.ProductVarientId, value.Quantity);
+
+                cart.CartItems.Add(cartItem);
+                cart.LastUpdate = DateTime.Now;
+            }
+            else
+            {
+                cartItem.Quantity += value.Quantity;
+                cartItem.LastUpdate = DateTime.Now;
+            }
+
             cart.LastUpdate = DateTime.Now;
 
             _cartRepo.SaveChanges();
 
-            return Ok();
+            return Ok(_mapper.Map<CartItemDto>(cartItem));
         }
 
         [HttpPut("{id}/lineItems/{lineItemId}")]
@@ -156,11 +168,13 @@ namespace Social_v2.Clothes.Api.Controllers
                 .FirstOrDefault(x => x.Id.Equals(value.ProductVarientId) && !x.IsDeleted)
                     ?? throw new AppException("Product varient does not exist");
 
-            var lineItem = cart.CartItems.FirstOrDefault(x => x.Id == lineItemId)
+            var cartItem = cart.CartItems.FirstOrDefault(x => x.Id == lineItemId)
                 ?? throw new AppException("Line item does not exist");
 
-            lineItem.Quantity = value.Quantity;
-            lineItem.LastUpdate = DateTime.Now;
+            cartItem.LastUpdate = DateTime.Now;
+            cartItem.Quantity = value.IsIncreasedBy
+                ? cartItem.Quantity += value.Quantity
+                : cartItem.Quantity = value.Quantity;
 
             cart.LastUpdate = DateTime.Now;
             _cartRepo.SaveChanges();
@@ -218,8 +232,10 @@ namespace Social_v2.Clothes.Api.Controllers
             var cart = _cartRepo
                .GetQueryable()
                .Include(x => x.CartItems)
+               .ThenInclude(cartItem => cartItem.ProductVarient)
+               .ThenInclude(proVarient => proVarient.Inventory)
                .FirstOrDefault(x => x.Id == cartId && !x.IsDeleted)
-              ?? throw new AppException("Cart does not exist");
+                    ?? throw new AppException("Cart does not exist");
 
             var customer = _userRepo
                 .GetQueryableNoTracking()
@@ -236,29 +252,45 @@ namespace Social_v2.Clothes.Api.Controllers
             using (_unitOfWork.Begin())
             {
 
-                //  add line items  from cart line items
                 foreach (var lineItem in cart.CartItems)
                 {
+                    // -> create OrderDetail from CartItem
+
                     var orderDetail = new OrderDetailEntity()
                     {
+                        OrderId = order.OrderNo,
 
+                        ProductVarientId = lineItem.ProductVarientId,
+
+                        Quantity = lineItem.Quantity,
+                        ProductId = lineItem.ProductVarient.ProductId,
+                        Subtotal = (long)(lineItem.ProductVarient.Price * lineItem.Quantity),
+
+
+                        // *** CACULATE 
+
+                        // TaxTotal
+                        // DiscountTotal
+                        // Total
                     };
 
                     order.OrderDetails.Add(orderDetail);
+
+         
+
+                    // -> adjust inventory
+                    var inventory = lineItem.ProductVarient.Inventory;
+
+                    inventory.StockedQuantity -= lineItem.Quantity;
+                    inventory.ReservedQuantity += lineItem.Quantity;
+
+
+
                 }
 
-
-                //  adjust inventoy
-
-
-
-
-                // payment
-
-
-
+                _cartRepo.SaveChanges();
                 _orderRepo.Insert(order);
-                //_unitOfWork.Complete();
+                _unitOfWork.Complete();
             }
             return Ok(order);
         }

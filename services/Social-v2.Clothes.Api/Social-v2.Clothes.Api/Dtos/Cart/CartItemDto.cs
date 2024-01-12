@@ -2,15 +2,13 @@
 
 namespace Social_v2.Clothes.Api.Dtos.Cart
 {
-    public class CartLineItemDto
+    public class CartItemDto
     {
         public long Id { get; set; }
 
         public long CartId { get; set; }
 
-
         public int Quantity { get; set; }
-
 
         public ProductVarientDto ProductVarient { get; set; }
 
