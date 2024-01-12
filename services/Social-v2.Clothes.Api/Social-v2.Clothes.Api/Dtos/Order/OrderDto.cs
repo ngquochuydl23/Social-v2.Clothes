@@ -29,6 +29,12 @@ namespace Social_v2.Clothes.Api.Dtos.Order
 
         public double TaxRate { get; set; }
 
+
+        public DateTime CreateAt { get; set; }
+
+
+        public DateTime LastUpdate { get; set; }
+
         public CustomerDto Customer { get; set; }
 
         public DeliveryAddressDto DeliveryAddress { get; set; }

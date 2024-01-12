@@ -46,7 +46,7 @@ namespace Social_v2.Clothes.Api.Infrastructure.Entities.Orders
         {
             CustomerId = customerId;
             DeliveryAddressId = deliveryAddressId;
-            OrderNo = "Social-v2.Clothes.Order_" + CustomerId + "_" + CreateAt.ToString("yyyyMMddHHmmss");
+            OrderNo = "CL" + CustomerId + "_" + CreateAt.ToString("yyyyMMddHHmmss");
 
             Status = "Pending";
             FulfillmentStatus = "Started";

@@ -87,16 +87,6 @@ namespace Social_v2.Clothes.Api.Infrastructure.Repository
 
         protected virtual void SaveChange(TEntity entity)
         {
-            if (entity == null)
-                throw new NullReferenceException();
-
-            if (entity is ILastUpdatedTime)
-            {
-                var lastUpdatedTime = (ILastUpdatedTime)entity;
-                lastUpdatedTime.LastUpdate = DateTime.Now;
-            }
-            _appDbContext.Entry(entity).State = EntityState.Modified;
-
             _appDbContext.SaveChanges();
         }
 

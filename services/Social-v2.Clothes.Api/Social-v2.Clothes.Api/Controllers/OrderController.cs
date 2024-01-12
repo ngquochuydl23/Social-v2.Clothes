@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Social_v2.Clothes.Api.Dtos.Order;
 using Social_v2.Clothes.Api.Infrastructure;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Orders;
@@ -36,14 +37,15 @@ namespace Social_v2.Clothes.Api.Controllers
         {
             var orders = _orderRepo
                 .GetQueryableNoTracking()
+                .Include(x => x.Customer)
                 .Where(x => !x.IsDeleted)
                 .ToList();
 
             return Ok(_mapper.Map<ICollection<OrderDto>>(orders));
         }
 
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("{orderNo}")]
+        public string GetỎrder(string orderNo)
         {
             return "value";
         }
