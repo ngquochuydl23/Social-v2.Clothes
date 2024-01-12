@@ -3,7 +3,7 @@ import _ from "lodash";
 
 export const http = axios.create({
     //baseURL: 'https://localhost:7183/api/'
-    baseURL: 'https://clothes-dev.social-v2.com/dev-api/'
+    baseURL: 'https://clothes-dev.social-v2.com/api/'
 })
 
 export const saveAccessToken = (accessToken) =>
