@@ -7,21 +7,6 @@ import { Box, Button, Stack, Typography } from "@mui/material";
 import { format } from "number-currency-format";
 import { useSelector } from "react-redux";
 
-
-const cart = {
-    lineItems: [
-        {
-            productVarient: {
-                id: 'kaws_ao_ni_dai_tay_trang_s',
-                title: 'KAWS Áo Nỉ Dài Tay',
-                price: '784000',
-                thumbnail: 'https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/460322/item/goods_31_460322.jpg?width=750'
-            },
-            quantity: 1
-        }
-    ]
-}
-
 const NoProductAddedAlert = () => (
     <div
         className="flex p-4 mb-4 text-sm text-yellow-800 border border-yellow-300 rounded-lg bg-yellow-50 mt-6"
