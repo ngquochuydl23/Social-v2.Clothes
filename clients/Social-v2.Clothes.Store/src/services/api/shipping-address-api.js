@@ -1,11 +1,11 @@
 import { http } from '../https'
 
 export const getShippingAddresses = () =>
-  http.get('/DeliveryAddress');
+  http.get('/store/DeliveryAddress');
 
 export const deleteShippingAddress = (addressId) =>
-  http.delete('/DeliveryAddress/' + addressId);
+  http.delete('/store/DeliveryAddress/' + addressId);
 
 
 export const addShippingAddress = (body) =>
-  http.post('/DeliveryAddress/', body);
+  http.post('/store/DeliveryAddress/', body);

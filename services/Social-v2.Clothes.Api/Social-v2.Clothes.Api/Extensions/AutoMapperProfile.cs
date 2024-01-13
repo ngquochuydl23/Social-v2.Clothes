@@ -45,7 +45,11 @@ namespace Social_v2.Clothes.Api.Extensions
 
             CreateMap<ProductOptionEntity, ProductOptionDto>();
             CreateMap<ProductOptionValueEntity, ProductOptionValueDto>();
-            CreateMap<ProductVarientEntity, ProductVarientDto>();
+            CreateMap<ProductVarientEntity, ProductVarientDto>()
+                  .ForMember(des => des.ProductTitle,
+                            act => act.MapFrom(src => src.Product.Title))
+                  .ForMember(des => des.Thumbnail,
+                            act => act.MapFrom(src => src.Product.Thumbnail));
 
             CreateMap<WishlistEntity, WishlistDto>();
             CreateMap<CategoryEntity, CategoryDto>();

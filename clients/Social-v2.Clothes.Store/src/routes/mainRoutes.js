@@ -16,6 +16,7 @@ import ShippingAddress from "../pages/main/ShippingAddress";
 import Wishlist from "../pages/main/Wishlist";
 import MyVoucher from "../pages/main/MyVoucher";
 import ProtectedRoute from "../components/ProtectedRoute";
+import Products from "../pages/main/Products";
 
 const Home = lazy(() => import("../pages/main/Home"));
 
@@ -122,12 +123,25 @@ const mainRoutes = {
       ]
     },
     {
-      path: "/product/:id",
-      element: (
-        <SplitRouter>
-          <ProductDescription />
-        </SplitRouter>
-      ),
+      path: "/products",
+      children: [
+        {
+          index: true,
+          element: (
+            <SplitRouter>
+              <Products />
+            </SplitRouter>
+          ),
+        },
+        {
+          path: ":id",
+          element: (
+            <SplitRouter>
+              <ProductDescription />
+            </SplitRouter>
+          ),
+        }
+      ]
     },
     {
       path: "/*",

@@ -12,21 +12,20 @@ using Social_v2.Clothes.Api.Infrastructure.Repository;
 
 namespace Social_v2.Clothes.Api.Controllers
 {
-    [Authorize]
-    [Route("api/[controller]")]
+    [Authorize(Roles = UserConstants.AdministratorRole)]
+    [Route("api/admin/Product")]
     [ApiController]
-    public class ProductController : BaseController
+    public class AdminProductController : BaseController
     {
         private readonly IRepository<ProductEntity> _productRepo;
         private readonly IRepository<ProductVarientEntity> _productVarientRepo;
-        private readonly IRepository<VarientValueEntity> _varientValueRepo;
         private readonly IRepository<ProductOptionEntity> _productOptionRepo;
         private readonly IRepository<TagEntity> _tagRepo;
         private readonly IRepository<ProductTagEntity> _productTagRepo;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public ProductController(
+        public AdminProductController(
             IRepository<ProductEntity> productRepo,
             IRepository<ProductVarientEntity> productVarientRepo,
             IRepository<ProductOptionEntity> productOptionRepo,
@@ -42,12 +41,10 @@ namespace Social_v2.Clothes.Api.Controllers
             _productTagRepo = productTagRepo;
             _productVarientRepo = productVarientRepo;
             _productOptionRepo = productOptionRepo;
-            _varientValueRepo = varientValueRepo;
             _tagRepo = tagRepo;
             _mapper = mapper;
         }
 
-        [AllowAnonymous]
         [HttpGet]
         public IActionResult GetProducts()
         {
@@ -61,7 +58,6 @@ namespace Social_v2.Clothes.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        [AllowAnonymous]
         public IActionResult GetProduct(string id)
         {
             var product = _productRepo
@@ -77,7 +73,6 @@ namespace Social_v2.Clothes.Api.Controllers
         }
 
         [HttpPost("{id}/option")]
-        [Authorize(Roles = UserConstants.AdministratorRole)]
         public IActionResult AddProductOption(string id, [FromBody] CreateOptionDto pOption)
         {
             var product = _productRepo
@@ -89,44 +84,43 @@ namespace Social_v2.Clothes.Api.Controllers
             return Ok(_mapper.Map<ProductOptionDto>(productOption));
         }
 
-        [HttpGet("{id}/varient/withParams")]
-        [AllowAnonymous]
-        public IActionResult GetProductVarientWithParams(string id)
-        {
-            var queryParams = HttpContext.Request.Query;
+        //[HttpGet("{id}/varient/withParams")]
+        //[AllowAnonymous]
+        //public IActionResult GetProductVarientWithParams(string id)
+        //{
+        //    var queryParams = HttpContext.Request.Query;
 
-            var product = _productRepo
-                .GetQueryableNoTracking()
-                .Include(x => x.VarientValues)
-                .FirstOrDefault(x => x.Id.Equals(id) && !x.IsDeleted)
-                    ?? throw new AppException("Product does not exist");
+        //    var product = _productRepo
+        //        .GetQueryableNoTracking()
+        //        .Include(x => x.VarientValues)
+        //        .FirstOrDefault(x => x.Id.Equals(id) && !x.IsDeleted)
+        //            ?? throw new AppException("Product does not exist");
 
-            var productVarients = _productVarientRepo
-                .GetQueryableNoTracking()
-                .Include(x => x.VarientMedias)
-                .Where(x => x.ProductId.Equals(id) && !x.IsDeleted)
-                .ToArray();
+        //    var productVarients = _productVarientRepo
+        //        .GetQueryableNoTracking()
+        //        .Include(x => x.VarientMedias)
+        //        .Where(x => x.ProductId.Equals(id) && !x.IsDeleted)
+        //        .ToArray();
 
-            if (!queryParams.Any())
-            {
-                Ok(_mapper.Map<ProductVarientDto>(productVarients.FirstOrDefault()));
-            }
+        //    if (!queryParams.Any())
+        //    {
+        //        Ok(_mapper.Map<ProductVarientDto>(productVarients.FirstOrDefault()));
+        //    }
 
-            foreach (var query in queryParams)
-            {
-                productVarients = productVarients
-                    .Where(x => x.QueryString.Contains($"{query.Key}={query.Value}"))
-                    .ToArray();
-            }
+        //    foreach (var query in queryParams)
+        //    {
+        //        productVarients = productVarients
+        //            .Where(x => x.QueryString.Contains($"{query.Key}={query.Value}"))
+        //            .ToArray();
+        //    }
 
-            if (!productVarients.Any())
-                throw new AppException("Product Varient not found");
+        //    if (!productVarients.Any())
+        //        throw new AppException("Product Varient not found");
 
-            return Ok(_mapper.Map<ProductVarientDto>(productVarients.FirstOrDefault()));
-        }
+        //    return Ok(_mapper.Map<ProductVarientDto>(productVarients.FirstOrDefault()));
+        //}
 
 
-        [AllowAnonymous]
         [HttpGet("{id}/varients")]
         public IActionResult GetProductVarients(string id)
         {
@@ -139,7 +133,6 @@ namespace Social_v2.Clothes.Api.Controllers
             return Ok(_mapper.Map<ICollection<ProductVarientDto>>(productVarients));
         }
 
-        [Authorize(Roles = UserConstants.AdministratorRole)]
         [HttpPut("{id}/varients")]
         public IActionResult AddProductVarient(string id, [FromBody] CreateUpdateProductVarientDto proVarient)
         {
@@ -154,7 +147,6 @@ namespace Social_v2.Clothes.Api.Controllers
         }
 
         [HttpDelete("{id}/varients/{varientId}")]
-        [Authorize(Roles = UserConstants.AdministratorRole)]
         public IActionResult DeleteProductVarient(string id, string varientId)
         {
             var productVarient = _productVarientRepo
@@ -166,7 +158,6 @@ namespace Social_v2.Clothes.Api.Controllers
             return Ok();
         }
 
-        [Authorize(Roles = UserConstants.AdministratorRole)]
         [HttpGet("{id}/tags")]
         public IActionResult GetProductTags(string id)
         {
@@ -182,7 +173,6 @@ namespace Social_v2.Clothes.Api.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = UserConstants.AdministratorRole)]
         public IActionResult CreateProduct([FromBody] CreateProductDto value)
         {
             var product = new ProductEntity(
@@ -230,14 +220,12 @@ namespace Social_v2.Clothes.Api.Controllers
         }
 
         [HttpPut("{id}/generalInfo")]
-        [Authorize(Roles = UserConstants.AdministratorRole)]
         public IActionResult EditGeneralInfo(int id, [FromBody] EditGeneralInfoDto value)
         {
             return Ok();
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = UserConstants.AdministratorRole)]
         public IActionResult Delete(string id)
         {
             var product = _productRepo

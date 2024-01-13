@@ -15,9 +15,9 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Social_v2.Clothes.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/admin/employee")]
     [ApiController]
-    public class EmployeeController : BaseController
+    public class AdminEmployeeController : BaseController
     {
         private readonly IEmailSender _emailSender;
         private readonly IJwtExtension _jwtExtension;
@@ -25,7 +25,7 @@ namespace Social_v2.Clothes.Api.Controllers
         private readonly IRepository<UserEntity> _userRepo;
         private readonly IMapper _mapper;
 
-        public EmployeeController(
+        public AdminEmployeeController(
             IMapper mapper,
             IRepository<UserEntity> userRepo,
             IEmailSender emailSender,

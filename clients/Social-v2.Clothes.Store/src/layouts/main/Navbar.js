@@ -25,8 +25,7 @@ export default function NavBar() {
                 />
               </Link>
               <span className="hidden md:block h-10 border-l border-slate-200" />
-              <CategoryDropdown />
-              {/* <Dropdown /> */}
+
             </div>
             <div className="md:hidden">
               <button

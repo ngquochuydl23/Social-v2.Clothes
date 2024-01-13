@@ -1,10 +1,11 @@
 import { Popover, Transition } from "@headlessui/react";
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import LazyLoadingImage from "../LazyLoadingImage";
 import { Link, useNavigate } from "react-router-dom";
 import CheckoutModal from "./CheckoutModal";
 import { Box, Button, Stack, Typography } from "@mui/material";
 import { format } from "number-currency-format";
+import { useSelector } from "react-redux";
 
 
 const cart = {
@@ -51,13 +52,14 @@ const CartLineItem = ({
     productVarient,
     quantity
 }) => {
+
     return (
         <div
             key={id}
             className="flex py-5 last:pb-0">
             <div className="relative h-24 w-20 flex-shrink-0 overflow-hidden rounded-xl bg-slate-100">
                 <LazyLoadingImage
-                    src={productVarient?.thumbnail}
+                    src={"https://clothes-dev.social-v2.com/" + productVarient?.thumbnail}
                     alt={productVarient?.thumbnail}
                     height={"96"}
                     width={"80"}
@@ -67,12 +69,13 @@ const CartLineItem = ({
             <div className="ml-4 flex flex-1 flex-col">
                 <Box>
                     <Typography
-                        fontWeight="600"
+                        fontWeight="500"
+                        fontSize="14px"
                         variant="subtitle1">
-                        {productVarient?.title}
+                        {productVarient?.productTitle}
                     </Typography>
                     <Typography variant="subtitle2">
-                        {`Trắng/S`}
+                        {productVarient.title}
                     </Typography>
                     <Stack
                         sx={{ mt: '20px' }}
@@ -96,7 +99,16 @@ const ProductCart = () => {
     const [isOpen, setIsOpen] = useState(false);
     const navigate = useNavigate();
 
+    const { cart } = useSelector((state) => state.cart);
 
+
+    useEffect(() => {
+
+    }, [cart])
+
+
+    if (!cart)
+        return null;
 
     return (
         <>
@@ -177,10 +189,10 @@ const ProductCart = () => {
                                                 </Button>
                                             </Stack>
                                         </Stack>
-                                        {cart.lineItems?.length ? (
+                                        {cart.cartItems?.length ? (
                                             <div className="divide-y divide-slate-100">
-                                                {cart.lineItems?.map((lineItem) => (
-                                                    <CartLineItem {...lineItem} />
+                                                {cart.cartItems?.map((cartItem) => (
+                                                    <CartLineItem {...cartItem} />
                                                 ))}
                                             </div>
                                         ) : <NoProductAddedAlert />}

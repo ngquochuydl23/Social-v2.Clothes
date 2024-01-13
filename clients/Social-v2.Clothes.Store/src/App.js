@@ -6,18 +6,30 @@ import { useDispatch } from "react-redux";
 import FullScreenLoading from "./components/loading/FullScreenLoading";
 import { persistLogin } from "./services/api/user-api";
 import { setUser } from "./slices/userSlice";
+import { getMyCart } from "./services/api/cart-api";
+import { setCart } from "./slices/cartSlice";
 
 function App() {
     const dispatch = useDispatch();
     const isLoading = false
 
     useEffect(() => {
-        console.log("Fetch user api");
         const token = localStorage.getItem("accessToken");
         if (token?.length) {
             persistLogin()
-                .then((user) => dispatch(setUser(user)))
-                .catch((err) => console.log(err))
+                .then((user) => {
+
+                    dispatch(setUser(user));
+                    getMyCart()
+                        .then((res) => {
+                            console.log(res);
+                            dispatch(setCart(res));
+                        })
+                        .catch((err) => { throw err });
+                })
+                .catch((err) => console.log(err));
+
+
         }
     }, [dispatch]);
 

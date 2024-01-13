@@ -13,14 +13,14 @@ using System.Security.Claims;
 namespace Social_v2.Clothes.Api.Controllers
 {
     [Authorize]
-    [Route("api/[controller]")]
+    [Route("api/store/DeliveryAddress")]
     [ApiController]
-    public class DeliveryAddressController : BaseController
+    public class StoreDeliveryAddressController : BaseController
     {
         private readonly IRepository<DeliveryAddressEntity> _deliverAddressRepo;
         private readonly IMapper _mapper;
 
-        public DeliveryAddressController(
+        public StoreDeliveryAddressController(
             IMapper mapper,
             IRepository<DeliveryAddressEntity> deliverAddressRepo,
             IHttpContextAccessor httpContextAccessor): base(httpContextAccessor)

@@ -15,10 +15,9 @@ using Social_v2.Clothes.Api.Infrastructure.Repository;
 
 namespace Social_v2.Clothes.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/store/Cart")]
     [ApiController]
-    [AllowAnonymous]
-    public class CartController : BaseController
+    public class StoreCartController : BaseController
     {
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
@@ -28,7 +27,7 @@ namespace Social_v2.Clothes.Api.Controllers
         private readonly IRepository<OrderEntity> _orderRepo;
         private readonly IRepository<DeliveryAddressEntity> _deliveryAddressRepo;
 
-        public CartController(
+        public StoreCartController(
             IMapper mapper,
             IUnitOfWork unitOfWork,
             IRepository<CartEntity> cartRepo,
@@ -47,42 +46,36 @@ namespace Social_v2.Clothes.Api.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        [HttpGet("{id}")]
-        public IActionResult GetCart(long id)
+        [HttpGet("MyCart")]
+        [Authorize]
+        public IActionResult GetCart()
         {
             var cart = _cartRepo
                 .GetQueryableNoTracking()
                 .Include(x => x.Customer)
                 .Include(x => x.CartItems)
                 .ThenInclude(item => item.ProductVarient)
-                .FirstOrDefault(x => x.Id == id && !x.IsDeleted)
+                .ThenInclude(productVarient => productVarient.Product)
+
+                .FirstOrDefault(x => x.CustomerId == Id && !x.IsDeleted)
                     ?? throw new AppException("Cart does not exist");
 
             return Ok(_mapper.Map<CartDto>(cart));
         }
 
         [HttpPost]
-        public IActionResult CreateCart([FromBody] CreateCartDto value)
+        [Authorize]
+        public IActionResult CreateCart()
         {
-
             if (_cartRepo
                 .GetQueryableNoTracking()
-                .FirstOrDefault(x => x.CustomerId == value.CustomerId) != null)
+                .Where(x => x.CustomerId == Id && !x.IsDeleted)
+                .Any())
             {
                 throw new AppException("This customer already had a cart");
             }
 
-            if (value.CustomerId.HasValue)
-            {
-                var customerId = value.CustomerId.Value;
-
-                if (customerId == 0)
-                    throw new AppException("CustomerId is invalid");
-
-                return Ok(_mapper.Map<CartDto>(_cartRepo.Insert(new CartEntity(customerId))));
-            }
-
-            return Ok(_mapper.Map<CartDto>(_cartRepo.Insert(new CartEntity())));
+            return Ok(_mapper.Map<CartDto>(_cartRepo.Insert(new CartEntity(Id))));
         }
 
         [HttpPut("{id}")]

@@ -7,13 +7,13 @@ using Social_v2.Clothes.Api.Infrastructure.Repository;
 
 namespace Social_v2.Clothes.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/store/FeedBack")]
     [ApiController]
-    public class FeedBackController : BaseController
+    public class StoreFeedBackController : BaseController
     {
         private readonly IMapper _mapper;
 
-        public FeedBackController(
+        public StoreFeedBackController(
             IMapper mapper,
             IHttpContextAccessor httpContextAccessor) : base(httpContextAccessor)
         {

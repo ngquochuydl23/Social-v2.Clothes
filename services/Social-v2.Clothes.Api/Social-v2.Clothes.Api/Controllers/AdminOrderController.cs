@@ -12,15 +12,15 @@ using Social_v2.Clothes.Api.Infrastructure.Repository;
 namespace Social_v2.Clothes.Api.Controllers
 {
     [Authorize]
-    [Route("api/[controller]")]
+    [Route("api/admin/order")]
     [ApiController]
-    public class OrderController : BaseController
+    public class AdminOrderController : BaseController
     {
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IRepository<OrderEntity> _orderRepo;
 
-        public OrderController(
+        public AdminOrderController(
             IMapper mapper,
             IUnitOfWork unitOfWork,
             IRepository<OrderEntity> orderRepo,
