@@ -1,31 +1,58 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import LazyLoadingImage from "../../components/LazyLoadingImage";
+import { Footer } from 'flowbite-react';
+import { BsDribbble, BsFacebook, BsGithub, BsInstagram, BsTwitter } from 'react-icons/bs';
 
-const Footer = () => {
-  const today = new Date();
-  const year = today.getFullYear();
-
+const ClothesFooter = () => {
   return (
-    <>
-      <footer className="bg-white shadow py-8">
-        <div className="container mx-auto">
-          <div className="flex md:flex-row md:justify-between flex-col items-center md:gap-0 gap-y-4 md:px-0 px-4">
-            <Link to="/" title="Ciseco ECommerce">
-              <LazyLoadingImage
-                src="/logo.png"
-                alt="logo"
-                className="block max-h-8 sm:max-h-10"
-                height={"150"}
-                width={"150"}
-              />
-            </Link>
-            <p>© {year} Ciseco ECommerce, All Right Reserved.</p>
+    <Footer bgDark={false} className="bg-[#f5f5f5] px-0">
+      <div className="w-full text-center">
+        <div className="grid w-full justify-between sm:flex sm:justify-between md:flex md:grid-cols-1">
+          <Footer.Brand
+            href="https://flowbite.com"
+            src="https://flowbite.com/docs/images/logo.svg"
+            alt="Flowbite Logo"
+            name="Flowbite"
+          />
+          <div className="grid grid-cols-2 gap-8 sm:mt-4 sm:grid-cols-3 sm:gap-6">
+            <div>
+              <Footer.Title title="about" />
+              <Footer.LinkGroup col>
+                <Footer.Link href="#">Flowbite</Footer.Link>
+                <Footer.Link href="#">Tailwind CSS</Footer.Link>
+              </Footer.LinkGroup>
+            </div>
+            <div>
+              <Footer.Title title="Follow us" />
+              <Footer.LinkGroup col>
+                <Footer.Link href="#">Github</Footer.Link>
+                <Footer.Link href="#">Discord</Footer.Link>
+              </Footer.LinkGroup>
+            </div>
+            <div>
+              <Footer.Title title="Legal" />
+              <Footer.LinkGroup col>
+                <Footer.Link href="#">Privacy Policy</Footer.Link>
+                <Footer.Link href="#">Terms &amp; Conditions</Footer.Link>
+              </Footer.LinkGroup>
+            </div>
           </div>
         </div>
-      </footer>
-    </>
+        <div style={{ marginTop: '30px', marginBottom: '30px' }}>
+          <Footer.Divider />
+        </div>
+        <div className="w-full sm:flex sm:items-center sm:justify-between">
+          <Footer.Copyright href="#" by="Flowbite™" year={2022} />
+          <div className="mt-4 flex space-x-6 sm:mt-0 sm:justify-center">
+            <Footer.Icon href="#" icon={BsFacebook} />
+            <Footer.Icon href="#" icon={BsInstagram} />
+            <Footer.Icon href="#" icon={BsTwitter} />
+            <Footer.Icon href="#" icon={BsGithub} />
+            <Footer.Icon href="#" icon={BsDribbble} />
+          </div>
+        </div>
+      </div>
+    </Footer>
   );
 };
 
-export default Footer;
+export default ClothesFooter;

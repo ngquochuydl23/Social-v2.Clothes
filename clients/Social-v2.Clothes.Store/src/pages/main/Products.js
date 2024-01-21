@@ -2,16 +2,10 @@ import { Box, Grid, Typography } from '@mui/material';
 import ProductCard from '../../components/home/ProductCard';
 
 const Products = () => {
-
-
-
-
-
     return (
         <section className="container mx-auto flex flex-col gap-y-32 px-4">
             <div className="lg:px-32 flex flex-col">
-
-                <Box mt="20px">
+                <Box my="20px">
                     <Typography
                         color="black"
                         fontWeight={600}

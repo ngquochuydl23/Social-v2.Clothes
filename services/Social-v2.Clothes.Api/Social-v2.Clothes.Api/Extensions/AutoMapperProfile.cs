@@ -9,6 +9,7 @@ using Social_v2.Clothes.Api.Dtos.Inventory;
 using Social_v2.Clothes.Api.Dtos.Invites;
 using Social_v2.Clothes.Api.Dtos.Order;
 using Social_v2.Clothes.Api.Dtos.Product;
+using Social_v2.Clothes.Api.Dtos.Product.StoreProductDto;
 using Social_v2.Clothes.Api.Dtos.ProductType;
 using Social_v2.Clothes.Api.Dtos.Users;
 using Social_v2.Clothes.Api.Dtos.Wishlist;
@@ -75,6 +76,15 @@ namespace Social_v2.Clothes.Api.Extensions
 
 
             CreateMap<OrderEntity, OrderDto>();
+
+
+
+            // Store
+            CreateMap<ProductEntity, StoreProductDto>()
+                .ForMember(des => des.Price,
+                    act => act.MapFrom(src => src.ProductVarients.FirstOrDefault().Price))
+                .ForMember(des => des.OtherImage,
+                    act => act.MapFrom(src => src.ProductVarients.FirstOrDefault().VarientMedias.Skip(1).First().Url));
         }
     }
 }

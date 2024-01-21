@@ -1,7 +1,7 @@
 import { http } from "../https";
 
 export const getInventories = ({  }) =>
-  http.get("/Inventory", {
+  http.get("/admin/Inventory", {
     params: {
 
     },

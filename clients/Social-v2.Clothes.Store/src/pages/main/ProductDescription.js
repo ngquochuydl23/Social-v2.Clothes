@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 import Stack from '@mui/material/Stack';
 import { Typography } from "@mui/material";
 import { useParams } from 'react-router-dom';
-import { getProductDetail, getProductVarientByQueries } from "../../services/api/product-api";
+import { getProductDetail, getProductVarient } from "../../services/api/product-api";
 const { format } = require('number-currency-format');
 
 
@@ -27,16 +27,19 @@ const ProductDescription = () => {
 
     const getProductById = async () => {
         const product = await getProductDetail(id);
-        const productVarient = await getProductVarientByQueries(id);
+        const productVarient = await getProductVarient(id);
         
         setProduct(product);
         setProductVarient(productVarient);
+
+
+        
     }
 
     useEffect(() => {
         if (Boolean(id)) {
             setLoading(true);
-            getProductById({})
+            getProductById()
                 .catch((err) => console.log(err))
                 .finally(() => setLoading(false))
         }
@@ -51,6 +54,8 @@ const ProductDescription = () => {
     //     }, 1000);
     //   }
     // }, [isCartSuccess, navigate]);
+
+    
 
     return (
         <>
@@ -73,7 +78,7 @@ const ProductDescription = () => {
                                         key={image.url}
                                         height={"135"}
                                         width={"100%"}
-                                        src={"https://clothes-admin.social-v2.com" + image.url}
+                                        src={"https://clothes-dev.social-v2.com" + image.url}
                                         className={
                                             "max-w-full h-[135px] object-cover rounded-2xl"
                                         }

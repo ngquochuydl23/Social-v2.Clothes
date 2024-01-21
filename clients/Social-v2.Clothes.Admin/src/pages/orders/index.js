@@ -37,7 +37,8 @@ const OrderPage = () => {
                         <Typography variant="h4">
                             Orders
                         </Typography>
-                        <OrderTable orders={orders} />
+                        <OrderTable
+                            orders={orders} />
                     </Stack>
                 </Container>
             </Box>

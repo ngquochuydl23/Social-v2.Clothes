@@ -1,7 +1,7 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import NavBar from "./Navbar";
-import Footer from "./Footer";
+import ClothesFooter from "./Footer";
 
 const Main = () => {
   return (
@@ -9,7 +9,7 @@ const Main = () => {
       <NavBar />
       <Outlet />
       <div className="p-8" />
-      <Footer />
+      <ClothesFooter />
     </>
   );
 };

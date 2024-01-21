@@ -45,7 +45,7 @@ const ProductDetailPage = () => {
     const [showDeleteSuccess, setShowDeleteSuccess] = useState(false);
 
     const router = useRouter();
-    const { id } = router.query
+    const { id } = router.query;
 
     const getProductDetail = async () => {
         const productResponse = await getProduct(id);
@@ -55,8 +55,6 @@ const ProductDetailPage = () => {
     }
 
     const onDeleteProduct = () => {
-
-
         if (id) {
             deleteProduct(id)
                 .then(() => {
@@ -204,7 +202,7 @@ const ProductDetailPage = () => {
                                     {_.map(product.productVarients, (varient, index) => (
                                         <Grid item xs={6}>
                                             <ProductDetailVarientItem
-                                                productTitle={product.title}
+                                                productTitle={varient.productTitle}
                                                 {...varient}
 
                                             />

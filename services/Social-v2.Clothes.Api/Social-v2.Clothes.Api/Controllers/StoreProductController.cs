@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Social_v2.Clothes.Api.Dtos.Product;
+using Social_v2.Clothes.Api.Dtos.Product.StoreProductDto;
 using Social_v2.Clothes.Api.Infrastructure;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Categories;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Products;
@@ -45,6 +46,42 @@ namespace Social_v2.Clothes.Api.Controllers
             _mapper = mapper;
         }
 
+
+        [HttpGet("newArrivals")]
+        [AllowAnonymous]
+        public IActionResult GetNewArrivals()
+        {
+            var products = _productRepo
+                .GetQueryableNoTracking()
+                .Include(x => x.ProductVarients)
+                .ThenInclude(productVarient => productVarient.VarientMedias)
+                .Where(x => !x.IsDeleted)
+                .ToList();
+
+            return Ok(_mapper.Map<ICollection<StoreProductDto>>(products));
+        }
+
+        [HttpGet("topSales")]
+        [AllowAnonymous]
+        public IActionResult GetTopSales()
+        {
+            return Ok();
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult GetProduct(string id)
+        {
+            var product = _productRepo
+                .GetQueryableNoTracking()
+                .Include(x => x.Collection)
+                .Include(x => x.CategoryProducts)
+                .Include(x => x.Options)
+                .ThenInclude(opt => opt.OptionValues)
+                .FirstOrDefault(x => x.Id.Equals(id) && !x.IsDeleted)
+                    ?? throw new AppException("Product does not exist");
+
+            return Ok(_mapper.Map<ProductDto>(product));
+        }
 
         [HttpGet("{id}/varient")]
         [AllowAnonymous]

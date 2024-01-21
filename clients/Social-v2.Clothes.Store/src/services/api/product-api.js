@@ -1,5 +1,8 @@
 import { http } from '../https'
 
-export const getProductDetail = (id) => http.get('store/Product/' + id);
+export const getProductDetail = (id) => http.get('/store/Product/' + id);
 
-export const getProductVarientByQueries = (id, body) => http.get("/store/Product/" + id + "/varient/withParams");
+export const getProductVarient = (id) => http.get("/store/Product/" + id + "/varient");
+
+export const getNewArrivals = () => http.get("/store/Product/newArrivals")
+

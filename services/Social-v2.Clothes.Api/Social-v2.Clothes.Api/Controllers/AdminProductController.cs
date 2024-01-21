@@ -84,48 +84,12 @@ namespace Social_v2.Clothes.Api.Controllers
             return Ok(_mapper.Map<ProductOptionDto>(productOption));
         }
 
-        //[HttpGet("{id}/varient/withParams")]
-        //[AllowAnonymous]
-        //public IActionResult GetProductVarientWithParams(string id)
-        //{
-        //    var queryParams = HttpContext.Request.Query;
-
-        //    var product = _productRepo
-        //        .GetQueryableNoTracking()
-        //        .Include(x => x.VarientValues)
-        //        .FirstOrDefault(x => x.Id.Equals(id) && !x.IsDeleted)
-        //            ?? throw new AppException("Product does not exist");
-
-        //    var productVarients = _productVarientRepo
-        //        .GetQueryableNoTracking()
-        //        .Include(x => x.VarientMedias)
-        //        .Where(x => x.ProductId.Equals(id) && !x.IsDeleted)
-        //        .ToArray();
-
-        //    if (!queryParams.Any())
-        //    {
-        //        Ok(_mapper.Map<ProductVarientDto>(productVarients.FirstOrDefault()));
-        //    }
-
-        //    foreach (var query in queryParams)
-        //    {
-        //        productVarients = productVarients
-        //            .Where(x => x.QueryString.Contains($"{query.Key}={query.Value}"))
-        //            .ToArray();
-        //    }
-
-        //    if (!productVarients.Any())
-        //        throw new AppException("Product Varient not found");
-
-        //    return Ok(_mapper.Map<ProductVarientDto>(productVarients.FirstOrDefault()));
-        //}
-
-
         [HttpGet("{id}/varients")]
         public IActionResult GetProductVarients(string id)
         {
             var productVarients = _productVarientRepo
                 .GetQueryableNoTracking()
+                .Include(x => x.Product)
                 .Include(x => x.VarientMedias)
                 .Where(x => x.ProductId.Equals(id))
                 .ToList();

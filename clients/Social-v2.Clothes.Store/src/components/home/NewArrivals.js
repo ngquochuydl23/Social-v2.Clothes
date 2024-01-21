@@ -5,6 +5,7 @@ import GrayText from "./GrayText";
 import { Link } from "react-router-dom";
 import LazyLoadingImage from "../LazyLoadingImage";
 import DashboardLoading from "../loading/DashboardLoading";
+import ProductCard from "./ProductCard";
 
 const NewArrivals = ({ products, loading, type }) => {
   return (
@@ -42,80 +43,9 @@ const NewArrivals = ({ products, loading, type }) => {
               }}
             >
               {products?.map(
-                ({
-                  id,
-                  title,
-                  description,
-                  thumbnail,
-                  subcategory,
-                  price,
-                  review,
-                }) => (
-                  <Carousel.Slide key={id}>
-                    <div
-                      className="relative flex flex-col bg-transparent"
-                      data-nc-id="ProductCard"
-                    >
-                      <Link
-                        className="absolute inset-0"
-                        to={`/product/id`}
-                      ></Link>
-                      <div className="relative flex-shrink-0 bg-slate-50 rounded-3xl overflow-hidden z-1 group">
-                        <Link
-                          className="block"
-                          to={`/product/${id}`}>
-                          <div
-                            className="nc-NcImage flex aspect-w-11 aspect-h-12 w-full h-0"
-                            data-nc-id="NcImage">
-                            <LazyLoadingImage
-                              height={"322"}
-                              width={"296"}
-                              src={thumbnail}
-                              className="max-w-full object-contain w-full h-full drop-shadow-xl"
-                            />
-                          </div>
-                        </Link>                
-                      </div>
-                      <div className="space-y-4 px-2.5 pt-5 pb-2.5">
-                        <div>
-                          <h2
-                            className="text-base font-semibold text-black line-clamp-1"
-                            title={title}>
-                            <title>{title}</title>
-                            {title}
-                          </h2>
-                          <p className="text-sm font-normal text-slate-500 mt-1 line-clamp-2">
-                            {description}
-                          </p>
-                        </div>
-                        <div className="flex justify-between items-end">
-                          <div className="">
-                            <div className="flex items-center border-2 border-green-500 rounded-lg py-1 px-2 md:py-1.5 md:px-2.5 text-sm font-medium">
-                              <span className="text-green-500 !leading-none">
-                                {price}đ
-                              </span>
-                            </div>
-                          </div>
-                          <div className="flex items-center mb-0.5">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              viewBox="0 0 24 24"
-                              fill="currentColor"
-                              aria-hidden="true"
-                              className="w-5 h-5 pb-[1px] text-amber-400">
-                              <path
-                                fillRule="evenodd"
-                                d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z"
-                                clipRule="evenodd"
-                              ></path>
-                            </svg>
-                            <span className="text-sm ml-1 text-slate-500">
-                              4.5 ({review?.length} reviews)
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                (product) => (
+                  <Carousel.Slide key={product.id}>
+                    <ProductCard {...product}/>
                   </Carousel.Slide>
                 )
               )}

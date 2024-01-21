@@ -106,13 +106,19 @@ namespace Social_v2.Clothes.Api.Controllers
                 .GetQueryable()
                 .Include(x => x.CartItems)
                 .FirstOrDefault(x => x.Id == id && !x.IsDeleted)
-               ?? throw new AppException("Cart does not exist");
+                    ?? throw new AppException("Cart does not exist");
 
             if (string.IsNullOrEmpty(value.ProductVarientId))
+            {
                 throw new AppException("ProductVarientId must not empty");
+            }
+                
 
             if (value.Quantity <= 0)
+            {
                 throw new AppException("Quantity must be greater than 0");
+            }
+
 
             var productVarient = _productVarientRepo
                 .GetQueryableNoTracking()

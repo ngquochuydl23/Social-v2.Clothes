@@ -17,7 +17,7 @@ import _ from "lodash";
 import { useFormik } from "formik";
 import { Scrollbar } from "src/components/scrollbar";
 import SelectCategories from "src/sections/products/create-new-product/select-categories";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import PickProductThumbnail from "src/sections/products/create-new-product/pick-product-thumbnail";
 import SalesInformation from "src/sections/products/create-new-product/sales-information";
 import generateDashByText from "src/utils/generate-dash-by-text";
@@ -75,7 +75,7 @@ const Page = () => {
                 <Typography mt="22px" mb="40px" fontSize="20px" variant="h3">
                   {String("General information").toUpperCase()}
                 </Typography>
-                
+
                 <PickProductThumbnail
                   onReceiveThumbnail={(thumbnail) => formik.setFieldValue("thumbnail", thumbnail)}
                 />

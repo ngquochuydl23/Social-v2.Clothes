@@ -1,3 +1,3 @@
 import { http } from '../https'
 
-export const getOrders = () => http.get('/Order');
+export const getOrders = () => http.get('/Admin/Order');

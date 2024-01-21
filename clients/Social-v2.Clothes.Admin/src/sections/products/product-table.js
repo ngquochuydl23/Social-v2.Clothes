@@ -16,7 +16,6 @@ import {
 import { Scrollbar } from 'src/components/scrollbar';
 import millify from "millify";
 import TuneIcon from '@mui/icons-material/Tune';
-import AddIcon from '@mui/icons-material/Add';
 import Link from 'next/link'
 import { useState } from 'react';
 
@@ -37,19 +36,19 @@ export const ProductTable = (props) => {
 
 
     const handleChangePage = (event, newPage) => {
-      setPage(newPage);
+        setPage(newPage);
     };
-  
+
     const handleChangeRowsPerPage = (event) => {
-      
+
     };
-  
+
     const handleChange = (event, newValue) => {
-      
+
     };
-  
+
     const handleChangeIndex = (index) => {
-      
+
     };
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
@@ -68,7 +67,8 @@ export const ProductTable = (props) => {
                 <div>
                     <Button
                         sx={{
-                            borderRadius: '4px',
+                            borderRadius: '10px',
+                            height: '30px',
                             borderColor: '#d9d9d9',
                             color: '#696969'
                         }}
@@ -114,26 +114,14 @@ export const ProductTable = (props) => {
                     <Button
                         sx={{
                             marginLeft: '10px',
-                            borderRadius: '4px',
                             borderColor: '#d9d9d9',
+                            borderRadius: '10px',
+                            height: '30px',
                             color: '#696969'
                         }}
                         variant="outlined"
                         fullWidth={false}>
                         Unpublished
-                    </Button>
-                </div>
-                <div>
-                    <Button
-                        href='products/create-new-product'
-                        startIcon={<AddIcon />}
-                        sx={{
-                            marginLeft: '10px',
-                            borderRadius: '4px',
-                        }}
-                        variant="contained"
-                        fullWidth={false}>
-                        New product
                     </Button>
                 </div>
             </div>
@@ -208,12 +196,12 @@ export const ProductTable = (props) => {
                 </Box>
             </Scrollbar>
             <TablePagination
-              component="div"
-              count={100}
-              page={page}
-              onPageChange={handleChangePage}
-              rowsPerPage={rowsPerPage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
+                component="div"
+                count={100}
+                page={page}
+                onPageChange={handleChangePage}
+                rowsPerPage={rowsPerPage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
             />
         </Stack >
     );

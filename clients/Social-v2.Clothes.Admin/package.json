@@ -6,9 +6,10 @@
   "homepage": "https://devias.io",
   "private": false,
   "scripts": {
-    "dev": "next",
-    "build": "next build",
-    "start": "next start",
+    "dev": "env-cmd -f .env.local next",
+    "dev:staging": "env-cmd -f .env.staging next",
+    "build": "env-cmd -f .env.production next build",
+    "start": "env-cmd -f .env.production next start",
     "export": "next export",
     "lint": "next lint",
     "lint-fix": "next lint --fix"
@@ -29,6 +30,7 @@
     "axios": "^1.6.2",
     "currency-formatter": "^1.5.9",
     "date-fns": "2.29.3",
+    "env-cmd": "^10.1.0",
     "format-duration": "^3.0.2",
     "formik": "2.2.9",
     "lodash": "^4.17.21",

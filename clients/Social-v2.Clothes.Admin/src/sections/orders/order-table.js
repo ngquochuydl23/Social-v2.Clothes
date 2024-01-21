@@ -1,14 +1,9 @@
 import PropTypes from "prop-types";
 import {
-    Avatar,
     Box,
     Button,
     Drawer,
-    FormControl,
-    InputLabel,
-    MenuItem,
     Popover,
-    Select,
     Stack,
     Table,
     TableBody,
@@ -16,7 +11,6 @@ import {
     TableHead,
     TablePagination,
     TableRow,
-    TextField,
     Typography,
 } from "@mui/material";
 import { Scrollbar } from "src/components/scrollbar";
@@ -24,6 +18,9 @@ import millify from "millify";
 import { useState } from "react";
 import LocationCityIcon from '@mui/icons-material/LocationCity';
 import CloseIcon from '@mui/icons-material/Close';
+import Link from "next/link";
+import TuneIcon from '@mui/icons-material/Tune';
+import OrderFilterPopover from "./order-filter-popover";
 
 export const OrderTable = (props) => {
     const {
@@ -39,6 +36,9 @@ export const OrderTable = (props) => {
         rowsPerPage = 0,
         selected = [],
     } = props;
+    const [anchorEl, setAnchorEl] = useState(null);
+    const open = Boolean(anchorEl);
+    const id = open ? 'simple-popover' : undefined;
 
     const [inventoryDrawer, setInventoryDrawer] = useState(null);
 
@@ -60,21 +60,50 @@ export const OrderTable = (props) => {
 
     return (
         <Stack>
-            <div
-                style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    marginTop: "15px",
-                    marginBottom: "15px",
-                    justifyContent: "space-between",
-                }}>
-                {" "}
+            <div style={{
+                display: 'flex',
+                flexDirection: 'row',
+                marginTop: '15px',
+                marginBottom: '15px',
+                justifyContent: 'space-between'
+            }}>
+                <Button
+                    sx={{
+                        borderRadius: '10px',
+                        height: '30px',
+                        borderColor: '#d9d9d9',
+                        color: '#696969'
+                    }}
+                    onClick={(event) => setAnchorEl(event.currentTarget)}
+                    size="medium"
+                    variant="outlined"
+                    startIcon={<TuneIcon />}
+                    fullWidth={false}>
+                    Filter
+                </Button>
+                <Popover
+                    id={id}
+                    open={open}
+                    anchorEl={anchorEl}
+                    onClose={() => setAnchorEl(null)}
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'left',
+                    }}
+                    PaperProps={{ sx: { width: '250px', padding: '10px' } }}
+                    transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'left',
+                    }}>
+                    <OrderFilterPopover />
+                </Popover>
             </div>
             <Scrollbar>
                 <Box
                     sx={{
                         flex: 1,
                         display: 'flex',
+                        flexGrow: 1,
                         flexDirection: 'column'
                     }}>
                     <Table>
@@ -93,6 +122,9 @@ export const OrderTable = (props) => {
                                 return (
                                     <TableRow
                                         hover
+                                        sx={{ textDecoration: 'none' }}
+                                        component={Link}
+                                        href={'./orders/' + order.orderNo}
                                         key={order.orderNo}>
                                         <TableCell>{order.orderNo}</TableCell>
                                         <TableCell>{order.canceledAt}</TableCell>

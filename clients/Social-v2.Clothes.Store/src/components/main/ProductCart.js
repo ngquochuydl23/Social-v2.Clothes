@@ -68,7 +68,7 @@ const CartLineItem = ({
                         justifyContent="space-between"
                         direction="row">
                         <p className="text-gray-500">
-                            Qty {quantity}
+                            Số lượng: {quantity}
                         </p>
                         <Typography variant="subtitle2">
                             {format(productVarient.price, { currency: 'đ', thumbnail: ',' })}
@@ -168,10 +168,10 @@ const ProductCart = () => {
                                                     variant="subtitle1">
                                                     {`1 Sản phẩm`}
                                                 </Typography>
-                                                <Button
+                                                {/* <Button
                                                     sx={{ height: '30px', pr: 0 }}>
                                                     Xem chi tiết
-                                                </Button>
+                                                </Button> */}
                                             </Stack>
                                         </Stack>
                                         {cart.cartItems?.length ? (

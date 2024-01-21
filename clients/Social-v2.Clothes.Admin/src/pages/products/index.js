@@ -4,28 +4,16 @@ import {
 	Container,
 	Stack,
 	Typography,
-	Unstable_Grid2 as Grid
+	Unstable_Grid2 as Grid,
+	Button
 } from '@mui/material';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
 import { ProductTable } from 'src/sections/products/product-table';
 import { useEffect, useState } from 'react';
 import { getProducts } from 'src/services/api/product-api';
-
-
-const songs = [
-	{
-		id: 'jeans-basics-dang-regular-straight',
-		name: 'Jeans Basics dáng Regular Straight',
-		thumbnail: 'https://media2.coolmate.me/cdn-cgi/image/quality=80,format=auto/uploads/November2023/23CMCW.JE003.11_52.jpg',
-		collection: 'Winter 2023',
-		status: 'Published',
-		createdAt: '2019-04-11T10:20:30Z'
-	}
-];
-
+import AddIcon from '@mui/icons-material/Add';
 
 const Page = () => {
-
 	const [products, setProducts] = useState([]);
 
 	useEffect(() => {
@@ -46,11 +34,31 @@ const Page = () => {
 				component="main"
 				sx={{ flexGrow: 1 }}>
 				<Container maxWidth="lg">
-					<Stack spacing={3}>
-						<Typography variant="h4">
-							Products
-						</Typography>
-						<ProductTable products={products} />
+					<Stack
+						marginTop="20px"
+						spacing={3}>
+						<Stack
+							alignItems="center"
+							direction="row"
+							justifyContent="space-between">
+							<Typography variant="h4">
+								Products
+							</Typography>
+							<Button
+								href='products/create-new-product'
+								startIcon={<AddIcon />}
+								sx={{
+									height: '30px',
+									marginLeft: '10px',
+									borderRadius: '10px',
+								}}
+								variant="contained"
+								fullWidth={false}>
+								New product
+							</Button>
+						</Stack>
+						<ProductTable
+							products={products} />
 					</Stack>
 				</Container>
 			</Box>

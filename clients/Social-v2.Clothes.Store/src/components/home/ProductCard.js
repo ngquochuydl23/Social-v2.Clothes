@@ -7,12 +7,11 @@ const { format } = require('number-currency-format');
 
 const ProductCard = ({ id,
     title,
-    tags,
     thumbnail,
     subtitle,
-    subcategory,
-    brand,
-    price, }) => {
+    price
+}) => {
+
     return (
         <>
             <div
@@ -25,7 +24,7 @@ const ProductCard = ({ id,
                 <div className="relative flex-shrink-0 bg-slate-50 rounded-2xl overflow-hidden z-1 group">
                     <Link
                         className="block"
-                        to={`/product/${id}`}>
+                        to={`/products/${id}`}>
                         <div
                             className="nc-NcImage flex aspect-w-11 aspect-h-12 w-full h-0"
                             data-nc-id="NcImage">
@@ -49,10 +48,8 @@ const ProductCard = ({ id,
                     </div>
                     <div className="flex justify-between items-end">
                         <div className="">
-                            <div className="flex items-center  rounded-lg py-1 text-lg font-medium">
-                                <span className="text-black-600">
-                                    {format(price, { currency: 'đ', thumbnail: ',' })}
-                                </span>
+                            <div className="flex items-center rounded-lg text-lg font-medium">
+                                {format(price, { currency: 'đ', thumbnail: ',' })}
                             </div>
                         </div>
 
