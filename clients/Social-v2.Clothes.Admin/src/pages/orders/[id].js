@@ -4,13 +4,17 @@ import {
     Container,
     Stack,
     Typography,
-    Unstable_Grid2 as Grid
+    Unstable_Grid2 as Grid,
+    Avatar
 } from '@mui/material';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
 import { useEffect, useState } from 'react';
 import OrderDetailItem from 'src/sections/orders/order/order-detail-item';
 import currencyFormatter from 'currency-formatter';
 import OrderTimeline from 'src/sections/orders/order/order-timeline';
+import { deepOrange, deepPurple } from '@mui/material/colors';
+import { stringToColor } from 'src/utils/string-to-color';
+import { getInitCharOfFullName } from 'src/utils/fullname-util';
 
 const OrderDetailPage = () => {
     const [order, setOrder] = useState();
@@ -33,15 +37,45 @@ const OrderDetailPage = () => {
                     <Stack spacing={3}>
                         <Typography
                             mt="22px"
-                            mb="0px"
                             fontSize="30px"
                             variant='h3'>
                             Order #SC-04102003
                         </Typography>
                         <Typography
+                            mt="10px"
                             variant="subtitle1">
                             25 January 2024, 23:01
                         </Typography>
+                        <Stack
+                            alignItems="center"
+                            direction="row">
+                            <Box
+                                sx={{
+                                    height: '60px',
+                                    width: '60px',
+                                    borderRadius: '200px',
+                                    border: '2px solid #d3d3d3',
+                                    padding: '5px',
+                                }}>
+                                <Avatar
+                                    sx={{
+                                        height: '100%',
+                                        width: '100%'
+                                    }}
+                                    {...stringToColor('Thanh Phương')}>
+                                    {getInitCharOfFullName('Thanh Phương')}
+                                </Avatar>
+                            </Box>
+                            <Box ml="20px">
+                                <Typography
+                                    fontSize="16px"
+                                    fontWeight="600"
+                                    variant='subtitle1'>
+                                    {`Nguyễn Thanh Phương`}
+                                </Typography>
+                                <Typography variant='subtitle2'>{`thanhphuong04102003@gmail.com`}</Typography>
+                            </Box>
+                        </Stack>
                         <Box>
                             <Typography
                                 mt="22px"
