@@ -1,6 +1,6 @@
 {
   "port": 3854,
-  "limitFileSize": 10000000,
+  "limitFileSize": 1000000000,
   "useLocalStaticServe": true,
   "serverUrl": "/storage/",
   "fileExtensionCheck": {
