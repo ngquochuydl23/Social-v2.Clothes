@@ -66,18 +66,19 @@ const Profile = () => {
                     <Typography
                         mb="20px"
                         fontWeight="800"
-                        variant="h4">Thông tin cá nhân</Typography>
+                        variant="h4">Thông tin cá nhân
+                    </Typography>
                     <div className="flex flex-col md:flex-row">
                         <div className="flex-shrink-0 flex items-start">
                             <div className="relative rounded-full overflow-hidden flex">
-                                <LazyLoadingImage
+                                {/* <LazyLoadingImage
                                     onClick={() => document.getElementById('pick-image').click()}
                                     placeholderSrc='https://img.freepik.com/premium-psd/3d-male-cute-cartoon-character-avatar-isolated-3d-rendering_235528-1280.jpg'
                                     src={"https://clothes-dev.social-v2.com" + formik.values.avatar}
                                     className="w-32 h-32 rounded-full object-cover object-center z-0"
                                     height={"128"}
                                     width={"128"}
-                                />
+                                /> */}
                                 <input
                                     onChange={(event) => {
                                         var file = event.target.files[0];
