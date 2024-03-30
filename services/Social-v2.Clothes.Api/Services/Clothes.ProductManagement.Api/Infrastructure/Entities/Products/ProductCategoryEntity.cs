@@ -3,7 +3,7 @@ using Clothes.ProductManagement.Api.Infrastructure.Entities.Categories;
 
 namespace Clothes.ProductManagement.Api.Infrastructure.Entities.Products
 {
-    public class ProductCategoryEntity: Entity<int>
+    public class ProductCategoryEntity: Entity<long>
     {
         public string ProductId { get; set; }
 

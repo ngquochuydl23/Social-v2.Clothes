@@ -1,6 +1,7 @@
 ﻿using Clothes.Commons.Seedworks;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using Clothes.ProductManagement.Api.Infrastructure.Entities.Products;
 
 namespace Clothes.ProductManagement.Api.Infrastructure.Entities.ProductTypes
 {
@@ -12,6 +13,8 @@ namespace Clothes.ProductManagement.Api.Infrastructure.Entities.ProductTypes
 
         public string Title { get; set; }
 
+        public ICollection<ProductEntity> Products {  get; set; } = new List<ProductEntity>();
+
         public ProductTypeEntity() { }
 
         public ProductTypeEntity(string title)
@@ -19,7 +22,5 @@ namespace Clothes.ProductManagement.Api.Infrastructure.Entities.ProductTypes
             Id = Guid.NewGuid().ToString();
             Title = title;
         }
-
-         
     }
 }
