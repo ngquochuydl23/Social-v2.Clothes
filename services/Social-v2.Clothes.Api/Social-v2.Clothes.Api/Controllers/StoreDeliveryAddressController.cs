@@ -1,11 +1,10 @@
 ﻿using AutoMapper;
+using Clothes.Commons.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Social_v2.Clothes.Api.Dtos.DeliveryAddress;
-using Social_v2.Clothes.Api.Extensions.JwtHelpers;
 using Social_v2.Clothes.Api.Infrastructure.Entities.DeliveryAddresses;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Users;
-using Social_v2.Clothes.Api.Infrastructure.Exceptions;
 using Social_v2.Clothes.Api.Infrastructure.Repository;
 using System.Security.Claims;
 

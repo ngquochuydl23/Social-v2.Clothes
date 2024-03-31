@@ -2,6 +2,6 @@
 {
     public interface ILastUpdatedTime
     {
-        public DateTime LastUpdate { get; set; }
+        public DateTime LastUpdated { get; set; }
     }
 }

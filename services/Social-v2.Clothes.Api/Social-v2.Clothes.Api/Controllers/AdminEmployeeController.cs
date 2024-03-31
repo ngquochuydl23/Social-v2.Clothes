@@ -2,16 +2,16 @@
 using Microsoft.AspNetCore.Mvc;
 using Social_v2.Clothes.Api.Dtos.Invites;
 using Social_v2.Clothes.Api.Extensions.EmailSender;
-using Social_v2.Clothes.Api.Extensions.JwtHelpers;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Categories;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Invites;
-using Social_v2.Clothes.Api.Infrastructure.Exceptions;
 using Social_v2.Clothes.Api.Infrastructure.Repository;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Users;
 using Social_v2.Clothes.Api.Infrastructure.Entities.EmployeeInvitations;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 using Microsoft.AspNetCore.Authorization;
+using Clothes.Commons.Settings.JwtSetting;
+using Clothes.Commons.Exceptions;
 
 namespace Social_v2.Clothes.Api.Controllers
 {
@@ -74,7 +74,7 @@ namespace Social_v2.Clothes.Api.Controllers
             {
                 ExpiresAt = DateTime.Now.AddDays(10),
                 Accepted = false,
-                Token = _jwtExtension.GenerateTokenForInvitation(value.Email, value.Role),
+                Token = "",
             };
 
             if (user != null)
@@ -112,7 +112,7 @@ namespace Social_v2.Clothes.Api.Controllers
                     ?? throw new AppException("Invitation does not exist");
 
 
-            var token = _jwtExtension.GenerateTokenForInvitation(value.Email, value.Role);
+            var token = "";
 
             invitation.Token = token;
             invitation.ResentAt = DateTime.Now;

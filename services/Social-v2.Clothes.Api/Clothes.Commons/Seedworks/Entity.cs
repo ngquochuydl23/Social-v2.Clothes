@@ -5,12 +5,12 @@ namespace Clothes.Commons.Seedworks
     public abstract class Entity : IDeleteEntity, IHasCreationTime, ILastUpdatedTime
     {
         public bool IsDeleted { get; set; } = false;
-        public DateTime CreateAt { get; set; }
-        public DateTime LastUpdate { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime LastUpdated { get; set; }
 
         public Entity()
         {
-            CreateAt = DateTime.Now;
+            CreatedAt = DateTime.Now;
         }
 
         protected string GenerateHandleByTitle(string title)

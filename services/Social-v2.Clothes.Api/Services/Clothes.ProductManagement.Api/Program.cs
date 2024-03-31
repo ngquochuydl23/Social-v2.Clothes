@@ -1,4 +1,10 @@
 
+using Clothes.Commons;
+using Clothes.Commons.Seedworks;
+using Clothes.ProductManagement.Api.Extensions;
+using Clothes.ProductManagement.Api.Infrastructure;
+using Newtonsoft.Json;
+
 namespace Clothes.ProductManagement.Api
 {
     public class Program
@@ -7,29 +13,19 @@ namespace Clothes.ProductManagement.Api
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
-
-            builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services
+               .AddWebApiConfiguration(builder.Configuration)
+               .AddDbContext<ClothesProductContext>(builder.Configuration)
+               .AddAutoMapperConfig<AutoMapperProfile>();
 
             var app = builder.Build();
-
-            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
 
-            app.UseHttpsRedirection();
-
-            app.UseAuthorization();
-
-
-            app.MapControllers();
-
+            app.AddCommonApplicationBuilder();
             app.Run();
         }
     }

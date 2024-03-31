@@ -1,11 +1,12 @@
 ﻿using AutoMapper;
+using Clothes.Commons.Exceptions;
+using Clothes.Commons.Seedworks;
+using Clothes.Commons.Settings.JwtSetting;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Social_v2.Clothes.Api.Dtos;
 using Social_v2.Clothes.Api.Dtos.Users;
-using Social_v2.Clothes.Api.Extensions.JwtHelpers;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Users;
-using Social_v2.Clothes.Api.Infrastructure.Exceptions;
 using Social_v2.Clothes.Api.Infrastructure.Repository;
 
 namespace Social_v2.Clothes.Api.Controllers
@@ -17,16 +18,19 @@ namespace Social_v2.Clothes.Api.Controllers
     {
         private readonly IJwtExtension _jwtExtension;
         private readonly IRepository<UserEntity> _userRepo;
+        private readonly IEfRepository<UserEntity, long> _userEfRepo;
         private readonly IMapper _mapper;
 
         public UserController(
             IMapper mapper,
             IRepository<UserEntity> userRepo,
+            IEfRepository<UserEntity, long> userEfRepo,
             IHttpContextAccessor httpContextAccessor,
             IJwtExtension jwtExtension) : base(httpContextAccessor)
         {
             _mapper = mapper;
             _userRepo = userRepo;
+            _userEfRepo = userEfRepo;
             _jwtExtension = jwtExtension;
         }
 
@@ -43,9 +47,9 @@ namespace Social_v2.Clothes.Api.Controllers
         [HttpPost("login")]
         public IActionResult Login([FromBody] LoginRequestDto input)
         {
-            var user = _userRepo
+            var user = _userEfRepo
                 .GetQueryable()
-                .FirstOrDefault(x => x.PhoneNumber == input.PhoneNumber)
+                .FirstOrDefault(x => x.PhoneNumber.Equals(input.PhoneNumber))
                 ?? throw new AppException("User does not exist");
 
             if (!BCrypt.Net.BCrypt.Verify(input.Password, user.HashPassword))

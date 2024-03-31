@@ -1,11 +1,8 @@
 
 using Social_v2.Clothes.Api.Extensions;
 using Social_v2.Clothes.Api.Infrastructure.Repository;
-using Social_v2.Clothes.Api.Middlewares;
-using Newtonsoft.Json;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Social_v2.Clothes.Api.Infrastructure;
+using Clothes.Commons;
 
 namespace Social_v2.Clothes.Api
 {
@@ -16,26 +13,11 @@ namespace Social_v2.Clothes.Api
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services
-              .AddControllers()
-              .AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
-            builder.Services.AddCors();
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
-            builder.Services.AddHttpContextAccessor();
-            builder.Services
-                    .AddForwardHeader()
-                    .AddDefaultOpenApi(builder.Configuration)
-                    .AddDefaultAuthentication(builder.Configuration)
-                    .AddDbContext(builder.Configuration)
-                    .AddLogger(builder.Configuration)
-                    .AddJwtExtension(builder.Configuration)
-                    .AddAutoMapperConfig()
-                    .AddEmailSender(builder.Configuration);
+               .AddWebApiConfiguration(builder.Configuration)
+               .AddDbContext<ClothesDbContext>(builder.Configuration)
+               .AddAutoMapperConfig<AutoMapperProfile>();
 
-            builder.Services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
-            builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
             builder.Services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
-
             var app = builder.Build();
 
             if (app.Environment.IsDevelopment())
@@ -49,16 +31,7 @@ namespace Social_v2.Clothes.Api
                 .SetIsOriginAllowed(origin => true)
                 .AllowCredentials());
 
-            app.UseMiddleware<ErrorHandlingMiddleWare>();
-
-            app.UseHttpsRedirection();
-
-            app.UseAuthentication();
-            app.UseAuthorization();
-
-
-            app.MapControllers();
-
+            app.AddCommonApplicationBuilder();
             app.Run();
         }
     }

@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
+using Clothes.Commons.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Social_v2.Clothes.Api.Dtos.Customer;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Discounts;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Users;
-using Social_v2.Clothes.Api.Infrastructure.Exceptions;
 using Social_v2.Clothes.Api.Infrastructure.Repository;
 
 namespace Social_v2.Clothes.Api.Controllers

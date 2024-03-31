@@ -36,6 +36,21 @@ namespace Clothes.ProductManagement.Api.Infrastructure.Entities.Products
                     .WithMany(category => category.ProductCategories)
                     .HasForeignKey(x => x.CategoryId);
             });
+
+            modelBuilder.Entity<ProductTagEntity>(entity =>
+            {
+                entity.ToTable("ProductTag");
+                entity.HasKey(x => x.Id);
+                entity
+                    .HasOne(x => x.Product)
+                    .WithMany(product => product.ProductTags)
+                    .HasForeignKey(x => x.ProductId);
+
+                entity
+                    .HasOne(x => x.Tag)
+                    .WithMany(category => category.ProductTags)
+                    .HasForeignKey(x => x.TagId);
+            });
         }
     }
 }

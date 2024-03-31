@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Clothes.Commons.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -7,7 +8,6 @@ using Newtonsoft.Json.Linq;
 using Social_v2.Clothes.Api.Dtos.Wishlist;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Products;
 using Social_v2.Clothes.Api.Infrastructure.Entities.Wishlists;
-using Social_v2.Clothes.Api.Infrastructure.Exceptions;
 using Social_v2.Clothes.Api.Infrastructure.Repository;
 using System.Security.Claims;
 

@@ -1,5 +1,4 @@
 ﻿using Social_v2.Clothes.Api.Infrastructure.Entities.Products;
-using Social_v2.Clothes.Api.Infrastructure.Exceptions;
 
 namespace Social_v2.Clothes.Api.Infrastructure.Entities.Cart
 {

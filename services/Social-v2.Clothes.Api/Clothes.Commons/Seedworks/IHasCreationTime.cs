@@ -2,6 +2,6 @@
 {
     public interface IHasCreationTime
     {
-        DateTime CreateAt { get; set; }
+        DateTime CreatedAt { get; set; }
     }
 }

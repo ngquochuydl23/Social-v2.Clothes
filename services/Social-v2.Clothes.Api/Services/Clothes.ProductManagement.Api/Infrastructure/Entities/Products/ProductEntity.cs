@@ -33,12 +33,13 @@ namespace Clothes.ProductManagement.Api.Infrastructure.Entities.Products
         public string ProductTypeId { get; set; }
 
 
-        public string CollectionId { get; set; }
+        public string? CollectionId { get; set; }
 
-        public virtual CollectionEntity Collection { get; set; }    
+        public virtual CollectionEntity? Collection { get; set; }    
 
         public ICollection<ProductCategoryEntity> ProductCategories { get; set; } = new List<ProductCategoryEntity>();
 
+        public ICollection<ProductTagEntity> ProductTags { get; set; } = new List<ProductTagEntity>();
 
         public ProductEntity() { }
 
