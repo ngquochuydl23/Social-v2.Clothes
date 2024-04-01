@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clothes.ProductManagement.A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clothes.Commons", "Clothes.Commons\Clothes.Commons.csproj", "{8B90FBE7-23CD-44F2-8331-B6BD1AF95F7F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clothes.User.Api", "Services\Clothes.User.Api\Clothes.User.Api.csproj", "{5798ED82-D4F0-485A-AB7E-13576BD2E919}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clothes.User.Api", "Services\Clothes.User.Api\Clothes.User.Api.csproj", "{5798ED82-D4F0-485A-AB7E-13576BD2E919}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

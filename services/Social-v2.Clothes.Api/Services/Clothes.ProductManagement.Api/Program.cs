@@ -1,9 +1,7 @@
 
 using Clothes.Commons;
-using Clothes.Commons.Seedworks;
 using Clothes.ProductManagement.Api.Extensions;
 using Clothes.ProductManagement.Api.Infrastructure;
-using Newtonsoft.Json;
 
 namespace Clothes.ProductManagement.Api
 {
@@ -19,12 +17,6 @@ namespace Clothes.ProductManagement.Api
                .AddAutoMapperConfig<AutoMapperProfile>();
 
             var app = builder.Build();
-            if (app.Environment.IsDevelopment() || app.Environment.IsStaging())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
-
             app.AddCommonApplicationBuilder();
             app.Run();
         }

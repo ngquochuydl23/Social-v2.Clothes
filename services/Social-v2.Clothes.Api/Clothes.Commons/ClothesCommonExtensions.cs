@@ -14,6 +14,9 @@ using System.Text;
 using Microsoft.Extensions.Logging;
 using Clothes.Commons.Middlewares;
 using Clothes.Commons.Settings.JwtSetting;
+using Microsoft.Extensions.Hosting;
+using Redis.OM;
+using System.Reflection.Metadata;
 
 namespace Clothes.Commons
 {
@@ -28,6 +31,7 @@ namespace Clothes.Commons
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
             services.AddHttpContextAccessor();
+            services.AddRedisConfiguration(configuration);
 
             services.Configure<ForwardedHeadersOptions>(options =>
             {
@@ -161,13 +165,36 @@ namespace Clothes.Commons
 
         public static IServiceCollection AddJwtExtension(this IServiceCollection services, IConfiguration configuration)
         {
-            services.Configure<JwtSettings>(configuration.GetSection("Identity"));
+            var section = configuration.GetSection("Identity");
+            if (!section.Exists())
+                return services;
+
+            services.Configure<JwtSettings>(section);
             services.AddSingleton<IJwtExtension, JwtExtension>();
             return services;
         }
 
+        public static IServiceCollection AddRedisConfiguration(this IServiceCollection services, IConfiguration configuration)
+        {
+            var section = configuration.GetSection("Redis");
+            if (!section.Exists())
+                return services;
+
+            var redisConnectionString = section.GetRequiredValue("Title");
+            services.AddSingleton(new RedisConnectionProvider(configuration[redisConnectionString]));
+            services.AddTransient(typeof(IRedisRepository<,>), typeof(RedisRepository<,>));
+            return services;
+        }
+
+
         public static IApplicationBuilder AddCommonApplicationBuilder(this WebApplication app)
         {
+            if (!app.Environment.IsProduction())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI();
+            }
+
             app.UseCors(x => x
                 .AllowAnyHeader()
                 .AllowAnyMethod()
