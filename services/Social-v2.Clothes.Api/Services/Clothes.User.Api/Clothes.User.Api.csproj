@@ -15,4 +15,13 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Clothes.Commons\Clothes.Commons.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Infrastucture\Entities\ShippingAddresses\" />
+    <Folder Include="Infrastucture\Entities\Wishlists\" />
+  </ItemGroup>
+
 </Project>

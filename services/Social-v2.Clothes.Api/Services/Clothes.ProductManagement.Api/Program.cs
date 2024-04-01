@@ -19,7 +19,7 @@ namespace Clothes.ProductManagement.Api
                .AddAutoMapperConfig<AutoMapperProfile>();
 
             var app = builder.Build();
-            if (app.Environment.IsDevelopment())
+            if (app.Environment.IsDevelopment() || app.Environment.IsStaging())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();

@@ -4,7 +4,7 @@ namespace Clothes.ProductManagement.Api.Infrastructure.Entities.Products
 {
     public static class ConfigureEntity
     {
-        public static void AddProductEntity(this ModelBuilder modelBuilder)
+        public static void AddProducts(this ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<ProductEntity>(entity =>
             {
