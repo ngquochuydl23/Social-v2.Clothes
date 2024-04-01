@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clothes.ProductManagement.A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clothes.Commons", "Clothes.Commons\Clothes.Commons.csproj", "{8B90FBE7-23CD-44F2-8331-B6BD1AF95F7F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clothes.User.Api", "Services\Clothes.User.Api\Clothes.User.Api.csproj", "{5798ED82-D4F0-485A-AB7E-13576BD2E919}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,12 +33,17 @@ Global
 		{8B90FBE7-23CD-44F2-8331-B6BD1AF95F7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8B90FBE7-23CD-44F2-8331-B6BD1AF95F7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8B90FBE7-23CD-44F2-8331-B6BD1AF95F7F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5798ED82-D4F0-485A-AB7E-13576BD2E919}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5798ED82-D4F0-485A-AB7E-13576BD2E919}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5798ED82-D4F0-485A-AB7E-13576BD2E919}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5798ED82-D4F0-485A-AB7E-13576BD2E919}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{6D8A2A5F-CAC5-439A-B0FB-5DF75704C826} = {E0769CA6-C740-4CF0-888E-99DCCB0C2FA0}
+		{5798ED82-D4F0-485A-AB7E-13576BD2E919} = {E0769CA6-C740-4CF0-888E-99DCCB0C2FA0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {51B6B32F-5378-4CAF-AA5D-41043029C035}

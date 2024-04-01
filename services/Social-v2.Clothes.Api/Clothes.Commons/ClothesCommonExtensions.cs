@@ -161,7 +161,7 @@ namespace Clothes.Commons
 
         public static IServiceCollection AddJwtExtension(this IServiceCollection services, IConfiguration configuration)
         {
-            services.Configure<JwtSettings>(configuration.GetSection("Identifier"));
+            services.Configure<JwtSettings>(configuration.GetSection("Identity"));
             services.AddSingleton<IJwtExtension, JwtExtension>();
             return services;
         }
