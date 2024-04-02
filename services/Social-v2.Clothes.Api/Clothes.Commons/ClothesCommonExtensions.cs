@@ -16,7 +16,6 @@ using Clothes.Commons.Middlewares;
 using Clothes.Commons.Settings.JwtSetting;
 using Microsoft.Extensions.Hosting;
 using Redis.OM;
-using System.Reflection.Metadata;
 
 namespace Clothes.Commons
 {
@@ -31,22 +30,17 @@ namespace Clothes.Commons
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
             services.AddHttpContextAccessor();
-            services.AddRedisConfiguration(configuration);
-
             services.Configure<ForwardedHeadersOptions>(options =>
             {
                 options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
             });
-
-
             services
+                 .AddTransient<IHttpContextAccessor, HttpContextAccessor>()
                  .AddDefaultOpenApi(configuration)
                  .AddDefaultAuthentication(configuration)
                  .AddLogger(configuration)
-                 .AddJwtExtension(configuration);
-
-            services.AddLogger(configuration);
-            services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
+                 .AddJwtExtension(configuration)
+                 .AddRedisConfiguration(configuration);
             return services;
         }
 
@@ -97,7 +91,6 @@ namespace Clothes.Commons
 
             services.AddSwaggerGen(options =>
             {
-                //  options.OperationFilter<AddAuthHeaderOperationFilter>();
                 options.SwaggerDoc(version, new OpenApiInfo
                 {
                     Title = title,
