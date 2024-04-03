@@ -17,6 +17,7 @@ namespace Clothes.Commons.Wrappers
         public ICollection<T> Result { get; set; } = new List<T>();
 
         public PagedResponse() { }
+
         public PagedResponse(int offset, int limit, long total, ICollection<T> result)
         {
             Offset = offset;

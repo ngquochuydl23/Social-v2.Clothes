@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Clothes.ProductManagement.Api.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize]
     [Route("product-api/[controller]")]
     [ApiController]
     public class ProductController : BaseController

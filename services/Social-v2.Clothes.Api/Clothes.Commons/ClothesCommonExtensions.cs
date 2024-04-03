@@ -16,6 +16,7 @@ using Clothes.Commons.Middlewares;
 using Clothes.Commons.Settings.JwtSetting;
 using Microsoft.Extensions.Hosting;
 using Redis.OM;
+using IdentityServer4.AccessTokenValidation;
 
 namespace Clothes.Commons
 {
@@ -128,30 +129,16 @@ namespace Clothes.Commons
             {
                 return services;
             }
+            var apiName = section.GetRequiredValue("ApiName");
+            var authority = section.GetRequiredValue("Authority");
 
             services
-              .AddAuthentication(option =>
+              .AddAuthentication("Bearer")
+              .AddIdentityServerAuthentication("Bearer", options =>
               {
-                  option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                  option.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                  option.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-              })
-              .AddJwtBearer(options =>
-              {
-                  var issuer = section.GetRequiredValue("Issuer");
-                  var audience = section.GetRequiredValue("Audience");
-                  var secretKey = section.GetRequiredValue("SecretKey");
-
-                  options.TokenValidationParameters = new TokenValidationParameters
-                  {
-                      ValidateIssuer = true,
-                      ValidateAudience = true,
-                      ValidateLifetime = true,
-                      ValidateIssuerSigningKey = true,
-                      ValidIssuer = issuer,
-                      ValidAudience = audience,
-                      IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
-                  };
+                  options.RequireHttpsMetadata = false;
+                  options.ApiName = apiName;
+                  options.Authority = authority;
               });
             return services;
         }
