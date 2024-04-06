@@ -17,6 +17,7 @@ using Clothes.Commons.Settings.JwtSetting;
 using Microsoft.Extensions.Hosting;
 using Redis.OM;
 using IdentityServer4.AccessTokenValidation;
+using OpenIddict.Client;
 
 namespace Clothes.Commons
 {
@@ -133,13 +134,26 @@ namespace Clothes.Commons
             var authority = section.GetRequiredValue("Authority");
 
             services
-              .AddAuthentication("Bearer")
-              .AddIdentityServerAuthentication("Bearer", options =>
-              {
-                  options.RequireHttpsMetadata = false;
-                  options.ApiName = apiName;
-                  options.Authority = authority;
-              });
+                .AddOpenIddict()
+                .AddClient(options =>
+                {
+                    // Allow grant_type=client_credentials to be negotiated.
+                    options.AllowClientCredentialsFlow();
+
+                    // Disable token storage, which is not necessary for non-interactive flows like
+                    // grant_type=password, grant_type=client_credentials or grant_type=refresh_token.
+                    options.DisableTokenStorage();
+
+                    options.UseSystemNetHttp();
+
+                    // Add a client registration with the client identifier and secrets issued by the server.
+                    options.AddRegistration(new OpenIddictClientRegistration
+                    {
+                        Issuer = new Uri("https://localhost:5002/", UriKind.Absolute),
+                        ClientId = "service-worker",
+                        ClientSecret = "388D45FA-B36B-4988-BA59-B187D329C207"
+                    });
+                });
             return services;
         }
 

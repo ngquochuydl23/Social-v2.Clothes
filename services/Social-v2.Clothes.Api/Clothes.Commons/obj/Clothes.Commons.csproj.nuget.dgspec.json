@@ -61,10 +61,6 @@
               "target": "Package",
               "version": "[4.0.3, )"
             },
-            "IdentityServer4.AccessTokenValidation": {
-              "target": "Package",
-              "version": "[3.0.1, )"
-            },
             "Mailjet.Api": {
               "target": "Package",
               "version": "[3.0.0, )"
@@ -110,6 +106,10 @@
             "Npgsql.EntityFrameworkCore.PostgreSQL": {
               "target": "Package",
               "version": "[7.0.11, )"
+            },
+            "OpenIddict": {
+              "target": "Package",
+              "version": "[5.4.0, )"
             },
             "Redis.OM": {
               "target": "Package",
