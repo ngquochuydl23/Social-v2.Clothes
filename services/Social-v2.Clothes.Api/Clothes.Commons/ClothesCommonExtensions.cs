@@ -17,6 +17,10 @@ using Clothes.Commons.Settings.JwtSetting;
 using Microsoft.Extensions.Hosting;
 using Redis.OM;
 using OpenIddict.Client;
+using FluentValidation;
+using Microsoft.AspNetCore.Identity;
+using Mailjet.Client.Resources;
+using System;
 
 namespace Clothes.Commons
 {
@@ -200,6 +204,7 @@ namespace Clothes.Commons
             app.Run();
             return app;
         }
+
 
         private static string GetRequiredValue(this IConfiguration configuration, string name) =>
             configuration[name] ?? throw new InvalidOperationException($"Configuration missing value for: {(configuration is IConfigurationSection s ? s.Path + ":" + name : name)}");

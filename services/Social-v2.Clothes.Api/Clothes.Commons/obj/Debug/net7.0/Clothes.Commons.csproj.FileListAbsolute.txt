@@ -1,17 +1,3 @@
-C:\Users\admin\Music\Social-v2.Clothes\services\Social-v2.Clothes.Api\Clothes.Commons\bin\Debug\net7.0\Clothes.Commons.deps.json
-C:\Users\admin\Music\Social-v2.Clothes\services\Social-v2.Clothes.Api\Clothes.Commons\bin\Debug\net7.0\Clothes.Commons.runtimeconfig.json
-C:\Users\admin\Music\Social-v2.Clothes\services\Social-v2.Clothes.Api\Clothes.Commons\bin\Debug\net7.0\Clothes.Commons.dll
-C:\Users\admin\Music\Social-v2.Clothes\services\Social-v2.Clothes.Api\Clothes.Commons\bin\Debug\net7.0\Clothes.Commons.pdb
-C:\Users\admin\Music\Social-v2.Clothes\services\Social-v2.Clothes.Api\Clothes.Commons\obj\Debug\net7.0\Clothes.Commons.csproj.AssemblyReference.cache
-C:\Users\admin\Music\Social-v2.Clothes\services\Social-v2.Clothes.Api\Clothes.Commons\obj\Debug\net7.0\Clothes.Commons.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\admin\Music\Social-v2.Clothes\services\Social-v2.Clothes.Api\Clothes.Commons\obj\Debug\net7.0\Clothes.Commons.AssemblyInfoInputs.cache
-C:\Users\admin\Music\Social-v2.Clothes\services\Social-v2.Clothes.Api\Clothes.Commons\obj\Debug\net7.0\Clothes.Commons.AssemblyInfo.cs
-C:\Users\admin\Music\Social-v2.Clothes\services\Social-v2.Clothes.Api\Clothes.Commons\obj\Debug\net7.0\Clothes.Commons.csproj.CoreCompileInputs.cache
-C:\Users\admin\Music\Social-v2.Clothes\services\Social-v2.Clothes.Api\Clothes.Commons\obj\Debug\net7.0\Clothes.Commons.dll
-C:\Users\admin\Music\Social-v2.Clothes\services\Social-v2.Clothes.Api\Clothes.Commons\obj\Debug\net7.0\refint\Clothes.Commons.dll
-C:\Users\admin\Music\Social-v2.Clothes\services\Social-v2.Clothes.Api\Clothes.Commons\obj\Debug\net7.0\Clothes.Commons.pdb
-C:\Users\admin\Music\Social-v2.Clothes\services\Social-v2.Clothes.Api\Clothes.Commons\obj\Debug\net7.0\Clothes.Commons.genruntimeconfig.cache
-C:\Users\admin\Music\Social-v2.Clothes\services\Social-v2.Clothes.Api\Clothes.Commons\obj\Debug\net7.0\ref\Clothes.Commons.dll
 E:\Social-v2.Clothes\services\Social-v2.Clothes.Api\Clothes.Commons\bin\Debug\net7.0\Clothes.Commons.deps.json
 E:\Social-v2.Clothes\services\Social-v2.Clothes.Api\Clothes.Commons\bin\Debug\net7.0\Clothes.Commons.runtimeconfig.json
 E:\Social-v2.Clothes\services\Social-v2.Clothes.Api\Clothes.Commons\bin\Debug\net7.0\Clothes.Commons.dll
