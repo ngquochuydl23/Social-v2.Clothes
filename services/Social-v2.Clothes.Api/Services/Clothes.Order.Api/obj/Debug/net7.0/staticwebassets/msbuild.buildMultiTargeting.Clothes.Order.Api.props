@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\Clothes.Order.Api.props" />
+</Project>
