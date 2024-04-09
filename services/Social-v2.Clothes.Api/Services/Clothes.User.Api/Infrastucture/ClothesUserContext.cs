@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Clothes.User.Api.Infrastucture.Entities.ShippingAddresses;
+using Clothes.User.Api.Infrastucture.Entities.Wishlists;
+using Microsoft.EntityFrameworkCore;
 
 namespace Clothes.User.Api.Infrastucture
 {
@@ -10,7 +12,8 @@ namespace Clothes.User.Api.Infrastucture
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
+            modelBuilder.AddWishList();
+            modelBuilder.AddShippingAddress();
         }
     }
 }
