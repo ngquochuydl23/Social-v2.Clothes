@@ -42,6 +42,12 @@ services/Social-v2.Clothes.UploadMediaApi/.yarn
 clients/Social-v2.Clothes.Admin/node_modules
 clients/Social-v2.Clothes.Store/node_modules
 
+services/Social-v2.Clothes.Api/.vs
+services/Social-v2.Clothes.Api/Clothes.Commons/bin
+services/Social-v2.Clothes.Api/Clothes.Commons/obj
+services/Social-v2.Clothes.Api/Services/*/bin
+services/Social-v2.Clothes.Api/Services/*/obj
+
 services/ecommerce-service/.env
 services/ecommerce-service/.yarn
 services/Social-v2.Clothes.Api/.vs
